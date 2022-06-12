@@ -8,7 +8,7 @@ export default function Account({title, value, color}) {
   const windowWidth = Dimensions.get('window').width;
 
   const estilo = estilos(newColor, windowWidth, value);
-console.log(value.toLocaleString('pt-br', {minimumFractionDigits: 2}))
+
   return (
     <View style={estilo.container}>
       <Text style={estilo.icon}></Text>

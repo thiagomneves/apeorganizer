@@ -40,7 +40,6 @@ const estilos = ({windowWidth, spentPercent}) => {
   const barAmountWidth = cardSize * spentPercent;
   const barHeight = 7;
 
-  console.log(barAmountWidth);
   return StyleSheet.create({
     card: {
       backgroundColor: '#fff',
