@@ -2,11 +2,13 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
 
 import Home from './src/views/Home';
+import DailySummary from './src/views/DailySummary';
 
 function App() {
   return (
     <SafeAreaView style={estilos.body}>
-      <Home/>
+      {/* <Home/> */}
+      <DailySummary></DailySummary>
     </SafeAreaView>
   );
 }
