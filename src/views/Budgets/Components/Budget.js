@@ -32,7 +32,6 @@ const estilos = ({color, windowWidth, spentDecimal}) => {
   const padding = 13;
   const barHeight = 5;
   const barWidth = windowWidth - 3 * padding - 2*10;
-  console.log(spentDecimal);
 
   return StyleSheet.create({
     container: {

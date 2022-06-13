@@ -1,10 +1,14 @@
 import React from 'react';
+import { Text, View } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import Home from '../views/Home';
 import Accounts from '../views/Accounts';
 import CreditCards from '../views/CreditCards';
+import DailySummary from '../views/DailySummary';
+import Budgets from '../views/Budgets';
+import Assets from '../views/Assets';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +19,9 @@ export default function AppRoutes() {
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Contas" component={Accounts} />
         <Tab.Screen name="Cartões de Crédito" component={CreditCards} />
+        <Tab.Screen name="Resumo Diário" component={DailySummary} />
+        <Tab.Screen name="Orçamento" component={Budgets} />
+        <Tab.Screen name="Ativos" component={Assets} />
       </Tab.Navigator>
     </NavigationContainer>
   );

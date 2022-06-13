@@ -1,7 +1,8 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 
 import {convertPriceForReal} from '../../util/functions';
+import CardFlag from './CardFlag';
 
 export default function CreditCard({flag, bank, limit, spent, color}) {
   const newSpent = !!spent ? spent : 0;
@@ -12,8 +13,13 @@ export default function CreditCard({flag, bank, limit, spent, color}) {
 
   return (
     <View style={estilo.card}>
+      
       <View style={estilo.header}>
-        <View style={estilo.flag}></View>
+        <View style={estilo.flag}>
+          {/* {console.log(flag)} */}
+          <CardFlag flag={flag}/>
+          {/* <Image style={estilo.tinyLogo} source={flag}/> */}
+        </View>
         <View style={estilo.title}>
           <Text style={estilo.bank}>{bank}</Text>
           <View>
@@ -71,7 +77,7 @@ const estilos = ({windowWidth, spentPercent}) => {
       fontSize: 12,
     },
     flag: {
-      backgroundColor: '#eee',
+      // backgroundColor: '#eee',
       width: flagWidth,
       height: 40,
       borderRadius: 5,
@@ -94,6 +100,10 @@ const estilos = ({windowWidth, spentPercent}) => {
     },
     limit: {
       fontSize: 12,
+    },
+    tinyLogo: {
+      width: '90%',
+      height: '80%',
     },
   });
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
 import CardHeader from './Components/CardHeader';
 import Line from './Components/Line';
@@ -8,7 +8,8 @@ import BorderedText from './Components/BorderedText';
 
 export default function Home() {
   return (
-    <View>
+    <ScrollView>
+    <View style={estilos.container}>
       <View style={estilos.card}>
         <Text style={estilos.cardTitle}>Saldo de Contas</Text>
         <BorderedText text="R$ 0,00" color="green"/>
@@ -35,10 +36,14 @@ export default function Home() {
         Botão adicionar (transferência, receita, despesa, despesa no crédito)
       </Text> */}
     </View>
+    </ScrollView>
   );
 }
 
 const estilos = StyleSheet.create({
+  container: {
+    paddingHorizontal: 10
+  },
   card: {
     backgroundColor: '#fff',
     paddingVertical: 12,
