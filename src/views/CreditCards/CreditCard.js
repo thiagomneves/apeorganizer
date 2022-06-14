@@ -4,10 +4,10 @@ import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {convertPriceForReal} from '../../util/functions';
 import CardFlag from './CardFlag';
 
-export default function CreditCard({flag, bank, limit, spent, color}) {
+export default function CreditCard({flag, title, cardlimit, spent, color}) {
   const newSpent = !!spent ? spent : 0;
-  const avaliable = limit - newSpent;
-  const spentPercent = newSpent / limit;
+  const avaliable = cardlimit - newSpent;
+  const spentPercent = newSpent / cardlimit;
   const windowWidth = Dimensions.get('window').width;
   const estilo = estilos({windowWidth, spentPercent});
 
@@ -19,7 +19,7 @@ export default function CreditCard({flag, bank, limit, spent, color}) {
           <CardFlag flag={flag}/>
         </View>
         <View style={estilo.title}>
-          <Text style={estilo.bank}>{bank}</Text>
+          <Text style={estilo.bank}>{title}</Text>
           <View>
             <Text style={estilo.value}>{convertPriceForReal(avaliable)}</Text>
             <Text style={estilo.avaliable}>disponível</Text>
@@ -30,8 +30,8 @@ export default function CreditCard({flag, bank, limit, spent, color}) {
         <View style={estilo.barAmount}></View>
       </View>
       <View style={estilo.limitLine}>
-        <Text style={estilo.limit}>{convertPriceForReal(newSpent)}</Text>
-        <Text style={estilo.limit}>{convertPriceForReal(limit)}</Text>
+        <Text style={estilo.cardlimit}>{convertPriceForReal(newSpent)}</Text>
+        <Text style={estilo.cardlimit}>{convertPriceForReal(cardlimit)}</Text>
       </View>
     </View>
   );
@@ -96,7 +96,7 @@ const estilos = ({windowWidth, spentPercent}) => {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-    limit: {
+    cardlimit: {
       fontSize: 12,
     },
     tinyLogo: {

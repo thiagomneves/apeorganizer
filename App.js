@@ -10,14 +10,6 @@ function App() {
     createTable()
   }, [])
 
-  const [cards, setCards] = useState([])
-
-  async function showCards() {
-    console.log('show cards aqui')
-    // setNotas(todasNotas)
-    // console.log(todasNotas)
-  }
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar backgroundColor="orange" />
