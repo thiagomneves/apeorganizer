@@ -1,13 +1,18 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
 import { Picker } from '@react-native-picker/picker';
 import { addCard } from '../../services/Cards';
 
+
 export default function CardEditor({showCards}) {
+  const {chosenTheme} = useContext(ThemeContext);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ff0');
   const [cardLimit, setCardLimit] = useState('');
   const [flag, setFlag] = useState('');
+
+  const estilo = estilos(chosenTheme)
 
   async function saveCard() {
     const oneCard = {
@@ -21,7 +26,7 @@ export default function CardEditor({showCards}) {
   }
 
   return (
-    <View>
+    <View style={estilo.container}>
       <TextInput style={estilo.input}
         onChangeText={title => setTitle(title)}
         placeholder="Nome do cartão"
@@ -56,25 +61,32 @@ export default function CardEditor({showCards}) {
   );
 }
 
-const estilo = StyleSheet.create({
-  btnSalvar: {
-  },
-  input: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#eee'
-  },
-  label: {
-    fontSize: 16,
-    padding: 5,
-  },
-  btnSalvarTexto: {
-    backgroundColor: '#090',
-    padding: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-    lineHeight: 26,
-    color: '#fff',
-    textAlign: 'center',
-  },
-})
+const estilos = theme => {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: theme.backgroundContainer,
+    },
+    btnSalvar: {
+    },
+    input: {
+      backgroundColor: theme.backgroundContent,
+      borderWidth: 1,
+      borderColor: theme.border,
+      color: theme.text,
+    },
+    label: {
+      fontSize: 16,
+      padding: 5,
+      color: theme.text,
+    },
+    btnSalvarTexto: {
+      backgroundColor: theme.green,
+      padding: 10,
+      fontSize: 16,
+      fontWeight: 'bold',
+      lineHeight: 26,
+      color: theme.btnText,
+      textAlign: 'center',
+    },
+  })
+}

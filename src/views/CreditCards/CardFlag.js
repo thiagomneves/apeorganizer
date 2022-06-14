@@ -1,5 +1,7 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, { useContext } from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 import MasterCard from '../../assets/images/mastercard.svg';
 import Visa from '../../assets/images/visa.svg';
@@ -8,37 +10,41 @@ import Elo from '../../assets/images/elo.svg';
 import CreditCard from '../../assets/images/creditcard.svg';
 
 export default function CardFlag({flag}) {
+  const newWidth = 50;
+  const newHeight = (newWidth * 4) / 6;
+  const {chosenTheme} = useContext(ThemeContext);
+  const estilo = estilos({theme: chosenTheme,width: newWidth, height: newHeight});
 
   function FlagComponent({flag, width, height}) {
-    const newWidth = !!width ? width : 50
-    const newHeight = !!height ? height : newWidth*4/6
 
     switch (flag) {
       case 'MasterCard':
-        return <MasterCard width={newWidth} height={newHeight} />;
+        return <MasterCard width={width} height={height} />;
       case 'Visa':
-        return <Visa width={newWidth} height={newHeight} />;
+        return <Visa width={width} height={height} />;
       case 'AmericanExpress':
-        return <AmericanExpress width={newWidth} height={newHeight} />;
+        return <AmericanExpress width={width} height={height} />;
       case 'Elo':
-        return <Elo width={newWidth} height={newHeight} />;
+        return <Elo width={width} height={height} />;
       default:
-        return <CreditCard width={newWidth} height={newHeight} />;
+        return <CreditCard width={width} height={height} />;
     }
   }
 
   return (
     <View style={estilo.flag}>
-      <FlagComponent flag={flag}/>
+      <FlagComponent flag={flag} width={newWidth} height={newHeight}/>
     </View>
   );
 }
 
-const estilo = StyleSheet.create({
-  flag: {
-    // width: '90%',
-    // height: '80%',
-    // backgroundColor: '#eee',
-    borderRadius: 5,
-  }
-});
+const estilos = ({theme, width, height}) => {
+  return StyleSheet.create({
+    flag: {
+      width: width,
+      height: height,
+      backgroundColor: theme.flag,
+      borderRadius: 5,
+    },
+  });
+};

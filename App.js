@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {SafeAreaView, StatusBar, Text} from 'react-native';
 
-import { ThemeProvider } from './src/contexts/ThemeContext';
+import { ThemeContext, ThemeProvider } from './src/contexts/ThemeContext';
 
 import AppRoutes from './src/routes/AppRoutes';
 import { createTable } from './src/services/Cards';
 
 function App() {
-
+  const {chosenTheme} = useContext(ThemeContext);
+console.log(chosenTheme)
   useEffect(() => {
     createTable()
   }, [])
@@ -15,7 +16,7 @@ function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ThemeProvider>
-        <StatusBar backgroundColor="orange" />
+        <StatusBar backgroundColor={typeof chosenTheme == 'undefined' ? 'orange' : chosenTheme.red} />
         <AppRoutes />
       </ThemeProvider>
     </SafeAreaView>

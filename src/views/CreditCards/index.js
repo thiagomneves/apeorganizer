@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import {FlatList, Text, View} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
 import {getCards} from '../../services/Cards';
-import Account from '../Accounts/Account';
 import CardEditor from './CardEditor';
 import CreditCard from './CreditCard';
 
 export default function CreditCards() {
+  const {chosenTheme} = useContext(ThemeContext);
   const [cards, setCards] = useState([]);
+  const estilo = estilos(chosenTheme)
 
   useEffect(() => {
     showCards()
@@ -28,7 +30,7 @@ export default function CreditCards() {
   );
 
   return (
-    <View>
+    <View style={estilo.container}>
       <CardEditor showCards={showCards} />
       <FlatList
         data={cards}
@@ -37,4 +39,13 @@ export default function CreditCards() {
       />
     </View>
   );
+}
+
+const estilos = theme => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.backgroundContainer,
+    }
+  })
 }

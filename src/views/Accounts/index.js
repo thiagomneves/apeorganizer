@@ -1,5 +1,7 @@
-import React from 'react';
-import {FlatList, Text, View} from 'react-native';
+import React, { useContext } from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import Config from '../Config';
 import Account from './Account';
 
 const contas = [
@@ -83,11 +85,15 @@ const contas = [
 ]
 
 export default function Accounts() {
+  const {chosenTheme} = useContext(ThemeContext);
+
+  const estilo = estilos(chosenTheme)
+
   const renderItem = ({ item }) => (
     <Account title={item.title} value={item.value} color={item.color}/>
   );
   return (
-    <View>
+    <View style={estilo.ThemeContextcontainer}>
       <FlatList 
       data={contas}
       renderItem={ renderItem }
@@ -95,3 +101,13 @@ export default function Accounts() {
     </View>
   );
 }
+
+const estilos = theme => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.backgroundContainer,
+    }
+  })
+}
+

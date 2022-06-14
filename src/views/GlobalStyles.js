@@ -7,8 +7,14 @@ const dark = {
   gray: '#ccc',
   purple: '#a0f',
   blue: '#00f',
+  white: '#fff',
+  btnText: '#555',
   text: '#aaa',
   weakText: "#888",
+  statusBar: '#f00',
+  border: '#666',
+  flag: '#eee',
+  weakInverse: "#888",
 };
 
 const light = {
@@ -20,8 +26,14 @@ const light = {
   gray: '#333',
   purple: '#80d',
   blue: '#00a',
+  white: '#fff',
+  btnText: '#eee',
   text: '#888',
   weakText: '#aaa',
+  statusbar: '#0f0',
+  border: '#ccc',
+  flag: '#fff',
+  weakInverse: "#ddd",
 };
 
 export {dark, light};

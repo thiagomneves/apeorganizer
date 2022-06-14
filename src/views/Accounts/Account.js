@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 import { convertPriceForReal } from '../../util/functions'
 
 export default function Account({title, value, color}) {
+  const {chosenTheme} = useContext(ThemeContext);
   const newColor = !!color ? color : '#0b8';
   const windowWidth = Dimensions.get('window').width;
 
-  const estilo = estilos(newColor, windowWidth, value);
+  const estilo = estilos({theme: chosenTheme, color: newColor, windowWidth, value});
 
   return (
     <View style={estilo.container}>
@@ -20,16 +22,16 @@ export default function Account({title, value, color}) {
   );
 }
 
-const estilos = (color, windowWidth, value) => {
+const estilos = ({theme, color, windowWidth, value}) => {
   const iconSize = 36;
   const containerPadding = 8;
 
   return StyleSheet.create({
     container: {
-      backgroundColor: '#fff',
+      backgroundColor: theme.backgroundContent,
       padding: containerPadding,
       borderBottomWidth: 1,
-      borderColor: '#ccc',
+      borderColor: theme.border,
       flexDirection: 'row',
     },
     icon: {
@@ -48,11 +50,12 @@ const estilos = (color, windowWidth, value) => {
     title: {
       fontSize: 16,
       fontWeight: '500',
+      color: theme.text
     },
     value: {
       fontSize: 16,
       fontWeight: '500',
-      color: value >= 0 ? '#0c0' : '#f00'
+      color: value >= 0 ? theme.green : theme.red
     },
   });
 };

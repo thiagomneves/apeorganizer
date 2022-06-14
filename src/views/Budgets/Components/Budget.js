@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 
 import {convertPriceForReal} from '../../../util/functions';
 
 export default function Budget({title, budget, spent, color}) {
+  const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;
   const spentPercent = Math.round((spent / budget) * 100);
   const spentDecimal = spent / budget;
-  const estilo = estilos({color, windowWidth, spentDecimal});
+  const estilo = estilos({theme: chosenTheme, color, windowWidth, spentDecimal});
 
   return (
     <View style={estilo.container}>
@@ -28,14 +30,14 @@ export default function Budget({title, budget, spent, color}) {
   );
 }
 
-const estilos = ({color, windowWidth, spentDecimal}) => {
+const estilos = ({theme, color, windowWidth, spentDecimal}) => {
   const padding = 13;
   const barHeight = 5;
   const barWidth = windowWidth - 3 * padding - 2*10;
 
   return StyleSheet.create({
     container: {
-      backgroundColor: '#fff',
+      backgroundColor: theme.backgroundContent,
       padding: padding,
       marginVertical: 5,
       borderRadius: 5,
@@ -43,7 +45,7 @@ const estilos = ({color, windowWidth, spentDecimal}) => {
     content: {
       paddingLeft: padding,
       borderLeftWidth: 3,
-      borderColor: color,
+      borderColor: theme[color],
     },
     line: {
       flexDirection: 'row',
@@ -55,23 +57,26 @@ const estilos = ({color, windowWidth, spentDecimal}) => {
     title: {
       fontWeight: 'bold',
       marginBottom: 3,
+      color: theme.text,
     },
     percent: {
       marginBottom: 3,
+      color: theme.text,
     },
     bar: {
-      backgroundColor: '#ddd',
+      backgroundColor: theme.weakInverse,
       height: barHeight,
       width: barWidth,
     },
     barAmount: {
-      backgroundColor: '#00d',
+      backgroundColor: theme.blue,
       width: barWidth * spentDecimal,
       height: barHeight,
     },
     small: {
       fontSize: 12,
       marginTop: 3,
+      color: theme.weakText,
     }
   });
 };

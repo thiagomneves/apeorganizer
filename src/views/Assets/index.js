@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ThemeContext } from "../../contexts/ThemeContext";
 import Asset from "./Asset";
 import Card from "./Card";
 
 export default function Assets() {
+  const {chosenTheme} = useContext(ThemeContext);
+  const estilo = estilos(chosenTheme)
+
   return <ScrollView style={estilo.container}>
     <Card>
       <Asset title="Poupança" balance="20" />
@@ -35,8 +39,12 @@ export default function Assets() {
   </ScrollView>
 }
 
-const estilo = StyleSheet.create({
-  container: {
-    padding: 10,
-  }
-})
+const estilos = theme => {
+  return StyleSheet.create({
+    container: {
+      padding: 10,
+      backgroundColor: theme.backgroundContainer,
+      flex: 1,
+    },
+  })
+}

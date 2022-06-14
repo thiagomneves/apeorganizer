@@ -7,7 +7,6 @@ import CardHeader from './Components/CardHeader';
 import Line from './Components/Line';
 import BorderedLine from './Components/BorderedLine';
 import BorderedText from './Components/BorderedText';
-import Config from '../Config';
 
 export default function Home() {
   const {chosenTheme} = useContext(ThemeContext);
@@ -15,7 +14,6 @@ export default function Home() {
 
   return (
     <ScrollView>
-      <Config />
       <View style={estilo.container}>
         <View style={estilo.card}>
           <Text style={estilo.cardTitle}>Saldo de Contas</Text>

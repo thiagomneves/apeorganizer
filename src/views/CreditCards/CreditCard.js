@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 import {convertPriceForReal} from '../../util/functions';
 import CardFlag from './CardFlag';
 
 export default function CreditCard({flag, title, cardlimit, spent, color}) {
+  const {chosenTheme} = useContext(ThemeContext);
   const newSpent = !!spent ? spent : 0;
   const avaliable = cardlimit - newSpent;
   const spentPercent = newSpent / cardlimit;
   const windowWidth = Dimensions.get('window').width;
-  const estilo = estilos({windowWidth, spentPercent});
+  const estilo = estilos({theme: chosenTheme, windowWidth, spentPercent});
 
   return (
     <View style={estilo.card}>
@@ -37,7 +39,7 @@ export default function CreditCard({flag, title, cardlimit, spent, color}) {
   );
 }
 
-const estilos = ({windowWidth, spentPercent}) => {
+const estilos = ({theme, windowWidth, spentPercent}) => {
   const flagWidth = 60;
   const cardPadding = 10;
   const cardSize = windowWidth - 2 * cardPadding;
@@ -46,9 +48,9 @@ const estilos = ({windowWidth, spentPercent}) => {
 
   return StyleSheet.create({
     card: {
-      backgroundColor: '#fff',
+      backgroundColor: theme.backgroundContent,
       borderBottomWidth: 1,
-      borderBottomColor: '#ddd',
+      borderBottomColor: theme.border,
       paddingLeft: cardPadding,
       paddingVertical: cardPadding,
     },
@@ -65,29 +67,31 @@ const estilos = ({windowWidth, spentPercent}) => {
       fontSize: 16,
       fontWeight: '600',
       alignSelf: 'center',
+      color: theme.text,
     },
     value: {
       fontSize: 20,
       fontWeight: '600',
+      color: theme.text,
     },
     avaliable: {
       alignSelf: 'flex-end',
       fontSize: 12,
+      color: theme.weakText,
     },
     flag: {
-      // backgroundColor: '#eee',
       width: flagWidth,
       height: 40,
       borderRadius: 5,
     },
     bar: {
       marginTop: 12,
-      backgroundColor: '#0c0',
+      backgroundColor: theme.green,
       width: cardSize,
       height: barHeight,
     },
     barAmount: {
-      backgroundColor: '#e00',
+      backgroundColor: theme.red,
       width: barAmountWidth,
       height: barHeight,
     },
@@ -98,6 +102,7 @@ const estilos = ({windowWidth, spentPercent}) => {
     },
     cardlimit: {
       fontSize: 12,
+      color: theme.weakText,
     },
     tinyLogo: {
       width: '90%',

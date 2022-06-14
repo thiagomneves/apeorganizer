@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 export default function DailyCard({title, value, color, borderColor}) {
-
+  const {chosenTheme} = useContext(ThemeContext);
   const newColor = !!color ? color : '#003'
-  const estilo = estilos(newColor, borderColor)
+  const estilo = estilos({theme: chosenTheme, color: newColor, borderColor})
 
   return (
     <View style={estilo.card}>
@@ -14,16 +15,17 @@ export default function DailyCard({title, value, color, borderColor}) {
   );
 }
 
-const estilos = (color, borderColor) => {
+const estilos = ({theme, color, borderColor}) => {
+
   return StyleSheet.create({
     card: {
-      backgroundColor: '#fff',
+      backgroundColor: theme.backgroundContent,
       flexDirection: 'row',
       justifyContent: 'space-between',
       padding: 14,
       borderRadius: 5,
       borderTopWidth: !!borderColor ? 5 : 0,
-      borderColor: !!borderColor ? borderColor : 'black',
+      borderColor: !!borderColor ? theme[borderColor] : 'black',
       marginVertical: 5,
     },
     title: {
@@ -33,7 +35,7 @@ const estilos = (color, borderColor) => {
     value: {
       fontSize: 16,
       fontWeight: 'bold',
-      color: color,
+      color: theme[color],
     },
     border: {
       borderTopWidth: 1,

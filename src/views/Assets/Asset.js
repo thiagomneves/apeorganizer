@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 import {convertPriceForReal} from '../../util/functions'
 
@@ -10,7 +11,8 @@ const types = {
 }
 
 export default function Asset({title, balance, unity, color, type}) {
-  const estilo = estilos(color);
+  const {chosenTheme} = useContext(ThemeContext);
+  const estilo = estilos({theme: chosenTheme, color});
   const newBalance = !!balance ? balance : (!!type ? types[type].price*unity : '')
 
   return (
@@ -24,7 +26,7 @@ export default function Asset({title, balance, unity, color, type}) {
   );
 }
 
-const estilos = color => {
+const estilos = ({theme, color}) => {
   return StyleSheet.create({
     border: {
       borderLeftWidth: 3,
@@ -39,9 +41,11 @@ const estilos = color => {
     title: {
       fontSize: 16,
       fontWeight: '500',
+      color: theme.text,
     },
     balance: {
-      fontWeight: '500'
+      fontWeight: '500',
+      color: theme.text,
     },
     unity: {
       alignSelf: 'flex-end',
