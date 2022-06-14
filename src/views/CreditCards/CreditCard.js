@@ -16,9 +16,7 @@ export default function CreditCard({flag, bank, limit, spent, color}) {
       
       <View style={estilo.header}>
         <View style={estilo.flag}>
-          {/* {console.log(flag)} */}
           <CardFlag flag={flag}/>
-          {/* <Image style={estilo.tinyLogo} source={flag}/> */}
         </View>
         <View style={estilo.title}>
           <Text style={estilo.bank}>{bank}</Text>

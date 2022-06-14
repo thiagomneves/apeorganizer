@@ -5,12 +5,13 @@ import MasterCard from '../../assets/images/mastercard.svg';
 import Visa from '../../assets/images/visa.svg';
 import AmericanExpress from '../../assets/images/amex.svg';
 import Elo from '../../assets/images/elo.svg';
+import CreditCard from '../../assets/images/creditcard.svg';
 
 export default function CardFlag({flag}) {
 
   function FlagComponent({flag, width, height}) {
-    const newWidth = !!width ? width : 60
-    const newHeight = !!height ? height : 40
+    const newWidth = !!width ? width : 50
+    const newHeight = !!height ? height : newWidth*4/6
 
     switch (flag) {
       case 'MasterCard':
@@ -22,13 +23,13 @@ export default function CardFlag({flag}) {
       case 'Elo':
         return <Elo width={newWidth} height={newHeight} />;
       default:
-        return <></>;
+        return <CreditCard width={newWidth} height={newHeight} />;
     }
   }
 
   return (
     <View style={estilo.flag}>
-      <FlagComponent  flag={flag}/>
+      <FlagComponent flag={flag}/>
     </View>
   );
 }
@@ -37,7 +38,7 @@ const estilo = StyleSheet.create({
   flag: {
     // width: '90%',
     // height: '80%',
-    backgroundColor: '#eee',
+    // backgroundColor: '#eee',
     borderRadius: 5,
   }
 });

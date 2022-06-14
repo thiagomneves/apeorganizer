@@ -1,6 +1,8 @@
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
+import { getCards } from '../../services/Cards';
 import Account from '../Accounts/Account';
+import CardEditor from './CardEditor';
 import CreditCard from './CreditCard';
 
 const contas = [
@@ -10,7 +12,7 @@ const contas = [
     color: '#90f',
     limit: 5100,
     spent: 50,
-    flag: 'MasterCard',
+    flag: 'as',
   },
   {
     id: 2,
@@ -62,6 +64,10 @@ const contas = [
   }
 ]
 
+async function showCards() {
+  const allCards = await getCards()
+}
+
 export default function CreditCards() {
 
   const renderItem = ({ item }) => (
@@ -70,6 +76,7 @@ export default function CreditCards() {
 
   return (
     <View>
+      <CardEditor/>
       <FlatList 
         data={contas}
         renderItem={ renderItem }
