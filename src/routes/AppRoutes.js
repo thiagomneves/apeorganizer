@@ -9,6 +9,7 @@ import CreditCards from '../views/CreditCards';
 import DailySummary from '../views/DailySummary';
 import Budgets from '../views/Budgets';
 import Assets from '../views/Assets';
+import Config from '../views/Config';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +18,7 @@ export default function AppRoutes() {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Config" component={Config} />
         <Tab.Screen name="Contas" component={Accounts} />
         <Tab.Screen name="Cartões de Crédito" component={CreditCards} />
         <Tab.Screen name="Resumo Diário" component={DailySummary} />

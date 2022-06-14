@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 
 export default function BorderedLine({title, value, color, description}) {
-  const estilo = estilos(color);
+  const {chosenTheme} = useContext(ThemeContext);
+  const estilo = estilos({theme: chosenTheme, color});
 
   return (
     <>
@@ -15,12 +17,13 @@ export default function BorderedLine({title, value, color, description}) {
   );
 }
 
-const estilos = color => {
+const estilos = ({theme, color}) => {
   return StyleSheet.create({
     cardText: {
       fontSize: 16,
       marginTop: 5,
       fontWeight: '500',
+      color: theme.text,
     },
     row: {
       flexDirection: 'row',
@@ -40,7 +43,7 @@ const estilos = color => {
       borderLeftWidth: 3,
       paddingHorizontal: 10,
       borderColor: color,
-      color: '#aaa',
+      color: theme.weakText,
       fontSize: 12,
     }
   });
