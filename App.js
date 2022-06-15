@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {SafeAreaView, StatusBar, Text} from 'react-native';
+import 'react-native-gesture-handler';
 
 import { ThemeContext, ThemeProvider } from './src/contexts/ThemeContext';
 
 import AppRoutes from './src/routes/AppRoutes';
-import CreditCardRoutes from './src/routes/CreditCardRoutes';
+import DrawerRoutes from './src/routes/DrawerRoutes';
 import { createTable } from './src/services/Cards';
 
 function App() {
@@ -19,7 +20,9 @@ console.log(chosenTheme, 'chosenTheme - App.js')
       <ThemeProvider>
         <StatusBar backgroundColor={typeof chosenTheme == 'undefined' ? 'orange' : chosenTheme.red} />
         {/* <AppRoutes /> */}
-        <CreditCardRoutes/>
+        <DrawerRoutes>
+
+        </DrawerRoutes>
       </ThemeProvider>
     </SafeAreaView>
   );

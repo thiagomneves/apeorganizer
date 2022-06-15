@@ -13,8 +13,8 @@ export default function Home() {
   const estilo = estilos(chosenTheme);
 
   return (
-    <ScrollView>
-      <View style={estilo.container}>
+    <ScrollView style={estilo.container}>
+      {/* <View style={estilo.container}> */}
         <View style={estilo.card}>
           <Text style={estilo.cardTitle}>Saldo de Contas</Text>
           <BorderedText text="R$ 0,00" color={chosenTheme.green} />
@@ -76,7 +76,7 @@ export default function Home() {
         {/* <Text>
         Botão adicionar (transferência, receita, despesa, despesa no crédito)
       </Text> */}
-      </View>
+      {/* </View> */}
     </ScrollView>
   );
 }
@@ -86,6 +86,7 @@ const estilos = function (theme) {
     container: {
       backgroundColor: theme.backgroundContainer,
       paddingHorizontal: 10,
+      flex: 1,
     },
     card: {
       backgroundColor: theme.backgroundContent,
