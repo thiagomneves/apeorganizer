@@ -3,9 +3,10 @@ import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { Picker } from '@react-native-picker/picker';
 import { addCard } from '../../services/Cards';
+import { useRoute } from '@react-navigation/native';
 
 
-export default function CardEditor({showCards}) {
+export default function CardEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ff0');
@@ -22,7 +23,7 @@ export default function CardEditor({showCards}) {
       flag: flag,
     }
     await addCard(oneCard)
-    await showCards();
+    navigation.goBack()
   }
 
   return (
@@ -66,8 +67,6 @@ const estilos = theme => {
     container: {
       backgroundColor: theme.backgroundContainer,
     },
-    btnSalvar: {
-    },
     input: {
       backgroundColor: theme.backgroundContent,
       borderWidth: 1,
@@ -78,6 +77,8 @@ const estilos = theme => {
       fontSize: 16,
       padding: 5,
       color: theme.text,
+    },
+    btnSalvar: {
     },
     btnSalvarTexto: {
       backgroundColor: theme.green,
