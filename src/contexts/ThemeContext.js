@@ -4,7 +4,7 @@ import {dark, light} from '../views/GlobalStyles';
 export const ThemeContext = createContext({});
 
 export function ThemeProvider({children}) {
-  const [currentTheme, setCurrentTheme] = useState('dark');
+  const [currentTheme, setCurrentTheme] = useState('light');
 
   const themes = {
     dark: dark,

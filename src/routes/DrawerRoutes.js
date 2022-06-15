@@ -6,6 +6,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import { AccountNavigator, CreditCardNavigator}  from './StackRoutes';
 import Home from '../views/Home';
 import AccountEditor from '../views/Accounts/AccountEditor';
+import Config from '../views/Config/index'
 
 const Drawer = createDrawerNavigator();
 
@@ -16,6 +17,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Contas" component={AccountNavigator} />
         <Drawer.Screen name="Cartão de Crédito" component={CreditCardNavigator} />
+        <Drawer.Screen name="Configuração" component={Config} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
