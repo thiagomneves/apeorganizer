@@ -1,9 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { Picker } from '@react-native-picker/picker';
 import { addCard, editCard, removeCard } from '../../services/Cards';
 import { useRoute } from '@react-navigation/native';
+import ColorPicker from 'react-native-wheel-color-picker'
 
 
 export default function CardEditor({navigation }) {
@@ -67,7 +68,7 @@ export default function CardEditor({navigation }) {
   }
 
   return (
-    <View style={estilo.container}>
+    <ScrollView style={estilo.container}>
       <TextInput style={estilo.input}
         onChangeText={title => setTitle(title)}
         placeholder="Nome do cartão"
@@ -78,6 +79,13 @@ export default function CardEditor({navigation }) {
         placeholder="Cor do cartão"
         value={color}
       />
+      <View style={estilo.colorContainer}>
+        <ColorPicker
+          color={color}
+          swatches={false}
+          onColorChange={(selectedColor) => setColor(selectedColor)}
+        />
+      </View>
       <TextInput style={estilo.input}
         onChangeText={cardLimit => setCardLimit(cardLimit)}
         placeholder="Limite do cartão"
@@ -101,7 +109,7 @@ export default function CardEditor({navigation }) {
       { cardToUpdate && <TouchableOpacity onPress={() => deleteCard()}>
         <Text style={estilo.btnApagar}>Apagar Cartão</Text>
       </TouchableOpacity>}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -140,5 +148,10 @@ const estilos = theme => {
       color: theme.btnText,
       textAlign: 'center',
     },
+    colorContainer: {
+      height: 250,
+    },
+    colorPicker: {
+    }
   })
 }
