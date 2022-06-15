@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useIsFocused, useNavigation} from '@react-navigation/native';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {getCards} from '../../services/Cards';
@@ -11,28 +11,32 @@ export default function CreditCards() {
   const {chosenTheme} = useContext(ThemeContext);
   const navigation = useNavigation();
   const [cards, setCards] = useState([]);
-  const [updateCardList, setUpdateCardList] = useState(true);
+  const [selectedCard, setSelectedCard] = useState({});
   const estilo = estilos(chosenTheme);
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     showCards();
-  }, [updateCardList]);
+  }, [isFocused]);
 
   async function showCards() {
     const allCards = await getCards();
+    setSelectedCard({})
     setCards(allCards);
-    setUpdateCardList(!updateCardList);
   }
 
   const renderItem = ({item}) => (
     <CreditCard
-      flag={item.flag}
-      title={item.title}
-      color={item.color}
-      cardlimit={item.cardlimit}
-      spent={item.spent}
+      item={item}
+      selectedCard={selectedCard}
+      setSelectedCard={setSelectedCard}
+      editorNavigate={editorNavigate}
     />
   );
+
+  const editorNavigate = () => {
+    navigation.navigate('Editor de Cartão', {selectedCard});
+  }
 
   return (
     <View style={estilo.container}>
@@ -43,10 +47,7 @@ export default function CreditCards() {
       />
       <TouchableOpacity
         style={estilo.addBtn}
-        onPress={() => {
-          setUpdateCardList(!updateCardList);
-          navigation.navigate('Editor de Cartão', {});
-        }}>
+        onPress={() => editorNavigate()}>
         <Text style={estilo.addBtnText}>+</Text>
       </TouchableOpacity>
     </View>

@@ -1,24 +1,40 @@
-import React, { useContext } from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
-import { ThemeContext } from '../../contexts/ThemeContext';
+import React, {useContext, useEffect} from 'react';
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {ThemeContext} from '../../contexts/ThemeContext';
 
 import {convertPriceForReal} from '../../util/functions';
 import CardFlag from './CardFlag';
 
-export default function CreditCard({flag, title, cardlimit, spent, color}) {
+export default function CreditCard({item, selectedCard, setSelectedCard, editorNavigate}) {
+  const {flag, title, cardlimit, spent, color, id} = {...item};
   const {chosenTheme} = useContext(ThemeContext);
   const newSpent = !!spent ? spent : 0;
   const avaliable = cardlimit - newSpent;
   const spentPercent = newSpent / cardlimit;
   const windowWidth = Dimensions.get('window').width;
   const estilo = estilos({theme: chosenTheme, windowWidth, spentPercent});
+  useEffect(() => {
+    if (Object.keys(selectedCard).length > 0) {
+      editorNavigate()
+    }
+  }, [selectedCard])
 
   return (
-    <View style={estilo.card}>
-      
+    <TouchableOpacity
+      onPress={() => {
+        setSelectedCard(item);
+      }}
+      style={estilo.card}>
       <View style={estilo.header}>
         <View style={estilo.flag}>
-          <CardFlag flag={flag}/>
+          <CardFlag flag={flag} />
         </View>
         <View style={estilo.title}>
           <Text style={estilo.bank}>{title}</Text>
@@ -35,7 +51,7 @@ export default function CreditCard({flag, title, cardlimit, spent, color}) {
         <Text style={estilo.cardlimit}>{convertPriceForReal(newSpent)}</Text>
         <Text style={estilo.cardlimit}>{convertPriceForReal(cardlimit)}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -43,7 +59,7 @@ const estilos = ({theme, windowWidth, spentPercent}) => {
   const flagWidth = 60;
   const cardPadding = 10;
   const cardSize = windowWidth - 2 * cardPadding;
-  const percent = !isNaN(spentPercent) ? spentPercent : 0
+  const percent = !isNaN(spentPercent) ? spentPercent : 0;
   const barAmountWidth = cardSize * percent;
   const barHeight = 7;
 

@@ -3,7 +3,6 @@ import {db} from './SQLite';
 export function createTable() {
   db.transaction(txn => {
     txn.executeSql(
-      // 'DROP TABLE cards;' +
       'CREATE TABLE IF NOT EXISTS ' +
         'cards ' +
         '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, spent FLOAT, flag TEXT, closureday INTEGER, dueday INTEGER);',
@@ -52,65 +51,36 @@ export async function getCards() {
   });
 }
 
-/*
-// ExecuteQuery = (sql, params = []) => new Promise((resolve, reject) => {
-//   db.transaction((trans) => {
-//     trans.executeSql(sql, params, (trans, results) => {
-//       resolve(results);
-//     },
-//       (error) => {
-//         reject(error);
-//       });
-//   });
-// });
-export async function getCards() {
-  return new Promise((resulve, reject) => {
-    db.transaction((txn) => {
-      txn.executeSql('SELECT * from cards;',
-      [],
-      (sqlTxn, res) => {
-        console.log(sqlTxn, res)
-        // console.log('passou por aqui #001');
-      },
-      error => {
-        console.log('passou por aqui #002 ' + error.message);
-      },)
-    })
-  })
-  ExecuteQuery = (sql, params = []) => new Promise((resolve, reject) => {
-    // console.log('porra')
-    db.transaction((trans) => {
-      trans.executeSql(sql, params, (trans, results) => {
-        resolve(results);
-      },
+export async function editCard(card) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'UPDATE cards SET title = ?, color = ?, cardlimit = ?, flag = ? WHERE id = ?;',
+        [card.title, card.color, card.cardLimit, card.flag, card.id],
+        (trans, results) => {
+          resolve("Cartão adicionado com sucesso");
+        },
         (error) => {
-          reject(error);
-        });
+          reject(error)
+        }
+      );
     });
   });
-
-  // async SelectQuery(){
-    let selectQuery = await this.ExecuteQuery("SELECT * FROM users",[]);
-    var rows = selectQuery.rows;
-    for (let i = 0; i < rows.length; i++) {
-        var item = rows.item(i);
-        console.log(item);
-    }
-  // }
-
-
-  console.log('getCards hue')
-  // return new Promise(resolve => {
-  //   db.transaction(transaction => {
-  //     transaction.executeSql(
-  //       'SELECT * from cards;',
-  //       [],
-  //       (transaction, result) => {
-  //         resolve(result.rows._array);
-  //       },
-  //     );
-  //   });
-  // });
-  return "huehuehue"
 }
-*/
+
+export async function removeCard(card) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'DELETE FROM cards WHERE id = ?;',
+        [card.id],
+        (trans, results) => {
+          resolve("Cartão adicionado com sucesso");
+        },
+        (error) => {
+          reject(error)
+        }
+      );
+    });
+  });
+}

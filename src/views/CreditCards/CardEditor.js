@@ -1,8 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { Picker } from '@react-native-picker/picker';
-import { addCard } from '../../services/Cards';
+import { addCard, editCard, removeCard } from '../../services/Cards';
 import { useRoute } from '@react-navigation/native';
 
 
@@ -10,8 +10,15 @@ export default function CardEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#ff0');
-  const [cardLimit, setCardLimit] = useState('');
+  const [cardLimit, setCardLimit] = useState(0);
   const [flag, setFlag] = useState('');
+  const route = useRoute()
+  const selectedCard = route.params.selectedCard
+  const cardToUpdate = Object.keys(selectedCard).length > 0
+
+  useEffect(() => {
+    fillEditor()
+  }, [selectedCard])
 
   const estilo = estilos(chosenTheme)
 
@@ -24,6 +31,39 @@ export default function CardEditor({navigation }) {
     }
     await addCard(oneCard)
     navigation.goBack()
+  }
+
+  async function updateCard() {
+    const oneCard = {
+      title: title,
+      color: color, 
+      cardLimit: cardLimit,
+      flag: flag,
+      id: selectedCard.id,
+    }
+    await editCard(oneCard)
+    navigation.goBack()
+  }
+
+  async function deleteCard() {
+    const oneCard = {
+      title: title,
+      color: color, 
+      cardLimit: cardLimit,
+      flag: flag,
+      id: selectedCard.id,
+    }
+    await removeCard(oneCard)
+    navigation.goBack()
+  }
+
+  function fillEditor() {
+    if (cardToUpdate) {
+      setTitle(selectedCard.title)
+      setColor(selectedCard.color)
+      setCardLimit(selectedCard.cardlimit)
+      setFlag(selectedCard.flag)
+    }
   }
 
   return (
@@ -41,7 +81,7 @@ export default function CardEditor({navigation }) {
       <TextInput style={estilo.input}
         onChangeText={cardLimit => setCardLimit(cardLimit)}
         placeholder="Limite do cartão"
-        value={cardLimit}
+        value={cardLimit.toString()}
       />
       <View>
         <Text style={estilo.label}>Bandeira do cartão</Text>
@@ -55,9 +95,12 @@ export default function CardEditor({navigation }) {
           <Picker.Item label="Elo" value="Elo" />
         </Picker>
       </View>
-      <TouchableOpacity style={estilo.btnSalvar} onPress={() => saveCard()}>
-        <Text style={estilo.btnSalvarTexto}>Salvar</Text>
+      <TouchableOpacity onPress={() => cardToUpdate ? updateCard() : saveCard()}>
+        <Text style={estilo.btnSalvar}>Salvar</Text>
       </TouchableOpacity>
+      { cardToUpdate && <TouchableOpacity onPress={() => deleteCard()}>
+        <Text style={estilo.btnApagar}>Apagar Cartão</Text>
+      </TouchableOpacity>}
     </View>
   );
 }
@@ -79,9 +122,17 @@ const estilos = theme => {
       color: theme.text,
     },
     btnSalvar: {
-    },
-    btnSalvarTexto: {
       backgroundColor: theme.green,
+      padding: 10,
+      fontSize: 16,
+      fontWeight: 'bold',
+      lineHeight: 26,
+      color: theme.btnText,
+      textAlign: 'center',
+    },
+    btnApagar: {
+      marginTop: 10,
+      backgroundColor: theme.red,
       padding: 10,
       fontSize: 16,
       fontWeight: 'bold',

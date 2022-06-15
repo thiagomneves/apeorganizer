@@ -9,7 +9,7 @@ import { createTable } from './src/services/Cards';
 
 function App() {
   const {chosenTheme} = useContext(ThemeContext);
-console.log(chosenTheme)
+console.log(chosenTheme, 'chosenTheme - App.js')
   useEffect(() => {
     createTable()
   }, [])
