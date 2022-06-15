@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import { AccountNavigator, CreditCardNavigator}  from './CreditCardRoutes';
+import { AccountNavigator, CreditCardNavigator}  from './StackRoutes';
 import Home from '../views/Home';
 
 const Drawer = createDrawerNavigator();
