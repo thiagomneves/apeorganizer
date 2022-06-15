@@ -5,6 +5,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import { AccountNavigator, CreditCardNavigator}  from './StackRoutes';
 import Home from '../views/Home';
+import AccountEditor from '../views/Accounts/AccountEditor';
 
 const Drawer = createDrawerNavigator();
 

@@ -6,6 +6,7 @@ import Accounts from '../views/Accounts';
 
 import CreditCards from '../views/CreditCards';
 import CardEditor from '../views/CreditCards/CardEditor';
+import AccountEditor from '../views/Accounts/AccountEditor';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +22,7 @@ function AccountNavigator() {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="ContasScreen" component={Accounts} />
-      <Stack.Screen name="Editor de Cartão" component={CardEditor} />
+      <Stack.Screen name="Editor de Contas" component={AccountEditor} />
     </Stack.Navigator>
   );
 }

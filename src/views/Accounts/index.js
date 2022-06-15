@@ -1,113 +1,81 @@
-import React, { useContext } from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import { ThemeContext } from '../../contexts/ThemeContext';
-import Config from '../Config';
-import Account from './Account';
+import React, { useContext, useEffect, useState } from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-const contas = [
-  {
-    id: 1,
-    title: 'Carteira',
-    value: 20,
-  },
-  {
-    id: 2,
-    title: 'Nubank',
-    value: 400,
-    color: "#b0f",
-  },
-  {
-    id: 3,
-    title: 'Inter',
-    value: -20,
-    color: "#f80",
-  },
-  {
-    id: 4,
-    title: 'BTG',
-    value: 0,
-    color: "#008",
-  },
-  {
-    id: 5,
-    title: 'BMG',
-    value: 0,
-    color: "#f70",
-  },
-  {
-    id: 6,
-    title: 'Iti',
-    value: 0,
-    color: "#f88",
-  },
-  {
-    id: 7,
-    title: 'Pan',
-    value: 0,
-    color: "#0cf",
-  },
-  {
-    id: 8,
-    title: 'Caixa',
-    value: 0,
-    color: "#00d",
-  },
-  {
-    id: 9,
-    title: 'BB',
-    value: 0,
-    color: "#ff0",
-  },
-  {
-    id: 10,
-    title: 'Santander',
-    value: 0,
-    color: "#f00",
-  },
-  {
-    id: 11,
-    title: 'Bradesco',
-    value: 0,
-    color: "#f00",
-  },
-  {
-    id: 12,
-    title: 'Next',
-    value: 0,
-    color: "#6f8",
-  },
-  {
-    id: 13,
-    title: 'Itau',
-    value: 0,
-    color: "#f90",
-  }
-]
+import { ThemeContext } from '../../contexts/ThemeContext';
+import {getAccounts} from '../../services/Accounts';
+import Account from './Account';
 
 export default function Accounts() {
   const {chosenTheme} = useContext(ThemeContext);
+  const navigation = useNavigation();
+  const [accounts, setAccounts] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState({});
 
   const estilo = estilos(chosenTheme)
+  const isFocused = useIsFocused()
+  
+  useEffect(() => {
+    showAccounts();
+  }, [isFocused]);
+
+  const editorNavigate = () => {
+    navigation.navigate('Editor de Contas', {selectedAccount});
+  }
+
+  async function showAccounts() {
+    const allAccounts = await getAccounts();
+    setSelectedAccount({})
+    setAccounts(allAccounts);
+  }
+
 
   const renderItem = ({ item }) => (
-    <Account title={item.title} value={item.value} color={item.color}/>
+    <Account item={item}
+    selectedAccount={selectedAccount}
+      setSelectedAccount={setSelectedAccount}
+      editorNavigate={editorNavigate}
+      />
   );
   return (
-    <View style={estilo.ThemeContextcontainer}>
+    <View style={estilo.container}>
       <FlatList 
-      data={contas}
+      data={accounts}
       renderItem={ renderItem }
       keyExtractor={item => item.id} />
+      <TouchableOpacity
+        style={estilo.addBtn}
+        onPress={() => editorNavigate()}>
+        <Text style={estilo.addBtnText}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const estilos = theme => {
+  const btnSize = 50;
   return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: theme.backgroundContainer,
-    }
+    },
+    addBtn: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      backgroundColor: theme.green,
+      width: btnSize,
+      height: btnSize,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 10,
+      marginBottom: 10,
+    },
+    addBtnText: {
+      color: theme.white,
+      fontSize: 30,
+    },
   })
 }
 

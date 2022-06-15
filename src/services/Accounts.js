@@ -1,14 +1,14 @@
 import {db} from './SQLite';
 
-export function createTableCards() {
+export function createTableAccounts() {
   db.transaction(txn => {
     txn.executeSql(
       'CREATE TABLE IF NOT EXISTS ' +
-        'cards ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, spent FLOAT, flag TEXT, closureday INTEGER, dueday INTEGER);',
+        'accounts ' +
+        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, balance FLOAT);',
       [],
       (sqlTxn, res) => {
-        console.log('table cards created successfully');
+        console.log('table accounts created successfully');
       },
       error => {
         console.log('error on creating table ' + error.message);
@@ -17,14 +17,14 @@ export function createTableCards() {
   });
 }
 
-export async function addCard(card) {
+export async function addAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'INSERT INTO cards (title, color, cardlimit, flag, spent) VALUES (?, ?, ?, ?, 0);',
-        [card.title, card.color, card.cardLimit, card.flag],
+        'INSERT INTO accounts (title, color, balance) VALUES (?, ?, ?);',
+        [account.title, account.color, account.balance],
         (trans, results) => {
-          resolve("Cartão adicionado com sucesso");
+          resolve("Conta adicionada com sucesso");
         },
         (error) => {
           reject(error)
@@ -34,16 +34,17 @@ export async function addCard(card) {
   });
 }
 
-export async function getCards() {
+export async function getAccounts() {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT * from cards;',
+        'SELECT * from accounts;',
         [],
         (trans, results) => {
           resolve(results.rows.raw());
         },
         (error) => {
+          console.log(error)
           reject(error)
         }
       );
@@ -51,14 +52,14 @@ export async function getCards() {
   });
 }
 
-export async function editCard(card) {
+export async function editAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'UPDATE cards SET title = ?, color = ?, cardlimit = ?, flag = ? WHERE id = ?;',
-        [card.title, card.color, card.cardLimit, card.flag, card.id],
+        'UPDATE accounts SET title = ?, color = ?, balance = ? WHERE id = ?;',
+        [account.title, account.color, account.balance, account.id],
         (trans, results) => {
-          resolve("Cartão atualizado com sucesso");
+          resolve("Conta atualizada com sucesso");
         },
         (error) => {
           reject(error)
@@ -68,14 +69,14 @@ export async function editCard(card) {
   });
 }
 
-export async function removeCard(card) {
+export async function removeAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'DELETE FROM cards WHERE id = ?;',
-        [card.id],
+        'DELETE FROM accounts WHERE id = ?;',
+        [account.id],
         (trans, results) => {
-          resolve("Cartão removido com sucesso");
+          resolve("Conta removida com sucesso");
         },
         (error) => {
           reject(error)

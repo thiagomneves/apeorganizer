@@ -1,28 +1,37 @@
-import React, { useContext } from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 import { convertPriceForReal } from '../../util/functions'
 
-export default function Account({title, value, color}) {
+export default function Account({item, selectedAccount, setSelectedAccount, editorNavigate}) {
+  const {title, balance, color} = {...item}
   const {chosenTheme} = useContext(ThemeContext);
   const newColor = !!color ? color : '#0b8';
   const windowWidth = Dimensions.get('window').width;
-
-  const estilo = estilos({theme: chosenTheme, color: newColor, windowWidth, value});
+  const estilo = estilos({theme: chosenTheme, color: newColor, windowWidth, balance});
+  useEffect(() => {
+    if (Object.keys(selectedAccount).length > 0) {
+      editorNavigate()
+    }
+  }, [selectedAccount])
 
   return (
-    <View style={estilo.container}>
+    <TouchableOpacity 
+      onPress={() => {
+        setSelectedAccount(item);
+      }}
+      style={estilo.container}>
       <Text style={estilo.icon}></Text>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>
-        <Text style={estilo.value}>{convertPriceForReal(value)}</Text>
+        <Text style={estilo.balance}>{convertPriceForReal(balance)}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
-const estilos = ({theme, color, windowWidth, value}) => {
+const estilos = ({theme, color, windowWidth, balance}) => {
   const iconSize = 36;
   const containerPadding = 8;
 
@@ -52,10 +61,10 @@ const estilos = ({theme, color, windowWidth, value}) => {
       fontWeight: '500',
       color: theme.text
     },
-    value: {
+    balance: {
       fontSize: 16,
       fontWeight: '500',
-      color: value >= 0 ? theme.green : theme.red
+      color: balance >= 0 ? theme.green : theme.red
     },
   });
 };
