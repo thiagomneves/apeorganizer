@@ -4,8 +4,9 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator } from './StackRoutes';
+import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, TransactionsNavigator } from './StackRoutes';
 import CustomDrawer from '../shared/CustomDrawer';
 import {StyleSheet} from 'react-native';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -25,7 +26,7 @@ export default function DrawerRoutes() {
           drawerActiveTintColor: chosenTheme.activeColor,
           drawerInactiveTintColor: chosenTheme.text,
         }}
-        initialRouteName="Home">
+        initialRouteName="Transações">
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
@@ -52,6 +53,15 @@ export default function DrawerRoutes() {
           }}
           name="Cartões de Crédito"
           component={CreditCardNavigator}
+        />
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <SimpleLineIcons style={estilo.icon} name="graph" color={color}/>
+            ),
+          }}
+          name="Transações"
+          component={TransactionsNavigator}
         />
 
         <Drawer.Screen

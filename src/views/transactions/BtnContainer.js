@@ -1,0 +1,76 @@
+import React, { useContext, useState } from "react";
+import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ThemeContext } from "../../contexts/ThemeContext";
+
+import MinorBtn from './MinorBtn';
+export default function BtnContainer() {
+  const {chosenTheme} = useContext(ThemeContext);
+  const [showMinorBtn, setShowMinorBtn] = useState(false);
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+
+  const estilo = estilos({theme: chosenTheme, showMinorBtn, windowWidth, windowHeight});
+  return (
+    <TouchableOpacity onPress={() => setShowMinorBtn(false)} activeOpacity={1} style={showMinorBtn ? estilo.btnContainerOpened : estilo.btnContainer}>
+      <View style={estilo.btnContent}>
+        <View style={estilo.minorBtnContainer}>
+          <MinorBtn label="Transferência" color={chosenTheme.purple} icon={{lib: 'Octicons', name: 'arrow-switch'}}/>
+          <MinorBtn label="Receita" color={chosenTheme.green} icon={{lib: 'MaterialIcons', name: 'trending-up'}}/>
+          <MinorBtn label="Despesa" color={chosenTheme.red} icon={{lib: 'MaterialIcons', name: 'trending-down'}}/>
+          <MinorBtn label="Despesa no Crédito" color={chosenTheme.orange} icon={{lib: 'MaterialIcons', name: 'credit-card'}}/>
+        </View>
+        <TouchableOpacity onPress={() => setShowMinorBtn(!showMinorBtn)} style={estilo.addBtnContainer}>
+          <MaterialIcons style={estilo.addBtnIcon} name={showMinorBtn ? 'close' : 'add'}/>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+const estilos = ({theme, showMinorBtn, windowHeight, windowWidth}) => {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: theme.backgroundContainer,
+      flex: 1,
+    },
+    btnContainer: {
+      right: 0,
+      bottom: 0,
+      position: 'relative',
+      flex: 1,
+    },
+    btnContainerOpened: {
+      right: 0,
+      bottom: 0,
+      backgroundColor: theme.gray+"5",
+      position: 'absolute',
+      width: windowWidth,
+      height: windowHeight,
+    },
+    btnContent: {
+      right: 10,
+      bottom: 10,
+      position: 'absolute'
+    },
+    addBtnContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 50,
+      height: 50,
+      borderRadius: 50,
+      backgroundColor: theme.blue,
+      alignSelf: 'flex-end',
+      backgroundColor: 'green',
+    },
+    addBtnIcon: {
+      color: theme.white,
+      fontSize: 22,
+    },
+    minorBtnContainer: {
+      right: 6,
+      marginBottom: 10,
+      display: showMinorBtn ? 'flex' : 'none',
+    },
+  })
+}

@@ -13,6 +13,7 @@ import AccountEditor from '../views/Accounts/AccountEditor';
 import Budgets from '../views/Budgets';
 import DailySummary from '../views/DailySummary';
 import Config from '../views/Config/index';
+import Transactions from '../views/transactions';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,7 +83,22 @@ function CreditCardNavigator({navigation}) {
     </Stack.Navigator>
   );
 }
-
+function TransactionsNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Transações',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="TransaçõesScreen"
+        component={Transactions}
+      />
+    </Stack.Navigator>
+  );
+}
 function BudgetNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
@@ -136,4 +152,4 @@ function ConfigNavigator({navigation}) {
   );
 }
 
-export {CreditCardNavigator, AccountNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, ConfigNavigator};
+export {CreditCardNavigator, AccountNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, ConfigNavigator, TransactionsNavigator};

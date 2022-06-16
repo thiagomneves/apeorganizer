@@ -19,6 +19,8 @@ const dark = {
   activeBackgroundColor: '#aaa',
   activeColor: '#333',
   drawerBackground: '#555',
+  tooltipBackground: '#ccc',
+  tooltipText: '#333',
 };
 
 const light = {
@@ -42,6 +44,8 @@ const light = {
   activeBackgroundColor: '#070',
   activeColor: '#fff',
   drawerBackground: '#fff',
+  tooltipBackground: '#333',
+  tooltipText: '#fff',
 };
 
 export {dark, light};
