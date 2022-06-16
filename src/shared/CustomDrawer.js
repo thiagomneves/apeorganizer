@@ -14,8 +14,8 @@ export default function CustomDrawer(props) {
       </View>
       <DrawerContentScrollView contentContainerStyle={estilo.drawlerContent} {...props}>
         <View style={estilo.profileContainer}>
-          <Image style={estilo.profileImage} source={require('../assets/images/user-profile.png')} />
-          <Text style={estilo.profileText}>John Doe</Text>
+          <Image style={estilo.profileImage} source={require('../assets/images/rafiki.png')} />
+          <Text style={estilo.profileText}>Rafiki</Text>
         </View>
         <DrawerItemList {...props}/>
       </DrawerContentScrollView>
