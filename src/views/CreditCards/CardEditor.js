@@ -74,11 +74,6 @@ export default function CardEditor({navigation }) {
         placeholder="Nome do cartão"
         value={title}
       />
-      <TextInput style={estilo.input}
-        onChangeText={color => setColor(color)}
-        placeholder="Cor do cartão"
-        value={color}
-      />
       <View style={estilo.colorContainer}>
         <ColorPicker
           color={color}
