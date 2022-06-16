@@ -19,7 +19,7 @@ const estilos = ({theme, color}) => {
     border: {
       borderLeftWidth: 3,
       borderColor: color,
-      paddingHorizontal: 10,
+      paddingHorizontal: 16,
     },
     text: {
       color: theme.text,

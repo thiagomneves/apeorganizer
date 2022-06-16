@@ -33,7 +33,7 @@ const estilos = ({theme, color}) => {
     },
     border: {
       borderLeftWidth: 3,
-      paddingHorizontal: 10,
+      paddingHorizontal: 16,
       borderColor: color,
     },
     value: {
@@ -41,7 +41,7 @@ const estilos = ({theme, color}) => {
     },
     description: {
       borderLeftWidth: 3,
-      paddingHorizontal: 10,
+      paddingHorizontal: 19,
       borderColor: color,
       color: theme.weakText,
       fontSize: 12,
