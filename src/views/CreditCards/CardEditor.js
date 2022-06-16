@@ -10,7 +10,7 @@ import ColorPicker from 'react-native-wheel-color-picker'
 export default function CardEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#ff0');
+  const [color, setColor] = useState('#070');
   const [cardLimit, setCardLimit] = useState(0);
   const [flag, setFlag] = useState('');
   const route = useRoute()

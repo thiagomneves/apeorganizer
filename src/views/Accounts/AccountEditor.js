@@ -10,7 +10,7 @@ export default function AccountEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const estilo = estilos(chosenTheme);
   const [title, setTitle] = useState('')
-  const [color, setColor] = useState('#0b8')
+  const [color, setColor] = useState('#070')
   const [balance, setBalance] = useState(0)
   const route = useRoute()
   const selectedAccount = route.params.selectedAccount
