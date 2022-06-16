@@ -13,7 +13,11 @@ import AccountEditor from '../views/Accounts/AccountEditor';
 import Budgets from '../views/Budgets';
 import DailySummary from '../views/DailySummary';
 import Config from '../views/Config/index';
-import Transactions from '../views/transactions';
+import Transactions from '../views/Transactions';
+import Transfer from '../views/Transactions/Transfer';
+import Revenue from '../views/Transactions/Revenue';
+import Expense from '../views/Transactions/Expense';
+import CardExpense from '../views/Transactions/CardExpense';
 
 const Stack = createNativeStackNavigator();
 
@@ -96,6 +100,10 @@ function TransactionsNavigator({navigation}) {
         name="TransaçõesScreen"
         component={Transactions}
       />
+      <Stack.Screen name="Transferência" component={Transfer} />
+      <Stack.Screen name="Receita" component={Revenue} />
+      <Stack.Screen name="Despesa" component={Expense} />
+      <Stack.Screen name="Despesa no Crédito" component={CardExpense} />
     </Stack.Navigator>
   );
 }
@@ -130,7 +138,6 @@ function DailySummaryNavigator({navigation}) {
         name="BudgetScreen"
         component={DailySummary}
       />
-      <Stack.Screen name="Editor de Cartão" component={CardEditor} />
     </Stack.Navigator>
   );
 }

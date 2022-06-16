@@ -4,11 +4,17 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function MinorBtn(props) {
   const {chosenTheme} = useContext(ThemeContext);
+  const navigation = useNavigation();
   const {color, label, icon} = {...props};
   const estilo = estilos(chosenTheme);
+
+  const transactionsNavigate = () => {
+    navigation.navigate(label)
+  }
 
   function Icon(icon) {
     const {lib, name} = {...icon};
@@ -25,7 +31,7 @@ export default function MinorBtn(props) {
   
   return (
     <View style={estilo.minorBtnContent}>
-      <TouchableOpacity style={estilo.touchable} onPress={() => console.log(label)}>
+      <TouchableOpacity style={estilo.touchable} onPress={transactionsNavigate}>
         <Text style={estilo.minorBtnLabel}>{label}</Text>
         <View style={[estilo.minorBtnIconContainer, {backgroundColor: color}]}>
           <Icon {...icon} />
