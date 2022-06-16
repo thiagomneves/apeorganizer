@@ -1,6 +1,7 @@
 const dark = {
   backgroundContainer: '#333',
   backgroundContent: '#555',
+  headerTitle: '#aaa',
   red: '#f00',
   green: "#0f0",
   orange: '#f90',
@@ -15,11 +16,15 @@ const dark = {
   border: '#666',
   flag: '#eee',
   weakInverse: "#888",
+  activeBackgroundColor: '#aaa',
+  activeColor: '#333',
+  drawerBackground: '#555',
 };
 
 const light = {
   backgroundContainer: '#eee',
   backgroundContent: '#fff',
+  headerTitle: '#333',
   red: '#a00',
   green: 'green',
   orange: '#f70',
@@ -34,6 +39,9 @@ const light = {
   border: '#ccc',
   flag: '#fff',
   weakInverse: "#ddd",
+  activeBackgroundColor: '#070',
+  activeColor: '#fff',
+  drawerBackground: '#fff',
 };
 
 export {dark, light};

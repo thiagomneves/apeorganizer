@@ -1,24 +1,75 @@
-import React from 'react';
-import {Text, View} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useContext } from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { AccountNavigator, CreditCardNavigator}  from './StackRoutes';
-import Home from '../views/Home';
-import AccountEditor from '../views/Accounts/AccountEditor';
-import Config from '../views/Config/index'
+import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator } from './StackRoutes';
+import CustomDrawer from '../shared/CustomDrawer';
+import {StyleSheet} from 'react-native';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerRoutes() {
+  const {chosenTheme} = useContext(ThemeContext);
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="Contas" component={AccountNavigator} />
-        <Drawer.Screen name="Cartão de Crédito" component={CreditCardNavigator} />
-        <Drawer.Screen name="Configuração" component={Config} />
+      <Drawer.Navigator
+        drawerContent={props => <CustomDrawer {...props} />}
+        screenOptions={{
+          headerShown: false,
+          drawerLabelStyle: {marginLeft: -25, fontSize: 16},
+          drawerActiveBackgroundColor: chosenTheme.activeBackgroundColor,
+          drawerActiveTintColor: chosenTheme.activeColor,
+          drawerInactiveTintColor: chosenTheme.text,
+        }}
+        initialRouteName="Home">
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <MaterialIcons style={estilo.icon} name="dashboard" color={color}/>
+            ),
+          }}
+          name="Visão Geral"
+          component={HomeNavigator}
+        />
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <MaterialCommunityIcons style={estilo.icon} name="bank" color={color}/>
+            ),
+          }}
+          name="Contas"
+          component={AccountNavigator}
+        />
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <MaterialIcons style={estilo.icon} name="payment" color={color}/>
+            ),
+          }}
+          name="Cartões de Crédito"
+          component={CreditCardNavigator}
+        />
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <Ionicons style={estilo.icon} name="settings-outline" color={color}/>
+            ),
+          }}
+          name="Preferências"
+          component={ConfigNavigator}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
 }
+
+const estilo = StyleSheet.create({
+  icon: {
+    fontSize: 22,
+    margin: 0,
+  },
+});

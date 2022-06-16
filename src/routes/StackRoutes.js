@@ -1,39 +1,102 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {StatusBar} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
 
 import Accounts from '../views/Accounts';
 
+import Home from '../views/Home';
 import CreditCards from '../views/CreditCards';
 import CardEditor from '../views/CreditCards/CardEditor';
 import AccountEditor from '../views/Accounts/AccountEditor';
+import ButtonDrawler from '../shared/ButtonDrawler';
+import Config from '../views/Config/index';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 const Stack = createNativeStackNavigator();
 
-const screenOptionStyle = {
-  headerStyle: {
-    backgroundColor: '#9AC4F8',
-  },
-  headerTintColor: 'white',
-  headerBackTitle: 'Back',
-};
+function makeScreenOptions(theme) {
+  return {
+    headerStyle: {
+      backgroundColor: theme.backgroundContainer,
+    },
+    headerTintColor: theme.headerTitle,
+  };
+}
 
-function AccountNavigator() {
+function HomeNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
   return (
-    <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="ContasScreen" component={Accounts} />
-      <Stack.Screen name="Editor de Contas" component={AccountEditor} />
-    </Stack.Navigator>
+    <>
+      <StatusBar backgroundColor={chosenTheme.backgroundContainer} />
+      <Stack.Navigator screenOptions={screenOptions}>
+        <Stack.Screen
+          options={{
+            headerTitle: 'Visão Geral',
+            headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+          }}
+          name="HomeScreen"
+          component={Home}
+          />
+      </Stack.Navigator>
+    </>
   );
 }
 
-function CreditCardNavigator() {
+function AccountNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
   return (
-    <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="CartãoScreen" component={CreditCards} />
+    <>
+    <StatusBar backgroundColor={chosenTheme.backgroundContainer} />
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Contas',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="ContasScreen"
+        component={Accounts}
+      />
+      <Stack.Screen name="Editor de Contas" component={AccountEditor} />
+    </Stack.Navigator>
+    </>
+  );
+}
+
+function CreditCardNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Cartões de Crédito',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="CartãoScreen"
+        component={CreditCards}
+      />
       <Stack.Screen name="Editor de Cartão" component={CardEditor} />
     </Stack.Navigator>
   );
 }
 
-export {CreditCardNavigator, AccountNavigator};
+function ConfigNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Configurações',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="Config"
+        component={Config}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export {CreditCardNavigator, AccountNavigator, HomeNavigator, ConfigNavigator};
