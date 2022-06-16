@@ -50,7 +50,6 @@ function AccountNavigator({navigation}) {
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
     <>
-    <StatusBar backgroundColor={chosenTheme.backgroundContainer} />
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
         options={{
