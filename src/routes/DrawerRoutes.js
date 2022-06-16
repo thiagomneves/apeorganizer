@@ -5,7 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator } from './StackRoutes';
+import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator } from './StackRoutes';
 import CustomDrawer from '../shared/CustomDrawer';
 import {StyleSheet} from 'react-native';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -53,6 +53,28 @@ export default function DrawerRoutes() {
           name="Cartões de Crédito"
           component={CreditCardNavigator}
         />
+
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <MaterialCommunityIcons style={estilo.icon} name="clipboard-list-outline" color={color}/>
+            ),
+          }}
+          name="Orçamentos"
+          component={BudgetNavigator}
+          />
+
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <MaterialCommunityIcons style={estilo.icon} name="clipboard-list-outline" color={color}/>
+            ),
+          }}
+          name="Resumo Diário"
+          component={DailySummaryNavigator}
+          />
+
+
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (

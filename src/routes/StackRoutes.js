@@ -2,15 +2,17 @@ import React, { useContext } from 'react';
 import {StatusBar} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import Accounts from '../views/Accounts';
+import { ThemeContext } from '../contexts/ThemeContext';
+import ButtonDrawler from '../shared/ButtonDrawler';
 
 import Home from '../views/Home';
+import Accounts from '../views/Accounts';
 import CreditCards from '../views/CreditCards';
 import CardEditor from '../views/CreditCards/CardEditor';
 import AccountEditor from '../views/Accounts/AccountEditor';
-import ButtonDrawler from '../shared/ButtonDrawler';
+import Budgets from '../views/Budgets';
+import DailySummary from '../views/DailySummary';
 import Config from '../views/Config/index';
-import { ThemeContext } from '../contexts/ThemeContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,7 +30,7 @@ function HomeNavigator({navigation}) {
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
     <>
-      <StatusBar backgroundColor={chosenTheme.backgroundContainer} />
+      <StatusBar backgroundColor={chosenTheme.statusBar} />
       <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen
           options={{
@@ -82,6 +84,42 @@ function CreditCardNavigator({navigation}) {
   );
 }
 
+function BudgetNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Orçamentos',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="BudgetScreen"
+        component={Budgets}
+      />
+      <Stack.Screen name="Editor de Cartão" component={CardEditor} />
+    </Stack.Navigator>
+  );
+}
+
+function DailySummaryNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Resumo Diário',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="BudgetScreen"
+        component={DailySummary}
+      />
+      <Stack.Screen name="Editor de Cartão" component={CardEditor} />
+    </Stack.Navigator>
+  );
+}
+
 function ConfigNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
@@ -99,4 +137,4 @@ function ConfigNavigator({navigation}) {
   );
 }
 
-export {CreditCardNavigator, AccountNavigator, HomeNavigator, ConfigNavigator};
+export {CreditCardNavigator, AccountNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, ConfigNavigator};
