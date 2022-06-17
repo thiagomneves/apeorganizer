@@ -1,7 +1,10 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
+import { convertPriceForReal } from '../../util/functions';
+import { getTotalBalance } from '../../services/Accounts';
 
 import CardHeader from './Components/CardHeader';
 import Line from './Components/Line';
@@ -10,14 +13,26 @@ import BorderedText from './Components/BorderedText';
 
 export default function Home() {
   const {chosenTheme} = useContext(ThemeContext);
+  const [balance, setBalance] = useState(convertPriceForReal(0));
   const estilo = estilos(chosenTheme);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getData();
+  }, [isFocused]);
+
+  async function getData() {
+    const newBalance = await getTotalBalance();
+    if (!!newBalance.length) {
+      setBalance(convertPriceForReal(newBalance[0].balance))
+    }
+  }
 
   return (
     <ScrollView style={estilo.container}>
-      {/* <View style={estilo.container}> */}
         <View style={estilo.card}>
           <Text style={estilo.cardTitle}>Saldo de Contas</Text>
-          <BorderedText text="R$ 0,00" color={chosenTheme.green} />
+          <BorderedText text={balance} color={chosenTheme.green} />
         </View>
 
         <View style={estilo.card}>
@@ -76,7 +91,6 @@ export default function Home() {
         {/* <Text>
         Botão adicionar (transferência, receita, despesa, despesa no crédito)
       </Text> */}
-      {/* </View> */}
     </ScrollView>
   );
 }

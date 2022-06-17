@@ -52,6 +52,24 @@ export async function getAccounts() {
   });
 }
 
+export async function getTotalBalance() {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'SELECT SUM(balance) as balance from accounts;',
+        [],
+        (trans, results) => {
+          resolve(results.rows.raw());
+        },
+        (error) => {
+          console.log(error)
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
 export async function editAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
