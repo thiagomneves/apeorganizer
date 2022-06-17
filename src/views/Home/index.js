@@ -13,7 +13,7 @@ import BorderedText from './Components/BorderedText';
 
 export default function Home() {
   const {chosenTheme} = useContext(ThemeContext);
-  const [balance, setBalance] = useState(convertPriceForReal(0));
+  const [balance, setBalance] = useState(0);
   const estilo = estilos(chosenTheme);
   const isFocused = useIsFocused();
 
@@ -24,7 +24,7 @@ export default function Home() {
   async function getData() {
     const newBalance = await getTotalBalance();
     if (!!newBalance.length) {
-      setBalance(convertPriceForReal(newBalance[0].balance))
+      setBalance(newBalance[0].balance)
     }
   }
 
@@ -32,7 +32,7 @@ export default function Home() {
     <ScrollView style={estilo.container}>
         <View style={estilo.card}>
           <Text style={estilo.cardTitle}>Saldo de Contas</Text>
-          <BorderedText text={balance} color={chosenTheme.green} />
+          <BorderedText text={convertPriceForReal(balance)} color={balance >= 0 ? chosenTheme.green : chosenTheme.red} />
         </View>
 
         <View style={estilo.card}>
