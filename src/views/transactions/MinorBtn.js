@@ -14,7 +14,7 @@ export default function MinorBtn(props) {
 
   const transactionsNavigate = () => {
     setShowMinorBtn(false)
-    navigation.navigate(label)
+    navigation.navigate(label, {selectedTransaction: {}})
   }
 
   function Icon(icon) {

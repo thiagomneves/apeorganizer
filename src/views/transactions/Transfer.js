@@ -18,8 +18,8 @@ export default function Transfer({navigation }) {
   const [date, setDate] = useState("2022-06-17");
   const [accountTo, setAccountTo] = useState("");
   const route = useRoute()
-  const selectedTransaction = route.params?.selectedTransaction
-  const transactionToUpdate = (typeof selectedTransaction !== 'undefined' ? Object.keys(selectedTransaction).length > 0 : false);
+  const selectedTransaction = route.params.selectedTransaction
+  const transactionToUpdate = Object.keys(selectedTransaction).length > 0;
   
   useEffect(() => {
     showAccounts()
