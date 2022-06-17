@@ -5,6 +5,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { ThemeContext } from '../contexts/ThemeContext';
 import ButtonDrawler from '../shared/ButtonDrawler';
 
+import { CategoriesTopTabNavigator } from './TopTabRoutes';
+
 import Home from '../views/Home';
 import Accounts from '../views/Accounts';
 import CreditCards from '../views/CreditCards';
@@ -18,6 +20,7 @@ import Transfer from '../views/Transactions/Transfer';
 import Revenue from '../views/Transactions/Revenue';
 import Expense from '../views/Transactions/Expense';
 import CardExpense from '../views/Transactions/CardExpense';
+import CategorieEditor from '../views/Categories/CategoryEditor';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +33,7 @@ function makeScreenOptions(theme) {
   };
 }
 
-function HomeNavigator({navigation}) {
+export function HomeNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
@@ -50,7 +53,7 @@ function HomeNavigator({navigation}) {
   );
 }
 
-function AccountNavigator({navigation}) {
+export function AccountNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
@@ -70,7 +73,7 @@ function AccountNavigator({navigation}) {
   );
 }
 
-function CreditCardNavigator({navigation}) {
+export function CreditCardNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
@@ -87,7 +90,7 @@ function CreditCardNavigator({navigation}) {
     </Stack.Navigator>
   );
 }
-function TransactionsNavigator({navigation}) {
+export function TransactionsNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
@@ -107,7 +110,7 @@ function TransactionsNavigator({navigation}) {
     </Stack.Navigator>
   );
 }
-function BudgetNavigator({navigation}) {
+export function BudgetNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
@@ -125,7 +128,7 @@ function BudgetNavigator({navigation}) {
   );
 }
 
-function DailySummaryNavigator({navigation}) {
+export function DailySummaryNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
@@ -142,7 +145,25 @@ function DailySummaryNavigator({navigation}) {
   );
 }
 
-function ConfigNavigator({navigation}) {
+export function CategoriesNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Categorias',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="CategoriesTab"
+        component={CategoriesTopTabNavigator}
+      />
+      <Stack.Screen name="Editor de Categorias" component={CategorieEditor} />
+    </Stack.Navigator>
+  );
+}
+
+export function ConfigNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
   return (
@@ -159,4 +180,3 @@ function ConfigNavigator({navigation}) {
   );
 }
 
-export {CreditCardNavigator, AccountNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, ConfigNavigator, TransactionsNavigator};

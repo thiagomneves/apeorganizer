@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, TransactionsNavigator } from './StackRoutes';
+import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, TransactionsNavigator, CategoriesNavigator } from './StackRoutes';
 import CustomDrawer from '../shared/CustomDrawer';
 import {StyleSheet} from 'react-native';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -26,7 +26,7 @@ export default function DrawerRoutes() {
           drawerActiveTintColor: chosenTheme.activeColor,
           drawerInactiveTintColor: chosenTheme.text,
         }}
-        initialRouteName="Transações">
+        initialRouteName="Categorias">
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
@@ -82,6 +82,16 @@ export default function DrawerRoutes() {
           }}
           name="Resumo Diário"
           component={DailySummaryNavigator}
+          />
+
+        <Drawer.Screen
+          options={{
+            drawerIcon: ({color}) => (
+              <MaterialCommunityIcons style={estilo.icon} name="clipboard-list-outline" color={color}/>
+            ),
+          }}
+          name="Categorias"
+          component={CategoriesNavigator}
           />
 
 

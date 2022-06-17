@@ -1,6 +1,9 @@
+/* 
+ backgroundContent precisa ser no formato com 6 digitos ("#ffffff" não "#fff")
+*/
 const dark = {
   backgroundContainer: '#333',
-  backgroundContent: '#555',
+  backgroundContent: '#555555',
   headerTitle: '#aaa',
   red: '#f00',
   green: "#0f0",
@@ -25,7 +28,7 @@ const dark = {
 
 const light = {
   backgroundContainer: '#eee',
-  backgroundContent: '#fff',
+  backgroundContent: '#ffffff',
   headerTitle: '#333',
   red: '#a00',
   green: 'green',
