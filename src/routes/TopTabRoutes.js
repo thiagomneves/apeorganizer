@@ -23,7 +23,7 @@ export function CategoriesTopTabNavigator() {
   const screenOptions = makeScreenOptions(chosenTheme)
 
   return (
-    <Tab.Navigator tabBarOptions={{activeTintColor: '#e91e63'}} screenOptions={screenOptions}>
+    <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="Receitas" component={Revenues} />
       <Tab.Screen name="Despesas" component={Expenses} />
     </Tab.Navigator>

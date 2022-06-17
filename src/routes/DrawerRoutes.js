@@ -26,7 +26,7 @@ export default function DrawerRoutes() {
           drawerActiveTintColor: chosenTheme.activeColor,
           drawerInactiveTintColor: chosenTheme.text,
         }}
-        initialRouteName="Categorias">
+        initialRouteName="Home">
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
@@ -87,7 +87,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialCommunityIcons style={estilo.icon} name="clipboard-list-outline" color={color}/>
+              <MaterialIcons style={estilo.icon} name="category" color={color}/>
             ),
           }}
           name="Categorias"
