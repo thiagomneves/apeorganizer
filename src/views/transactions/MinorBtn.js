@@ -9,10 +9,11 @@ import { useNavigation } from '@react-navigation/native';
 export default function MinorBtn(props) {
   const {chosenTheme} = useContext(ThemeContext);
   const navigation = useNavigation();
-  const {color, label, icon} = {...props};
+  const {color, label, icon, setShowMinorBtn} = {...props};
   const estilo = estilos(chosenTheme);
 
   const transactionsNavigate = () => {
+    setShowMinorBtn(false)
     navigation.navigate(label)
   }
 

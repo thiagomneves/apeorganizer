@@ -7,11 +7,13 @@ import { ThemeProvider } from './src/contexts/ThemeContext';
 import DrawerRoutes from './src/routes/DrawerRoutes';
 import { createTableAccounts } from './src/services/Accounts';
 import { createTableCards } from './src/services/Cards';
+import { createTableTransactions } from './src/services/Transactions';
 
 function App() {
   useEffect(() => {
     createTableAccounts()
     createTableCards()
+    createTableTransactions()
   }, [])
 
   return (

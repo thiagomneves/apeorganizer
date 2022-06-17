@@ -4,9 +4,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 import MinorBtn from './MinorBtn';
-export default function BtnContainer() {
+export default function BtnContainer({editorTransferNavigate, showMinorBtn, setShowMinorBtn}) {
   const {chosenTheme} = useContext(ThemeContext);
-  const [showMinorBtn, setShowMinorBtn] = useState(false);
+
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
 
@@ -15,10 +15,10 @@ export default function BtnContainer() {
     <TouchableOpacity onPress={() => setShowMinorBtn(false)} activeOpacity={1} style={showMinorBtn ? estilo.btnContainerOpened : estilo.btnContainer}>
       <View style={estilo.btnContent}>
         <View style={estilo.minorBtnContainer}>
-          <MinorBtn label="Transferência" color={chosenTheme.purple} icon={{lib: 'Octicons', name: 'arrow-switch'}}/>
-          <MinorBtn label="Receita" color={chosenTheme.green} icon={{lib: 'MaterialIcons', name: 'trending-up'}}/>
-          <MinorBtn label="Despesa" color={chosenTheme.red} icon={{lib: 'MaterialIcons', name: 'trending-down'}}/>
-          <MinorBtn label="Despesa no Crédito" color={chosenTheme.orange} icon={{lib: 'MaterialIcons', name: 'credit-card'}}/>
+          <MinorBtn transactionsNavigate={editorTransferNavigate} label="Transferência" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.purple} icon={{lib: 'Octicons', name: 'arrow-switch'}}/>
+          <MinorBtn transactionsNavigate={() => console.log('Receita')} label="Receita" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.green} icon={{lib: 'MaterialIcons', name: 'trending-up'}}/>
+          <MinorBtn transactionsNavigate={() => console.log('Despesa')} label="Despesa" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.red} icon={{lib: 'MaterialIcons', name: 'trending-down'}}/>
+          <MinorBtn transactionsNavigate={() => console.log('Despesa no Crédito')} label="Despesa no Crédito" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.orange} icon={{lib: 'MaterialIcons', name: 'credit-card'}}/>
         </View>
         <TouchableOpacity onPress={() => setShowMinorBtn(!showMinorBtn)} style={estilo.addBtnContainer}>
           <MaterialIcons style={estilo.addBtnIcon} name={showMinorBtn ? 'close' : 'add'}/>
