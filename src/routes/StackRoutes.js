@@ -27,7 +27,7 @@ const Stack = createNativeStackNavigator();
 function makeScreenOptions(theme) {
   return {
     headerStyle: {
-      backgroundColor: theme.backgroundContainer,
+      backgroundColor: theme.headerBackground,
     },
     headerTintColor: theme.headerTitle,
   };

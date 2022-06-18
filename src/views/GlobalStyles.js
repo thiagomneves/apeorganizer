@@ -4,6 +4,7 @@
 const dark = {
   backgroundContainer: '#333',
   backgroundContent: '#555555',
+  headerBackground: '#333',
   headerTitle: '#aaa',
   red: '#f00',
   green: "#0f0",
@@ -29,7 +30,8 @@ const dark = {
 const light = {
   backgroundContainer: '#eee',
   backgroundContent: '#ffffff',
-  headerTitle: '#333',
+  headerBackground: '#070',
+  headerTitle: '#fff',
   red: '#a00',
   green: 'green',
   orange: '#f70',
