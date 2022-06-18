@@ -13,7 +13,7 @@ function makeScreenOptions(theme) {
       color: theme.headerTitle,
     },
     tabBarStyle: { 
-      backgroundColor: theme.backgroundContainer,
+      backgroundColor: theme.headerBackground,
     },
   };
 }

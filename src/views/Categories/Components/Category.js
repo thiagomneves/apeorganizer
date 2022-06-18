@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ThemeContext } from '../../contexts/ThemeContext';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 
 export default function Category({item, selectedCategory, setSelectedCategory, editorNavigate}) {
   const {color, title } = {...item}

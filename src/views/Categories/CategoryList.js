@@ -4,7 +4,7 @@ import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native"
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { getCategories, getCategoriesByType } from "../../services/Categories";
-import Category from "./Category";
+import Category from "./Components/Category";
 
 export default function CategoryList({type}) {
   const {chosenTheme} = useContext(ThemeContext);

@@ -2,9 +2,10 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import ColorPicker from 'react-native-wheel-color-picker';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import {ThemeContext} from '../../contexts/ThemeContext';
 import { addCategory, editCategory, removeCategory } from '../../services/Categories';
+import CategoryRadio from './Components/CategoryRadio'
 
 export default function CategoryEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
@@ -56,15 +57,7 @@ export default function CategoryEditor({navigation }) {
       setType(selectedCategory.type)
     }
   }
-  function Radio(props) {
-    const {type, setType, name, title} = props
-    return (
-        <TouchableOpacity style={estilo.radioContent} activeOpacity={1} onPress={() => setType(name)}>
-          <MaterialIcons style={estilo.radioBtn} name={type == name ? 'radio-button-on' : 'radio-button-off'} />
-          <Text style={estilo.radioLabel}>{title}</Text>
-        </TouchableOpacity>
-      )
-  }
+
   return (
     <ScrollView style={estilo.container}>
       <TextInput style={estilo.input}
@@ -80,8 +73,8 @@ export default function CategoryEditor({navigation }) {
         />
       </View>
       <View style={estilo.radioContainer}>
-        <Radio type={type} name="revenue" title="Receita" setType={setType}/>
-        <Radio type={type} name="expense" title="Despesa" setType={setType}/>
+        <CategoryRadio type={type} name="expense" title="Despesa" setType={setType}/>
+        <CategoryRadio type={type} name="revenue" title="Receita" setType={setType}/>
       </View>
       <TouchableOpacity onPress={() => categoryToUpdate ? updateCategory() : saveCategory()}>
         <Text style={estilo.btnSalvar}>Salvar</Text>
@@ -108,24 +101,7 @@ const estilos = theme => {
     colorContainer: {
       height: 250,
     },
-    radioContainer: {
-      flexDirection: 'row',
-      backgroundColor: theme.backgroundContent,
-    },
-    radioContent: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: 10,
-    },
-    radioBtn: {
-      color: theme.text,
-      fontSize: 18,
-      paddingRight: 5,
-    },
-    radioLabel: {
-      color: theme.text,
-      fontSize: 18,
-    },
+
     btnSalvar: {
       backgroundColor: theme.green,
       padding: 10,
@@ -144,6 +120,10 @@ const estilos = theme => {
       lineHeight: 26,
       color: theme.btnText,
       textAlign: 'center',
+    },
+    radioContainer: {
+      flexDirection: 'row',
+      backgroundColor: theme.backgroundContent,
     },
   })
 }

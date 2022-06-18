@@ -5,8 +5,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { ThemeContext } from '../contexts/ThemeContext';
 import ButtonDrawler from '../shared/ButtonDrawler';
 
-import { CategoriesTopTabNavigator } from './TopTabRoutes';
-
 import Home from '../views/Home';
 import Accounts from '../views/Accounts';
 import CreditCards from '../views/CreditCards';
@@ -21,6 +19,7 @@ import Revenue from '../views/Transactions/Revenue';
 import Expense from '../views/Transactions/Expense';
 import CardExpense from '../views/Transactions/CardExpense';
 import CategorieEditor from '../views/Categories/CategoryEditor';
+import Categories from '../views/Categories';
 
 const Stack = createNativeStackNavigator();
 
@@ -164,7 +163,7 @@ export function CategoriesNavigator({navigation}) {
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
         }}
         name="CategoriesTab"
-        component={CategoriesTopTabNavigator}
+        component={Categories}
       />
       <Stack.Screen name="Editor de Categorias" component={CategorieEditor} />
     </Stack.Navigator>
