@@ -42,6 +42,7 @@ export default function Home({ navigation }) {
             title="Gastos de hoje"
             value="R$ 0,00"
             color={chosenTheme.red}
+            navigate
           />
         </View>
         <View style={estilo.card}>

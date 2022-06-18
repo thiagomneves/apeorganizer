@@ -48,7 +48,11 @@ export function HomeNavigator({navigation}) {
           name="HomeScreen"
           component={Home}
           />
-          <Stack.Screen 
+        <Stack.Screen
+          options={{headerTitle: 'Resumo Diário'}}
+          name="BudgetHomeScreen"
+          component={DailySummary} />
+        <Stack.Screen 
           options={{headerTitle: 'Transações'}}
           name="TransactionsHomeScreen" 
           component={Transactions} />

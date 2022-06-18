@@ -1,16 +1,24 @@
 import React, { useContext } from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
-export default function Line({title, value, color}) {
+export default function Line({title, value, color, navigate}) {
   const {chosenTheme} = useContext(ThemeContext);
+  const navigation = useNavigation();
   const estilo = estilos({theme: chosenTheme, color});
 
+  function onPress() {
+    if (navigate) {
+      navigation.navigate("BudgetHomeScreen");
+    }
+  }
+
   return (
-    <View style={estilo.row}>
+    <TouchableOpacity onPress={onPress} activeOpacity={1} style={estilo.row}>
       <Text style={estilo.cardText}>{title}</Text>
       <Text style={[estilo.cardText, estilo.value]}>{value}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 const estilos = ({theme, color}) => {
