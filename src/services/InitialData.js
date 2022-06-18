@@ -1,6 +1,6 @@
 import { addCategory } from "./Categories";
 
-function initialData() {
+export default function initialData() {
   initialCategories();
 }
 
