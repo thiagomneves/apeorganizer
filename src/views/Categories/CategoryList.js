@@ -16,8 +16,10 @@ export default function CategoryList({type}) {
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    showCategories();
-      }, [isFocused]);
+    if (isFocused) {
+      showCategories();
+    }
+  }, [isFocused]);
   
   async function showCategories() {
     const filteredCategories = await getCategoriesByType({type: type});

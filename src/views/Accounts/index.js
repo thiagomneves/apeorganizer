@@ -16,7 +16,9 @@ export default function Accounts() {
   const isFocused = useIsFocused()
   
   useEffect(() => {
-    showAccounts();
+    if (isFocused) {
+      showAccounts();
+    }
   }, [isFocused]);
 
   const editorNavigate = () => {

@@ -16,7 +16,9 @@ export default function CreditCards() {
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    showCards();
+    if (isFocused) {
+      showCards();
+    }
   }, [isFocused]);
 
   async function showCards() {
