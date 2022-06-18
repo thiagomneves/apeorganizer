@@ -48,6 +48,10 @@ export function HomeNavigator({navigation}) {
           name="HomeScreen"
           component={Home}
           />
+          <Stack.Screen 
+          options={{headerTitle: 'Transações'}}
+          name="TransactionsHomeScreen" 
+          component={Transactions} />
       </Stack.Navigator>
     </>
   );

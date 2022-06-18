@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 
 import { ThemeContext } from '../../contexts/ThemeContext';
 import BtnContainer from './BtnContainer';
@@ -14,10 +14,13 @@ export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState({});
   const [showMinorBtn, setShowMinorBtn] = useState(false);
+  const route = useRoute();
   const isFocused = useIsFocused();
   const estilo = estilos({theme: chosenTheme});
   useEffect(() => {
-    showTransactions();
+    if (isFocused) {
+      showTransactions();
+    }
   }, [isFocused]);
 
   async function showTransactions() {

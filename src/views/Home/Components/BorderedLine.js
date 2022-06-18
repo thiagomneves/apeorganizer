@@ -1,19 +1,27 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
-export default function BorderedLine({title, value, color, description}) {
+export default function BorderedLine({title, value, color, description, navigate}) {
   const {chosenTheme} = useContext(ThemeContext);
+  const navigation = useNavigation();
   const estilo = estilos({theme: chosenTheme, color});
 
+  function onPress() {
+    if (navigate) {
+      navigation.navigate('TransactionsHomeScreen', {filter: title})
+    }
+  }
+  
   return (
-    <>
+    <TouchableOpacity onPress={onPress} activeOpacity={1}>
       <View style={[estilo.row, estilo.border]}>
         <Text style={estilo.cardText}>{title}</Text>
         <Text style={[estilo.cardText, estilo.value]}>{value}</Text>
       </View>
       {!!description ? <Text style={estilo.description}>{description}</Text> : false}
-    </>
+    </TouchableOpacity>
   );
 }
 

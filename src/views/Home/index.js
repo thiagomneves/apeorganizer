@@ -11,14 +11,16 @@ import Line from './Components/Line';
 import BorderedLine from './Components/BorderedLine';
 import BorderedText from './Components/BorderedText';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const [balance, setBalance] = useState(0);
   const estilo = estilos(chosenTheme);
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    getData();
+    if(isFocused) {
+      getData();
+    }
   }, [isFocused]);
 
   async function getData() {
@@ -48,16 +50,19 @@ export default function Home() {
             title="Receitas"
             value="R$ 0,00"
             color={chosenTheme.green}
+            navigate
           />
           <BorderedLine
             title="Despesas"
             value="R$ 0,00"
             color={chosenTheme.red}
+            navigate
           />
           <BorderedLine
             title="Despesas no crédito"
             value="R$ 0,00"
             color={chosenTheme.orange}
+            navigate
           />
         </View>
         <View style={estilo.card}>
@@ -67,12 +72,14 @@ export default function Home() {
             value="R$ 0,00"
             color={chosenTheme.blue}
             description="Total desse mês e dos anteriores"
+            navigate
           />
           <BorderedLine
             title="Despesas pendentes"
             value="R$ 0,00"
             color={chosenTheme.orange}
             description="Total desse mês e dos anteriores"
+            navigate
           />
           <BorderedLine
             title="Faturas do cartão"
