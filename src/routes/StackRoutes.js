@@ -21,6 +21,7 @@ import CardExpense from '../views/Transactions/CardExpense';
 import CategorieEditor from '../views/Categories/CategoryEditor';
 import Categories from '../views/Categories';
 import BudgetEditor from '../views/Budgets/BudgetEditor';
+import ArchiveBtn from '../shared/ArchiveBtn';
 
 const Stack = createNativeStackNavigator();
 
@@ -75,7 +76,12 @@ export function AccountNavigator({navigation}) {
         name="ContasScreen"
         component={Accounts}
       />
-      <Stack.Screen name="Editor de Contas" component={AccountEditor} />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <ArchiveBtn />,
+        }}
+        name="Editor de Contas" 
+        component={AccountEditor} />
     </Stack.Navigator>
     </>
   );

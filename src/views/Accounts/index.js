@@ -3,7 +3,7 @@ import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { ThemeContext } from '../../contexts/ThemeContext';
-import {getAccounts, getTotalBalance} from '../../services/Accounts';
+import {getTotalBalance, getUnarchivedAccounts} from '../../services/Accounts';
 import Account from './Account';
 
 export default function Accounts() {
@@ -33,8 +33,8 @@ export default function Accounts() {
   }
 
   async function showAccounts() {
-    const allAccounts = await getAccounts();
-    setSelectedAccount({})
+    const allAccounts = await getUnarchivedAccounts();
+    setSelectedAccount({});
     setAccounts(allAccounts);
   }
 

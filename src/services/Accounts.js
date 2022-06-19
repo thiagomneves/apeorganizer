@@ -52,6 +52,42 @@ export async function getAccounts() {
   });
 }
 
+export async function getAccount(account) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'SELECT * from accounts WHERE id = ?;',
+        [account.id],
+        (trans, results) => {
+          resolve(results.rows.raw()[0]);
+        },
+        (error) => {
+          console.log(error)
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
+export async function getUnarchivedAccounts() {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'SELECT * from accounts WHERE archive = 0;',
+        [],
+        (trans, results) => {
+          resolve(results.rows.raw());
+        },
+        (error) => {
+          console.log(error)
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
 export async function getTotalBalance() {
   return new Promise(resolve => {
     db.transaction(transaction => {
@@ -78,6 +114,24 @@ export async function editAccount(account) {
         [account.title, account.color, account.balance, account.sumtotal, account.id],
         (trans, results) => {
           console.log(account)
+          resolve("Conta atualizada com sucesso");
+        },
+        (error) => {
+          console.log(error)
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
+export async function setArchiveAccount(account) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'UPDATE accounts SET archive = ? WHERE id = ?;',
+        [account.archive, account.id],
+        (trans, results) => {
           resolve("Conta atualizada com sucesso");
         },
         (error) => {
