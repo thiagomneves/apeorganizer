@@ -5,19 +5,21 @@ import ColorPicker from 'react-native-wheel-color-picker';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import { addAccount, editAccount, removeAccount } from '../../services/Accounts';
+import CheckBox from './Components/CheckBox';
 
 export default function AccountEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const estilo = estilos(chosenTheme);
-  const [title, setTitle] = useState('')
-  const [color, setColor] = useState('#070')
-  const [balance, setBalance] = useState(0)
-  const route = useRoute()
-  const selectedAccount = route.params.selectedAccount
-  const accountToUpdate = Object.keys(selectedAccount).length > 0
+  const [title, setTitle] = useState('');
+  const [color, setColor] = useState('#070');
+  const [balance, setBalance] = useState(0);
+  const [sumTotal, setSumTotal] = useState(true);
+  const route = useRoute();
+  const selectedAccount = route.params.selectedAccount;
+  const accountToUpdate = Object.keys(selectedAccount).length > 0;
 
   useEffect(() => {
-    fillEditor()
+    fillEditor();
   }, [selectedAccount])
 
   async function saveAccount() {
@@ -25,9 +27,11 @@ export default function AccountEditor({navigation }) {
       title: title,
       color: color, 
       balance: balance,
+      sumtotal: sumTotal,
+      archive: false,
     }
-    await addAccount(oneAccount)
-    navigation.goBack()
+    await addAccount(oneAccount);
+    navigation.goBack();
   }
 
   async function updateAccount() {
@@ -35,10 +39,11 @@ export default function AccountEditor({navigation }) {
       title: title,
       color: color, 
       balance: balance,
+      sumtotal: sumTotal,
       id: selectedAccount.id,
     }
-    await editAccount(oneAccount)
-    navigation.goBack()
+    await editAccount(oneAccount);
+    navigation.goBack();
 
   }
 
@@ -49,16 +54,17 @@ export default function AccountEditor({navigation }) {
       balance: balance,
       id: selectedAccount.id,
     }
-    await removeAccount(oneAccount)
-    navigation.goBack()
+    await removeAccount(oneAccount);
+    navigation.goBack();
 
   }
 
   function fillEditor() {
     if (accountToUpdate) {
-      setTitle(selectedAccount.title)
-      setColor(selectedAccount.color)
-      setBalance(selectedAccount.balance)
+      setTitle(selectedAccount.title);
+      setColor(selectedAccount.color);
+      setBalance(selectedAccount.balance);
+      setSumTotal(!!selectedAccount.sumtotal);
     }
   }
 
@@ -81,6 +87,7 @@ export default function AccountEditor({navigation }) {
         placeholder="Saldo"
         value={balance.toString()}
       />
+      <CheckBox label="Somar ao total da tela inicial" sumTotal={sumTotal} setSumTotal={setSumTotal}/>
       <TouchableOpacity onPress={() => accountToUpdate ? updateAccount() : saveAccount()}>
         <Text style={estilo.btnSalvar}>Salvar</Text>
       </TouchableOpacity>
@@ -116,6 +123,7 @@ const estilos = theme => {
       lineHeight: 26,
       color: theme.btnText,
       textAlign: 'center',
+      marginTop: 30,
     },
     btnApagar: {
       marginTop: 10,

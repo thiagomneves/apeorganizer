@@ -21,8 +21,8 @@ export async function addAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'INSERT INTO accounts (title, color, balance) VALUES (?, ?, ?);',
-        [account.title, account.color, account.balance],
+        'INSERT INTO accounts (title, color, balance, sumtotal, archive) VALUES (?, ?, ?, ?, ?);',
+        [account.title, account.color, account.balance, account.sumtotal, account.archive],
         (trans, results) => {
           resolve("Conta adicionada com sucesso");
         },
@@ -56,7 +56,7 @@ export async function getTotalBalance() {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT SUM(balance) as balance from accounts;',
+        'SELECT SUM(balance) as balance from accounts WHERE archive = 0;',
         [],
         (trans, results) => {
           resolve(results.rows.raw());
@@ -74,12 +74,14 @@ export async function editAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'UPDATE accounts SET title = ?, color = ?, balance = ? WHERE id = ?;',
-        [account.title, account.color, account.balance, account.id],
+        'UPDATE accounts SET title = ?, color = ?, balance = ?, sumtotal = ? WHERE id = ?;',
+        [account.title, account.color, account.balance, account.sumtotal, account.id],
         (trans, results) => {
+          console.log(account)
           resolve("Conta atualizada com sucesso");
         },
         (error) => {
+          console.log(error)
           reject(error)
         }
       );
