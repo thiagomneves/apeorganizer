@@ -5,7 +5,7 @@ export function createTableAccounts() {
     txn.executeSql(
       'CREATE TABLE IF NOT EXISTS ' +
         'accounts ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, balance FLOAT);',
+        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, balance FLOAT, sumtotal FLOAT);',
       [],
       (sqlTxn, res) => {
         console.log('table accounts created successfully');
