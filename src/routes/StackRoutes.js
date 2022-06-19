@@ -22,6 +22,8 @@ import CategorieEditor from '../views/Categories/CategoryEditor';
 import Categories from '../views/Categories';
 import BudgetEditor from '../views/Budgets/BudgetEditor';
 import ArchiveBtn from '../shared/ArchiveBtn';
+import Archived from '../components/shared/Archived';
+import AccountsArchived from '../views/Accounts/AccountsArchived';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,9 +74,15 @@ export function AccountNavigator({navigation}) {
         options={{
           headerTitle: 'Contas',
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+          headerRight: () => <Archived onPress={() => navigation.navigate('AccountsArchived')}/>,
         }}
-        name="ContasScreen"
+        name="Accounts"
         component={Accounts}
+      />
+      <Stack.Screen 
+      options={{headerTitle: "Contas Arquivadas"}}
+      name="AccountsArchived"
+      component={AccountsArchived}
       />
       <Stack.Screen 
         options={{

@@ -1,32 +1,54 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from '../contexts/ThemeContext';
-import { getAccount, getAccounts, setArchiveAccount } from '../services/Accounts';
+import { setArchiveAccount } from '../services/Accounts';
 
 export default function ArchiveBtn(props) {
   const {chosenTheme} = useContext(ThemeContext);
+  const navigation = useNavigation();
   const route = useRoute()
   const selectedAccount = route.params.selectedAccount;
   const accountToArchive = !!Object.keys(selectedAccount).length
-  const [archive, setArchive] = useState(selectedAccount.archive)
+  const [archive, setArchive] = useState(!!selectedAccount.archive)
 
   useEffect(() => {
-    archiveAccount()
+    if (archive) {
+      archiveAccount();
+    }
   },[archive])
+
+  function archiveConfirm() {
+    Alert.alert(
+      "Arquivar conta?",
+      `Tem certeza que deseja arquivar a conta ${selectedAccount.title}?`,
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            setArchive(true)
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   function archiveAccount() {
     const account = {
       id: selectedAccount.id,
       archive: archive
     }
-    setArchiveAccount(account)
+    setArchiveAccount(account);
+    navigation.goBack();
   }
   const estilo = estilos(chosenTheme)
   return (
     <View style={{display: accountToArchive ? 'flex' : 'none'}}>
-      <MaterialIcon onPress={() => setArchive(!archive)} style={estilo.icon} {...props} name="archive"/>
+      <MaterialIcon onPress={archiveConfirm} style={estilo.icon} {...props} name="archive"/>
     </View>
   );
 }

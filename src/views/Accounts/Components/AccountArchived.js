@@ -1,27 +1,43 @@
-import React, { useContext, useEffect } from 'react';
-import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { ThemeContext } from '../../contexts/ThemeContext';
+import React, { useContext } from 'react';
+import {Alert, Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { setArchiveAccount } from '../../../services/Accounts';
+import { convertPriceForReal } from '../../../util/functions';
 
-import { convertPriceForReal } from '../../util/functions'
-
-export default function Account({item, selectedAccount, setSelectedAccount, editorNavigate}) {
+export default function AccountArchived({item, unarchive, setunarchive}) {
   const {title, balance, color} = {...item}
   const {chosenTheme} = useContext(ThemeContext);
-  const newColor = !!color ? color : '#0b8';
   const windowWidth = Dimensions.get('window').width;
-  const estilo = estilos({theme: chosenTheme, color: newColor, windowWidth, balance});
-  useEffect(() => {
-    if (Object.keys(selectedAccount).length > 0) {
-      editorNavigate()
-    }
-  }, [selectedAccount])
+  const estilo = estilos({theme: chosenTheme, color, windowWidth, balance});
 
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      "Desarquivar?",
+      `Tem certeza que deseja desarquivar a conta ${title}?`,
+      [
+        {
+          text: "Sim",
+          onPress: () => {
+            unarchiveAccount();
+          },
+        },
+        {
+          text: "Não",
+        },
+      ]
+    );
+  };
+
+  function unarchiveAccount() {
+    const account = {
+      id: item.id,
+      archive: false
+    }
+    setArchiveAccount(account);
+    setunarchive(item);
+  }
   return (
-    <TouchableOpacity 
-      onPress={() => {
-        setSelectedAccount(item);
-      }}
-      style={estilo.container}>
+    <TouchableOpacity onPress={showConfirmDialog} style={estilo.container}>
       <Text style={estilo.icon}></Text>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>

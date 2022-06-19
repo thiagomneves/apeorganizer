@@ -70,12 +70,12 @@ export async function getAccount(account) {
   });
 }
 
-export async function getUnarchivedAccounts() {
+export async function getAccountsByArchive(archive) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT * from accounts WHERE archive = 0;',
-        [],
+        'SELECT * from accounts WHERE archive = ?;',
+        [archive],
         (trans, results) => {
           resolve(results.rows.raw());
         },
