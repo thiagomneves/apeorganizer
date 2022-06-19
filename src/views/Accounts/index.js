@@ -29,7 +29,7 @@ export default function Accounts() {
   
   async function getTotal() {
     const newTotal = await getTotalBalance();
-    setTotal(newTotal[0].balance);
+    if (newTotal[0].balance) setTotal(newTotal[0].balance);
   }
 
   async function showAccounts() {
