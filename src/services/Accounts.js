@@ -113,7 +113,6 @@ export async function editAccount(account) {
         'UPDATE accounts SET title = ?, color = ?, balance = ?, sumtotal = ? WHERE id = ?;',
         [account.title, account.color, account.balance, account.sumtotal, account.id],
         (trans, results) => {
-          console.log(account)
           resolve("Conta atualizada com sucesso");
         },
         (error) => {
