@@ -1,18 +1,25 @@
-import React, { useContext } from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
 import {convertPriceForReal} from '../../../util/functions';
 
-export default function Budget({title, budget, spent, color}) {
+export default function Budget({item, selectedBudget, setSelectedBudget, editorNavigate}) {
+  const {title, color} = item;
+  const budget = item.value;
   const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;
+  const spent = !!item.spent ? item.spent : 0;
   const spentPercent = Math.round((spent / budget) * 100);
   const spentDecimal = spent / budget;
   const estilo = estilos({theme: chosenTheme, color, windowWidth, spentDecimal});
-
+  useEffect(() => {
+    if (Object.keys(selectedBudget).length > 0) {
+      editorNavigate()
+    }
+  }, [selectedBudget])
   return (
-    <View style={estilo.container}>
+    <TouchableOpacity onPress={() => setSelectedBudget(item)} style={estilo.container}>
       <View style={estilo.content}>
         <View style={estilo.line}>
           <Text style={estilo.title}>{title}</Text>
@@ -26,7 +33,7 @@ export default function Budget({title, budget, spent, color}) {
           <Text style={estilo.small}>{convertPriceForReal(budget - spent)}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -45,7 +52,7 @@ const estilos = ({theme, color, windowWidth, spentDecimal}) => {
     content: {
       paddingLeft: padding,
       borderLeftWidth: 3,
-      borderColor: theme[color],
+      borderColor: color,
     },
     line: {
       flexDirection: 'row',

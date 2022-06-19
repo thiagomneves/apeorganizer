@@ -20,6 +20,7 @@ import Expense from '../views/Transactions/Expense';
 import CardExpense from '../views/Transactions/CardExpense';
 import CategorieEditor from '../views/Categories/CategoryEditor';
 import Categories from '../views/Categories';
+import BudgetEditor from '../views/Budgets/BudgetEditor';
 
 const Stack = createNativeStackNavigator();
 
@@ -130,7 +131,7 @@ export function BudgetNavigator({navigation}) {
         name="BudgetScreen"
         component={Budgets}
       />
-      <Stack.Screen name="Editor de Cartão" component={CardEditor} />
+      <Stack.Screen name="Editor de Orçamentos" component={BudgetEditor} />
     </Stack.Navigator>
   );
 }

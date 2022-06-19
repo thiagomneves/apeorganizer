@@ -70,6 +70,27 @@ export async function getCategoriesByType(category) {
   });
 }
 
+export async function getExpenseCategoriesWithoutBudget() {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'SELECT c.* from categories c ' +
+        'LEFT JOIN budgets b ON c.id = b.category ' +
+         'WHERE c.type = "expense" ' + 
+         'AND b.category IS NULL;',
+        [],
+        (trans, results) => {
+          resolve(results.rows.raw());
+        },
+        (error) => {
+          console.log(error)
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
 export async function editCategory(category) {
   return new Promise(resolve => {
     db.transaction(transaction => {

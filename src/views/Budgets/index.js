@@ -1,13 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import Header from './Components/Header';
 
 import Budget from './Components/Budget';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import AddBudgetBtn from './Components/AddBudgetBtn';
+import { getBudgets } from '../../services/Budgets';
 
 export default function Budgets() {
   const {chosenTheme} = useContext(ThemeContext);
+  const navigation = useNavigation();
+  const [budgets, setBudgets] = useState([]);
+  const isFocused = useIsFocused();
+  const [selectedBudget, setSelectedBudget] = useState({});
   const estilo = estilos(chosenTheme)
+  useEffect(() => {
+    if (isFocused) {
+      showBudgets()
+    }
+  },[isFocused])
+
+
+  async function showBudgets() {
+    const budgetList = await getBudgets()
+    setSelectedBudget({})
+    setBudgets(budgetList)
+  }
+  const editorNavigate = () => {
+    navigation.navigate('Editor de Orçamentos', {selectedBudget});
+  }
+  const renderItem = (item) => (
+    <Budget key={item.id} item={item} selectedBudget={selectedBudget} setSelectedBudget={setSelectedBudget} editorNavigate={editorNavigate}/>
+  )
   return (
     <>
       <Header/>
@@ -19,9 +44,9 @@ export default function Budgets() {
           <Text>Previsto R$2.140,00</Text>
           <Text>Excedeu R$140,00</Text>
         </View>
-        <Budget title="Alimentação" budget="700" spent="250" color="red"/>
-        <Budget title="Transporte" budget="300" spent="250" color="orange"/>
+        {!!budgets && budgets.map(item => renderItem(item))}
       </View>
+      <AddBudgetBtn onPress={editorNavigate}/>
     </>
   );
 }
