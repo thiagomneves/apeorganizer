@@ -92,7 +92,7 @@ export async function getTotalBalance() {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT SUM(balance) as balance from accounts WHERE archive = 0;',
+        'SELECT SUM(balance) as balance from accounts WHERE archive = 0 AND sumtotal = 1;',
         [],
         (trans, results) => {
           resolve(results.rows.raw());
