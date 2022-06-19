@@ -3,7 +3,8 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
-export default function Category({item, selectedCategory, setSelectedCategory, editorNavigate}) {
+export default function Category(props) {
+  const {item, selectedCategory, setSelectedCategory, editorNavigate} = props
   const {color, title } = {...item}
   const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;

@@ -1,17 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { FlatList, StyleSheet, View } from "react-native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { getCategories, getCategoriesByType } from "../../services/Categories";
+import { getCategoriesByType } from "../../services/Categories";
 import Category from "./Components/Category";
 
-export default function CategoryList({type}) {
+export default function CategoryList(props) {
+  const {type} = props;
   const {chosenTheme} = useContext(ThemeContext);
   const navigation = useNavigation();
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState();
   const [selectedCategory, setSelectedCategory] = useState({});
-  const route = useRoute()
   const estilo = estilos(chosenTheme);
   const isFocused = useIsFocused()
 
@@ -19,8 +18,8 @@ export default function CategoryList({type}) {
     if (isFocused) {
       showCategories();
     }
-  }, [isFocused]);
-  
+  }, []);
+
   async function showCategories() {
     const filteredCategories = await getCategoriesByType({type: type});
     setSelectedCategory({})
@@ -31,8 +30,9 @@ export default function CategoryList({type}) {
     navigation.navigate('Editor de Categorias', {selectedCategory, tabType: type});
   }
 
-  const renderItem = ({item}) => (
-    <Category item={item}
+  const renderItem = (props) => (
+    <Category 
+      {...props}
       selectedCategory={selectedCategory}
       setSelectedCategory={setSelectedCategory}
       editorNavigate={editorNavigate}
@@ -43,10 +43,6 @@ export default function CategoryList({type}) {
       data={categories}
       renderItem={ renderItem }
       keyExtractor={item => item.id} />
-
-    <TouchableOpacity onPress={item => editorNavigate(item)} style={estilo.addBtn}>
-      <MaterialIcons style={estilo.addBtnIcon} name="add"/>
-    </TouchableOpacity>
   </View>
 }
 const estilos = theme => {
@@ -55,20 +51,5 @@ const estilos = theme => {
       backgroundColor: theme.backgroundContainer,
       flex: 1,
     },
-    addBtn: {
-      position: 'absolute',
-      bottom: 10,
-      right: 10,
-      backgroundColor: 'blue',
-      width: 50,
-      height: 50,
-      borderRadius: 40,
-      justifyContent: 'center',
-      alignItems: "center",
-    },
-    addBtnIcon: {
-      color: theme.white,
-      fontSize: 22,
-    }
   })
 }
