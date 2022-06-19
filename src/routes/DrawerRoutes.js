@@ -26,7 +26,7 @@ export default function DrawerRoutes() {
           drawerActiveTintColor: chosenTheme.activeColor,
           drawerInactiveTintColor: chosenTheme.text,
         }}
-        initialRouteName="Home">
+        initialRouteName="Visão Geral">
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
