@@ -5,7 +5,7 @@ export function createTableCategories() {
     txn.executeSql(
       'CREATE TABLE IF NOT EXISTS ' +
         'categories ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, type TEXT);',
+        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, type TEXT, archive BOOLEAN);',
       [],
       (sqlTxn, res) => {
         console.log('table categories created successfully');
