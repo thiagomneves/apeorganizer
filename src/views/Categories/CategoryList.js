@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { getCategoriesByType } from "../../services/Categories";
@@ -18,7 +18,7 @@ export default function CategoryList(props) {
     if (isFocused) {
       showCategories();
     }
-  }, []);
+  }, [isFocused]);
 
   async function showCategories() {
     const filteredCategories = await getCategoriesByType({type: type});
