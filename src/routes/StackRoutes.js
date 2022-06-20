@@ -24,6 +24,7 @@ import BudgetEditor from '../views/Budgets/BudgetEditor';
 import ArchiveBtn from '../shared/ArchiveBtn';
 import Archived from '../components/shared/Archived';
 import AccountsArchived from '../views/Accounts/AccountsArchived';
+import Save from '../components/shared/Save';
 
 const Stack = createNativeStackNavigator();
 
@@ -108,8 +109,16 @@ export function CreditCardNavigator({navigation}) {
         name="CartãoScreen"
         component={CreditCards}
       />
-      <Stack.Screen name="Editar Cartão" component={CardEditor} />
-      <Stack.Screen name="Novo Cartão" component={CardEditor} />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <Save />,
+        }}
+        name="Editar Cartão" component={CardEditor} />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <Save />,
+        }}
+        name="Novo Cartão" component={CardEditor} />
     </Stack.Navigator>
   );
 }

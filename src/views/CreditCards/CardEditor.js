@@ -7,9 +7,11 @@ import ColorPicker from 'react-native-wheel-color-picker'
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { addCard, editCard, removeCard } from '../../services/Cards';
 import FlagPicker, { FlagModal } from './Components/FlagPicker';
+import { SaveContext } from '../../contexts/SaveContext';
 
 export default function CardEditor({navigation }) {
-  const {chosenTheme} = useContext(ThemeContext);
+  const {save, setSave} = useContext(SaveContext);
+  const {chosenTheme, currentTheme} = useContext(ThemeContext);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#070');
   const [cardLimit, setCardLimit] = useState(0);
@@ -21,9 +23,15 @@ export default function CardEditor({navigation }) {
 
   useEffect(() => {
     fillEditor()
-  }, [selectedCard])
+    if (save) savePressed()
+  }, [selectedCard, save])
 
   const estilo = estilos(chosenTheme)
+
+  function savePressed() {
+    cardToUpdate ? updateCard() : saveCard()
+    setSave(false);
+  }
 
   async function saveCard() {
     const oneCard = {
@@ -82,9 +90,6 @@ export default function CardEditor({navigation }) {
           delimiter=","
           separator="."
           precision={2}
-          onChangeText={(formattedValue) => {
-            console.log(formattedValue); // $2,310.46
-          }}
         />
       </View>
       <TextInput style={estilo.input}
@@ -100,9 +105,6 @@ export default function CardEditor({navigation }) {
         />
       </View>
       <FlagPicker flag={flag} setModalVisible={setModalVisible} />
-      <TouchableOpacity onPress={() => cardToUpdate ? updateCard() : saveCard()}>
-        <Text style={estilo.btnSalvar}>Salvar</Text>
-      </TouchableOpacity>
       { cardToUpdate && <TouchableOpacity onPress={() => deleteCard()}>
         <Text style={estilo.btnApagar}>Apagar Cartão</Text>
       </TouchableOpacity>}

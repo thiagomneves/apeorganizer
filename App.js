@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import React, { useEffect } from 'react';
+import {SafeAreaView} from 'react-native';
 import 'react-native-gesture-handler';
 
 import { ThemeProvider } from './src/contexts/ThemeContext';
+import { SaveProvider  } from './src/contexts/SaveContext';
 
 import DrawerRoutes from './src/routes/DrawerRoutes';
 import { createTableAccounts } from './src/services/Accounts';
@@ -23,7 +24,9 @@ function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ThemeProvider>
-        <DrawerRoutes/>
+        <SaveProvider>
+          <DrawerRoutes/>
+        </SaveProvider>
       </ThemeProvider>
     </SafeAreaView>
   );
