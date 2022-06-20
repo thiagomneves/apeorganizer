@@ -22,9 +22,9 @@ import CategorieEditor from '../views/Categories/CategoryEditor';
 import Categories from '../views/Categories';
 import BudgetEditor from '../views/Budgets/BudgetEditor';
 import ArchiveBtn from '../shared/ArchiveBtn';
-import Archived from '../components/shared/Archived';
+import ArchivedBtn from '../components/shared/ArchivedBtn';
 import AccountsArchived from '../views/Accounts/AccountsArchived';
-import Save from '../components/shared/Save';
+import SaveBtn from '../components/shared/SaveBtn';
 
 const Stack = createNativeStackNavigator();
 
@@ -75,7 +75,7 @@ export function AccountNavigator({navigation}) {
         options={{
           headerTitle: 'Contas',
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
-          headerRight: () => <Archived onPress={() => navigation.navigate('AccountsArchived')}/>,
+          headerRight: () => <ArchivedBtn onPress={() => navigation.navigate('AccountsArchived')}/>,
         }}
         name="Accounts"
         component={Accounts}
@@ -111,12 +111,12 @@ export function CreditCardNavigator({navigation}) {
       />
       <Stack.Screen 
         options={{
-          headerRight: () => <Save />,
+          headerRight: () => <SaveBtn />,
         }}
         name="Editar Cartão" component={CardEditor} />
       <Stack.Screen 
         options={{
-          headerRight: () => <Save />,
+          headerRight: () => <SaveBtn />,
         }}
         name="Novo Cartão" component={CardEditor} />
     </Stack.Navigator>

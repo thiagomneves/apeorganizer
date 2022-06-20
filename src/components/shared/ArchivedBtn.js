@@ -3,7 +3,7 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
-export default function Archived(props) {
+export default function ArchivedBtn(props) {
   const {chosenTheme} = useContext(ThemeContext);
   const estilo = estilos(chosenTheme)
   return (

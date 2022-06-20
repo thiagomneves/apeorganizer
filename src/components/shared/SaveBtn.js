@@ -4,7 +4,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { SaveContext } from '../../contexts/SaveContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
-export default function Save(props) {
+export default function SaveBtn(props) {
   const {chosenTheme} = useContext(ThemeContext);
   const {save, setSave} = useContext(SaveContext);
   const estilo = estilos(chosenTheme)
