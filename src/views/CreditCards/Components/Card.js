@@ -5,15 +5,17 @@ import CardFlag from './CardFlag';
 
 export default function Card(props) {
   const {color, flag} = props;
-  const name = "Thiago M Neves"
+  const title = props.title ? props.title : '';
+  const holdername = props.holdername ? props.holdername : "Thiago M Neves";
 
   const estilo = estilos(color)
   return (
     <View style={estilo.cardContainer}>
       <View style={estilo.cardContent}>
+        <Text style={estilo.title}>{title}</Text>
         <MaterialCommunityIcons style={estilo.chip} name="integrated-circuit-chip"/>
         <View style={estilo.flagContainer}><CardFlag flag={flag} width={70} noBg={true}/></View>
-        <Text style={estilo.client}>{name.toUpperCase()}</Text>
+        <Text style={estilo.holdername}>{holdername.toUpperCase()}</Text>
       </View>
     </View>
   );
@@ -29,24 +31,32 @@ const estilos = color => {
       height: 200,
       borderRadius: 10,
     },
+    title: {
+      fontSize: 28,
+      color: '#fff',
+      fontWeight: '700',
+      position: 'absolute',
+      top: 10,
+      left: 30,
+    },
     flagContainer: {
       position: 'absolute',
       right: 10,
       bottom: 10,
     },
-    client: {
+    holdername: {
       fontSize: 18,
       color: '#fff',
       fontWeight: '500',
       position: 'absolute',
-      bottom: 10,
+      bottom: 12,
       left: 30,
     },
     chip: {
       color: '#ffb',
       fontSize: 50,
       position: 'absolute',
-      top: 50,
+      top: 60,
       left: 30,
     }
   });

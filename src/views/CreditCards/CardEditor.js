@@ -81,7 +81,7 @@ export default function CardEditor({navigation }) {
   return (
     <>
     <ScrollView style={estilo.container}>
-      <Card color={color} flag={flag}/>
+      <Card title={title} color={color} flag={flag}/>
       <View style={estilo.limit}>
         <Text style={estilo.labelLimit}>Limite do Cartão</Text>
         <CurrencyInput
