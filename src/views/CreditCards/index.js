@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {getCards} from '../../services/Cards';
@@ -36,7 +37,11 @@ export default function CreditCards() {
   );
 
   const editorNavigate = () => {
-    navigation.navigate('Editor de Cartão', {selectedCard});
+    if (!!Object.keys(selectedCard).length) {
+      navigation.navigate('Editar Cartão', {selectedCard});
+    } else {
+      navigation.navigate('Novo Cartão', {selectedCard});
+    }
   }
 
   return (
@@ -49,7 +54,7 @@ export default function CreditCards() {
       <TouchableOpacity
         style={estilo.addBtn}
         onPress={() => editorNavigate()}>
-        <Text style={estilo.addBtnText}>+</Text>
+        <MaterialCommunityIcons style={estilo.addBtnText} name="credit-card-plus-outline"/>
       </TouchableOpacity>
     </View>
   );
@@ -77,7 +82,7 @@ const estilos = theme => {
     },
     addBtnText: {
       color: theme.white,
-      fontSize: 30,
+      fontSize: 22,
     },
   });
 };

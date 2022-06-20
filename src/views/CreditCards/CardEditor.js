@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import CurrencyInput from 'react-native-currency-input';
 import { useRoute } from '@react-navigation/native';
 import ColorPicker from 'react-native-wheel-color-picker'
 
@@ -71,6 +72,21 @@ export default function CardEditor({navigation }) {
   return (
     <>
     <ScrollView style={estilo.container}>
+      <View style={estilo.limit}>
+        <Text style={estilo.labelLimit}>Limite do Cartão</Text>
+        <CurrencyInput
+          style={estilo.inputLimit}
+          value={cardLimit}
+          onChangeValue={setCardLimit}
+          prefix="R$"
+          delimiter=","
+          separator="."
+          precision={2}
+          onChangeText={(formattedValue) => {
+            console.log(formattedValue); // $2,310.46
+          }}
+        />
+      </View>
       <TextInput style={estilo.input}
         onChangeText={title => setTitle(title)}
         placeholder="Nome do cartão"
@@ -83,11 +99,6 @@ export default function CardEditor({navigation }) {
           onColorChange={(selectedColor) => setColor(selectedColor)}
         />
       </View>
-      <TextInput style={estilo.input}
-        onChangeText={cardLimit => setCardLimit(cardLimit)}
-        placeholder="Limite do cartão"
-        value={cardLimit.toString()}
-      />
       <FlagPicker flag={flag} setModalVisible={setModalVisible} />
       <TouchableOpacity onPress={() => cardToUpdate ? updateCard() : saveCard()}>
         <Text style={estilo.btnSalvar}>Salvar</Text>
@@ -111,11 +122,28 @@ const estilos = theme => {
       borderWidth: 1,
       borderColor: theme.border,
       color: theme.text,
+      fontSize: 18,
+      paddingHorizontal: 10,
     },
     label: {
       fontSize: 16,
       padding: 5,
       color: theme.text,
+    },
+    limit: {
+      backgroundColor: theme.backgroundContent,
+      padding: 10,
+    },
+    labelLimit: {
+      fontSize: 16,
+      padding: 5,
+      color: theme.strong,
+      fontSize: 20,
+    },
+    inputLimit: {
+      color: theme.text,
+      fontSize: 28,
+      fontWeight: '600',
     },
     btnSalvar: {
       backgroundColor: theme.green,

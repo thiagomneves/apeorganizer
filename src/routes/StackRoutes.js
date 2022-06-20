@@ -108,7 +108,8 @@ export function CreditCardNavigator({navigation}) {
         name="CartãoScreen"
         component={CreditCards}
       />
-      <Stack.Screen name="Editor de Cartão" component={CardEditor} />
+      <Stack.Screen name="Editar Cartão" component={CardEditor} />
+      <Stack.Screen name="Novo Cartão" component={CardEditor} />
     </Stack.Navigator>
   );
 }
