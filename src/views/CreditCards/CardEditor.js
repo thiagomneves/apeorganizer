@@ -105,9 +105,6 @@ export default function CardEditor({navigation }) {
         />
       </View>
       <FlagPicker flag={flag} setModalVisible={setModalVisible} />
-      { cardToUpdate && <TouchableOpacity onPress={() => deleteCard()}>
-        <Text style={estilo.btnApagar}>Apagar Cartão</Text>
-      </TouchableOpacity>}
     </ScrollView>
     <FlagModal setFlag={setFlag} modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </>
@@ -146,25 +143,6 @@ const estilos = theme => {
       color: theme.text,
       fontSize: 28,
       fontWeight: '600',
-    },
-    btnSalvar: {
-      backgroundColor: theme.green,
-      padding: 10,
-      fontSize: 16,
-      fontWeight: 'bold',
-      lineHeight: 26,
-      color: theme.btnText,
-      textAlign: 'center',
-    },
-    btnApagar: {
-      marginTop: 10,
-      backgroundColor: theme.red,
-      padding: 10,
-      fontSize: 16,
-      fontWeight: 'bold',
-      lineHeight: 26,
-      color: theme.btnText,
-      textAlign: 'center',
     },
     colorContainer: {
       height: 250,
