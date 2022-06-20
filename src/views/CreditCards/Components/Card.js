@@ -43,7 +43,7 @@ const estilos = color => {
       left: 30,
     },
     chip: {
-      color: '#fff',
+      color: '#ffb',
       fontSize: 50,
       position: 'absolute',
       top: 50,

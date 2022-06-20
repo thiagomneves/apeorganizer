@@ -2,13 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import { useRoute } from '@react-navigation/native';
-import ColorPicker from 'react-native-wheel-color-picker'
 
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { addCard, editCard, removeCard } from '../../services/Cards';
-import FlagPicker, { FlagModal } from './Components/FlagPicker';
+import FlagPicker from './Components/FlagPicker';
 import { SaveContext } from '../../contexts/SaveContext';
 import ColorSelector from '../../shared/ColorSelector';
+import Card from './Components/Card';
 
 export default function CardEditor({navigation }) {
   const {save, setSave} = useContext(SaveContext);
@@ -81,6 +81,7 @@ export default function CardEditor({navigation }) {
   return (
     <>
     <ScrollView style={estilo.container}>
+      <Card color={color} flag={flag}/>
       <View style={estilo.limit}>
         <Text style={estilo.labelLimit}>Limite do Cartão</Text>
         <CurrencyInput
@@ -99,11 +100,10 @@ export default function CardEditor({navigation }) {
         value={title}
       />
       <View style={estilo.flagColor}>
-        <FlagPicker flag={flag} setModalVisible={setModalVisible} />
+        <FlagPicker flag={flag} setFlag={setFlag}/>
         <ColorSelector size={40} color={color} setColor={setColor} />
       </View>
     </ScrollView>
-    <FlagModal setFlag={setFlag} modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </>
   );
 }
