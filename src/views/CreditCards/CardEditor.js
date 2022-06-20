@@ -8,6 +8,7 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import { addCard, editCard, removeCard } from '../../services/Cards';
 import FlagPicker, { FlagModal } from './Components/FlagPicker';
 import { SaveContext } from '../../contexts/SaveContext';
+import ColorSelector from '../../shared/ColorSelector';
 
 export default function CardEditor({navigation }) {
   const {save, setSave} = useContext(SaveContext);
@@ -87,8 +88,8 @@ export default function CardEditor({navigation }) {
           value={cardLimit}
           onChangeValue={setCardLimit}
           prefix="R$"
-          delimiter=","
-          separator="."
+          delimiter="."
+          separator=","
           precision={2}
         />
       </View>
@@ -97,14 +98,10 @@ export default function CardEditor({navigation }) {
         placeholder="Nome do cartão"
         value={title}
       />
-      <View style={estilo.colorContainer}>
-        <ColorPicker
-          color={color}
-          swatches={false}
-          onColorChange={(selectedColor) => setColor(selectedColor)}
-        />
+      <View style={estilo.flagColor}>
+        <FlagPicker flag={flag} setModalVisible={setModalVisible} />
+        <ColorSelector size={40} color={color} setColor={setColor} />
       </View>
-      <FlagPicker flag={flag} setModalVisible={setModalVisible} />
     </ScrollView>
     <FlagModal setFlag={setFlag} modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </>
@@ -144,10 +141,10 @@ const estilos = theme => {
       fontSize: 28,
       fontWeight: '600',
     },
-    colorContainer: {
-      height: 250,
-    },
-    colorPicker: {
+    flagColor: {
+      flexDirection: 'row',
+      paddingHorizontal: 10,
+      backgroundColor: theme.backgroundContent,
     }
   })
 }

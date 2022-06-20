@@ -60,11 +60,9 @@ const estilos = ({theme, windowWidth}) => {
   const modalContentWidth = windowWidth - 40
   return StyleSheet.create({
     flagContent: {
-      backgroundColor: theme.backgroundContent,
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: 12,
-      paddingVertical: 10,
+      flex: 1,
     },
     flagTitle: {
       color: theme.text,
