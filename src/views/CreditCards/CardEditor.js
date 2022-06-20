@@ -1,21 +1,22 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import { ThemeContext } from '../../contexts/ThemeContext';
-import { Picker } from '@react-native-picker/picker';
-import { addCard, editCard, removeCard } from '../../services/Cards';
+import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import ColorPicker from 'react-native-wheel-color-picker'
 
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { addCard, editCard, removeCard } from '../../services/Cards';
+import FlagPicker, { FlagModal } from './Components/FlagPicker';
 
 export default function CardEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#070');
   const [cardLimit, setCardLimit] = useState(0);
-  const [flag, setFlag] = useState('');
+  const [flag, setFlag] = useState('Selecione a Bandeira');
   const route = useRoute()
   const selectedCard = route.params.selectedCard
   const cardToUpdate = Object.keys(selectedCard).length > 0
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     fillEditor()
@@ -68,6 +69,7 @@ export default function CardEditor({navigation }) {
   }
 
   return (
+    <>
     <ScrollView style={estilo.container}>
       <TextInput style={estilo.input}
         onChangeText={title => setTitle(title)}
@@ -86,18 +88,7 @@ export default function CardEditor({navigation }) {
         placeholder="Limite do cartão"
         value={cardLimit.toString()}
       />
-      <View>
-        <Text style={estilo.label}>Bandeira do cartão</Text>
-        <Picker style={estilo.input}
-        selectedValue={flag}
-        onValueChange={flag => setFlag(flag)}>
-          <Picker.Item label="Nenhuma" value="CreditCard" />
-          <Picker.Item label="MasterCard" value="MasterCard" />
-          <Picker.Item label="Visa" value="Visa" />
-          <Picker.Item label="American Express" value="AmericanExpress" />
-          <Picker.Item label="Elo" value="Elo" />
-        </Picker>
-      </View>
+      <FlagPicker flag={flag} setModalVisible={setModalVisible} />
       <TouchableOpacity onPress={() => cardToUpdate ? updateCard() : saveCard()}>
         <Text style={estilo.btnSalvar}>Salvar</Text>
       </TouchableOpacity>
@@ -105,6 +96,8 @@ export default function CardEditor({navigation }) {
         <Text style={estilo.btnApagar}>Apagar Cartão</Text>
       </TouchableOpacity>}
     </ScrollView>
+    <FlagModal setFlag={setFlag} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+    </>
   );
 }
 

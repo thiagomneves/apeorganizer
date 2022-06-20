@@ -1,11 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useFocusEffect, useIsFocused, useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {getCards} from '../../services/Cards';
-import CardEditor from './CardEditor';
-import CreditCard from './CreditCard';
+import CreditCard from './Components/CreditCard';
 
 export default function CreditCards() {
   const {chosenTheme} = useContext(ThemeContext);

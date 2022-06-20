@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ThemeContext} from '../../contexts/ThemeContext';
+import {ThemeContext} from '../../../contexts/ThemeContext';
 
-import {convertPriceForReal} from '../../util/functions';
+import {convertPriceForReal} from '../../../util/functions';
 import CardFlag from './CardFlag';
 
 export default function CreditCard({item, selectedCard, setSelectedCard, editorNavigate}) {
