@@ -48,7 +48,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialIcons style={estilo.icon} name="payment" color={color}/>
+              <MaterialCommunityIcons style={estilo.icon} name="cards" color={color}/>
             ),
           }}
           name="Cartões de Crédito"
