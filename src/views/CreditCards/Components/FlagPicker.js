@@ -63,6 +63,7 @@ const estilos = ({theme, windowWidth}) => {
       flexDirection: 'row',
       alignItems: 'center',
       flex: 1,
+      padding: 10,
     },
     flagTitle: {
       color: theme.text,
