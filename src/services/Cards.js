@@ -5,7 +5,9 @@ export function createTableCards() {
     txn.executeSql(
       'CREATE TABLE IF NOT EXISTS ' +
         'cards ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, spent FLOAT, flag TEXT, closureday INTEGER, dueday INTEGER, archive BOOLEAN);',
+        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, ' +
+        'spent FLOAT, flag TEXT, closureday INTEGER, dueday INTEGER, archive BOOLEAN' + 
+        'holdername TEXT, cardnumber TEXT, expirationdate INTEGER, cvv TEXT); ',
       [],
       (sqlTxn, res) => {
         console.log('table cards created successfully');
