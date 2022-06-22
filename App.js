@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {SafeAreaView} from 'react-native';
+import {LogBox, SafeAreaView} from 'react-native';
 import 'react-native-gesture-handler';
 
 import { ThemeProvider } from './src/contexts/ThemeContext';
@@ -11,6 +11,8 @@ import { createTableBudgets } from './src/services/Budgets';
 import { createTableCards } from './src/services/Cards';
 import { createTableCategories } from './src/services/Categories';
 import { createTableTransactions } from './src/services/Transactions';
+
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 function App() {
   useEffect(() => {
