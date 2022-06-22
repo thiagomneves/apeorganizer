@@ -10,10 +10,12 @@ import { SaveContext } from '../../contexts/SaveContext';
 import ColorSelector from '../../shared/ColorSelector';
 import Card from './Components/Card';
 import DatePicker from 'react-native-neat-date-picker';
+import I18n from 'i18n-js';
+import Flip from './Components/Flip';
 
 export default function CardEditor({navigation }) {
   const {save, setSave} = useContext(SaveContext);
-  const {chosenTheme, currentTheme} = useContext(ThemeContext);
+  const {chosenTheme} = useContext(ThemeContext);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#070');
   const [cardLimit, setCardLimit] = useState(0);
@@ -25,6 +27,7 @@ export default function CardEditor({navigation }) {
   const [showClosureDatePicker, setShowClosureDatePicker] = useState(false);
   const [dueDate, setDueDate] = useState(new Date());
   const [showDueDatePicker, setShowDueDatePicker] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
 
 
   useEffect(() => {
@@ -96,6 +99,10 @@ export default function CardEditor({navigation }) {
   return (
     <>
     <ScrollView style={estilo.container}>
+      <Flip isFlipped={isFlipped} setIsFlipped={setIsFlipped}>
+        <Card title={title} color={color} flag={flag}/>
+      </Flip>
+      {!isFlipped ? <>
       <View style={estilo.limit}>
         <Text style={estilo.labelLimit}>Limite do Cartão</Text>
         <CurrencyInput
@@ -108,7 +115,6 @@ export default function CardEditor({navigation }) {
           precision={2}
         />
       </View>
-      <Card title={title} color={color} flag={flag}/>
       <TextInput style={estilo.input}
         onChangeText={title => setTitle(title)}
         placeholder="Nome do cartão"
@@ -118,8 +124,9 @@ export default function CardEditor({navigation }) {
         <FlagPicker flag={flag} setFlag={setFlag}/>
         <ColorSelector size={40} color={color} setColor={setColor} />
       </View>
-      <Text onPress={() => setShowClosureDatePicker(true)}>{closureDate.toLocaleString()}</Text>
-      <Text onPress={() => setShowDueDatePicker(true)}>{dueDate.toString()}</Text>
+      <Text onPress={() => setShowClosureDatePicker(true)}>{I18n.strftime(closureDate, "%d/%m")}</Text>
+      <Text onPress={() => setShowDueDatePicker(true)}>{I18n.strftime(dueDate, "%d/%m")}</Text>
+      
       <DatePicker
         isVisible={showClosureDatePicker}
         mode={'single'}
@@ -132,6 +139,8 @@ export default function CardEditor({navigation }) {
         onCancel={() => setShowDueDatePicker(false)}
         onConfirm={updateDue}
       />
+      </> : 
+      <Text>Virou</Text>}
     </ScrollView>
     </>
   );
