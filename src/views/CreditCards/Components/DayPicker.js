@@ -8,10 +8,6 @@ export default function DayPicker({day, setDay, title, icon}) {
   const [modalVisible, setModalVisible] = useState(false);
   const windowWidth = Dimensions.get('window').width;
   const estilo = estilos({theme: chosenTheme, windowWidth});
-  useState(() => {
-    console.log(modalVisible)
-  }, [modalVisible])
-  console.log(modalVisible)
 
   function DayTable() {
     var rows = [];
