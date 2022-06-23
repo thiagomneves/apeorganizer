@@ -11,6 +11,7 @@ import ColorSelector from '../../shared/ColorSelector';
 import Flip from './Components/Flip';
 import Card from './Components/Card';
 import DayPicker from './Components/DayPicker';
+import MonthYearPicker from './Components/MonthYearPicker';
 
 export default function CardEditor({navigation }) {
   const {save, setSave} = useContext(SaveContext);
@@ -138,9 +139,8 @@ export default function CardEditor({navigation }) {
           maxLength={19}
           keyboardType="numeric"
         />
-        <View style={{padding: 8, backgroundColor: 'chosenTheme.backgroundContent'}}>
-          <Text onPress={() => setShowDatePicker(true)}>Click</Text>
-          <Text style={estilo.label}>{expirationDate}</Text>
+        <View style={[estilo.dayContainer, {justifyContent: 'flex-start'}]}>
+          <MonthYearPicker icon={'calendar'} title={"Data de expiração"} expirationDate={expirationDate} setExpirationdate={setExpirationdate}/>
         </View>
         <TextInput style={estilo.input}
           onChangeText={cvv => setCvv(cvv)}
