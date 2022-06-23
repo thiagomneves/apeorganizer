@@ -4,12 +4,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import CardFlag from './CardFlag';
 
 export default function Card(props) {
-  const {expirationDate, cardNumber, cvv} = props
+  const {expirationDate, cardNumber, cvv, cardTextColor} = props
   const {color, flag, isFlipped, setIsFlipped} = props;
   const title = props.title ? props.title : '';
   const holdername = props.holdername ? props.holdername : "John Doe";
 
-  const estilo = estilos(color)
+  const estilo = estilos({color, cardTextColor})
   return (
     <View style={estilo.cardContainer}>
       <View style={estilo.cardContent}>
@@ -28,7 +28,7 @@ export default function Card(props) {
   );
 }
 
-const estilos = color => {
+const estilos = ({color, cardTextColor}) => {
   return StyleSheet.create({
     cardContainer: {
       padding: 20,
@@ -40,7 +40,7 @@ const estilos = color => {
     },
     title: {
       fontSize: 28,
-      color: '#fff',
+      color: cardTextColor,
       fontWeight: '700',
       position: 'absolute',
       top: 10,
@@ -53,7 +53,7 @@ const estilos = color => {
     },
     holdername: {
       fontSize: 18,
-      color: '#fff',
+      color: cardTextColor,
       fontWeight: '500',
       position: 'absolute',
       bottom: 12,
@@ -73,7 +73,7 @@ const estilos = color => {
     },
     cardNumber: {
       fontSize: 24,
-      color: '#fff',
+      color: cardTextColor,
       fontWeight: '500',
       position: 'absolute',
       top: 12,
@@ -81,7 +81,7 @@ const estilos = color => {
     },
     expiration: {
       fontSize: 20,
-      color: '#fff',
+      color: cardTextColor,
       fontWeight: '500',
       position: 'absolute',
       top: 150,
@@ -89,7 +89,7 @@ const estilos = color => {
     },
     cvv: {
       fontSize: 18,
-      color: '#fff',
+      color: cardTextColor,
       fontWeight: '500',
       position: 'absolute',
       top: 150,

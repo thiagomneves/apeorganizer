@@ -5,21 +5,27 @@ import ColorPicker from 'react-native-wheel-color-picker';
 import { ThemeContext } from '../contexts/ThemeContext';
 
 const colors = [
-  '#000', '#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff',
-  '#000', '#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff',
-  '#000', '#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff',
-  '#000', '#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff',
+  '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
+  '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
+  '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
+  '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
 ]
 
-export default function ColorSelector({color, setColor, size = 50}) {
+export default function ColorSelector({color, setColor, size = 50, cardTextColor, setCardTextColor, calcColorText}) {
   const {chosenTheme} = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [advanced, setAdvanced] = useState(false);
   const estilo = estilos({theme: chosenTheme, size, color})
 
+
+  function changeColor(cardColor) {
+    setColor(cardColor)
+    calcColorText(cardColor, cardTextColor)
+  }
+
   function renderItem(item, key) {
     const estilo = estilos({theme: chosenTheme, size: 20, color: item, circleMargin: 5});
-    return <TouchableOpacity key={key} onPress={() => setColor(item)} style={[estilo.colorCircle, {backgroundColor: item}]}/>
+    return <TouchableOpacity key={key} onPress={() => changeColor(item)} style={[estilo.colorCircle, {backgroundColor: item}]}/>
   }
   return (
     <View>
@@ -44,7 +50,7 @@ export default function ColorSelector({color, setColor, size = 50}) {
               color={color}
               swatches={false}
               noSnap={true}
-              onColorChange={(color) => setColor(color)}
+              onColorChange={(color) => changeColor(color)}
             />}
             <View style={estilo.btnContainer}>
               <TouchableOpacity style={estilo.advancedBtn} onPress={() => setAdvanced(!advanced)}>

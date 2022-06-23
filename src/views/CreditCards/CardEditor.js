@@ -20,11 +20,12 @@ export default function CardEditor({navigation }) {
   const cardToUpdate = Object.keys(selectedCard).length > 0
   
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#070');
+  const [color, setColor] = useState('#007700');
   const [cardLimit, setCardLimit] = useState(0);
   const [flag, setFlag] = useState('Selecione a Bandeira');
   const [closureDate, setClosureDate] = useState(1);
   const [dueDate, setDueDate] = useState(1);
+  const [cardTextColor, setCardTextColor] = useState('#ffffff');
   
   const [isFlipped, setIsFlipped] = useState(false);
   const [holdername, setHoldername] = useState('');
@@ -33,15 +34,36 @@ export default function CardEditor({navigation }) {
   const [cvv, setCvv] = useState('');
 
   useEffect(() => {
-    fillEditor()
-    if (save) savePressed()
-  }, [selectedCard, save])
+    if (!title) {
+      fillEditor();
+    } else {
+      calcColorText(color);
+      console.log(color)
+    }
+    if (save) savePressed();
+  }, [selectedCard, save, color])
 
   const estilo = estilos(chosenTheme)
 
   function savePressed() {
     cardToUpdate ? updateCard() : saveCard()
     setSave(false);
+  }
+  function calcColorText(cardColor) {
+    const hex = cardColor.substr(1,6)
+    const r = parseInt(hex.substr(0,2), 16);
+    const g = parseInt(hex.substr(2,2), 16);
+    const b = parseInt(hex.substr(4,2), 16);
+
+    const cardWeight = r+g+b;
+    const lightWeight = 136*3;
+
+    const textDark = '#000000';
+    const textLight = '#ffffff';
+console.log(cardWeight, 'peso do cartão');
+console.log(cardColor, 'cardcolor');
+console.log(cardWeight >= lightWeight);
+    (cardWeight >= lightWeight) ? setCardTextColor(textDark) : setCardTextColor(textLight);
   }
 
   async function saveCard() {
@@ -50,6 +72,8 @@ export default function CardEditor({navigation }) {
       color: color, 
       cardLimit: cardLimit,
       flag: flag,
+
+
     }
     await addCard(oneCard)
     navigation.goBack()
@@ -90,7 +114,7 @@ export default function CardEditor({navigation }) {
     <>
     <ScrollView style={estilo.container}>
       <Flip isFlipped={isFlipped} setIsFlipped={setIsFlipped} cardNumber={cardNumber} cvv={cvv} expirationDate={expirationDate}>
-        <Card title={title} color={color} flag={flag}/>
+        <Card cardTextColor={cardTextColor} title={title} color={color} flag={flag}/>
       </Flip>
       {!isFlipped ? <>
       <View style={estilo.limit}>
@@ -112,7 +136,7 @@ export default function CardEditor({navigation }) {
       />
       <View style={estilo.flagColor}>
         <FlagPicker flag={flag} setFlag={setFlag}/>
-        <ColorSelector size={40} color={color} setColor={setColor} />
+        <ColorSelector calcColorText={calcColorText} cardTextColor={cardTextColor} setCardTextColor={setCardTextColor}  size={40} color={color} setColor={setColor} />
       </View>
       <View style={estilo.dayContainer}>
         <DayPicker icon={'calendar-end'} title={"Fecha dia:"} day={closureDate} setDay={setClosureDate}/>
