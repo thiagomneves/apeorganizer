@@ -3,32 +3,34 @@ import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'r
 import CurrencyInput from 'react-native-currency-input';
 import { useRoute } from '@react-navigation/native';
 
-import { ThemeContext } from '../../contexts/ThemeContext';
-import { addCard, editCard, removeCard } from '../../services/Cards';
-import FlagPicker from './Components/FlagPicker';
 import { SaveContext } from '../../contexts/SaveContext';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { addCard, editCard } from '../../services/Cards';
+import FlagPicker from './Components/FlagPicker';
 import ColorSelector from '../../shared/ColorSelector';
-import Card from './Components/Card';
-import DatePicker from 'react-native-neat-date-picker';
-import I18n from 'i18n-js';
 import Flip from './Components/Flip';
+import Card from './Components/Card';
+import DayPicker from './Components/DayPicker';
 
 export default function CardEditor({navigation }) {
   const {save, setSave} = useContext(SaveContext);
   const {chosenTheme} = useContext(ThemeContext);
+  const route = useRoute()
+  const selectedCard = route.params.selectedCard
+  const cardToUpdate = Object.keys(selectedCard).length > 0
+  
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#070');
   const [cardLimit, setCardLimit] = useState(0);
   const [flag, setFlag] = useState('Selecione a Bandeira');
-  const route = useRoute()
-  const selectedCard = route.params.selectedCard
-  const cardToUpdate = Object.keys(selectedCard).length > 0
-  const [closureDate, setClosureDate] = useState(new Date());
-  const [showClosureDatePicker, setShowClosureDatePicker] = useState(false);
-  const [dueDate, setDueDate] = useState(new Date());
-  const [showDueDatePicker, setShowDueDatePicker] = useState(false);
+  const [closureDate, setClosureDate] = useState(1);
+  const [dueDate, setDueDate] = useState(1);
+  
   const [isFlipped, setIsFlipped] = useState(false);
-
+  const [holdername, setHoldername] = useState('');
+  const [cardNumber, setCardNumber] = useState('0000 0000 0000 0000');
+  const [expirationDate, setExpirationdate] = useState(0);
+  const [cvv, setCvv] = useState('');
 
   useEffect(() => {
     fillEditor()
@@ -65,18 +67,6 @@ export default function CardEditor({navigation }) {
     navigation.goBack()
   }
 
-  async function deleteCard() {
-    const oneCard = {
-      title: title,
-      color: color, 
-      cardLimit: cardLimit,
-      flag: flag,
-      id: selectedCard.id,
-    }
-    await removeCard(oneCard)
-    navigation.goBack()
-  }
-
   function fillEditor() {
     if (cardToUpdate) {
       setTitle(selectedCard.title)
@@ -99,7 +89,7 @@ export default function CardEditor({navigation }) {
   return (
     <>
     <ScrollView style={estilo.container}>
-      <Flip isFlipped={isFlipped} setIsFlipped={setIsFlipped}>
+      <Flip isFlipped={isFlipped} setIsFlipped={setIsFlipped} cardNumber={cardNumber} cvv={cvv} expirationDate={expirationDate}>
         <Card title={title} color={color} flag={flag}/>
       </Flip>
       {!isFlipped ? <>
@@ -124,23 +114,19 @@ export default function CardEditor({navigation }) {
         <FlagPicker flag={flag} setFlag={setFlag}/>
         <ColorSelector size={40} color={color} setColor={setColor} />
       </View>
-      <Text onPress={() => setShowClosureDatePicker(true)}>{I18n.strftime(closureDate, "%d/%m")}</Text>
-      <Text onPress={() => setShowDueDatePicker(true)}>{I18n.strftime(dueDate, "%d/%m")}</Text>
-      
-      <DatePicker
-        isVisible={showClosureDatePicker}
-        mode={'single'}
-        onCancel={() => setShowClosureDatePicker(false)}
-        onConfirm={updateClosure}
-      />
-      <DatePicker
-        isVisible={showDueDatePicker}
-        mode={'single'}
-        onCancel={() => setShowDueDatePicker(false)}
-        onConfirm={updateDue}
-      />
+      <View style={estilo.dayContainer}>
+        <DayPicker icon={'calendar-end'} title={"Fecha dia:"} day={closureDate} setDay={setClosureDate}/>
+        <DayPicker icon={'calendar-cursor'} title={"Vence dia:"} day={dueDate} setDay={setDueDate}/>
+      </View>
       </> : 
-      <Text>Virou</Text>}
+      <View>
+        <TextInput style={estilo.input}
+          onChangeText={cardNumber => setCardNumber(cardNumber)}
+          placeholder="Número do Cartão"
+          value={cardNumber}
+        />
+        <Text>Virou</Text>
+      </View>}
     </ScrollView>
     </>
   );
@@ -182,6 +168,11 @@ const estilos = theme => {
     flagColor: {
       flexDirection: 'row',
       paddingHorizontal: 10,
+      backgroundColor: theme.backgroundContent,
+    },
+    dayContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
       backgroundColor: theme.backgroundContent,
     }
   })

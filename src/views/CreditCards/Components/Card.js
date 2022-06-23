@@ -4,9 +4,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import CardFlag from './CardFlag';
 
 export default function Card(props) {
+  const {expirationDate, cardNumber, cvv} = props
   const {color, flag, isFlipped, setIsFlipped} = props;
   const title = props.title ? props.title : '';
-  const holdername = props.holdername ? props.holdername : "Thiago M Neves";
+  const holdername = props.holdername ? props.holdername : "John Doe";
 
   const estilo = estilos(color)
   return (
@@ -18,7 +19,7 @@ export default function Card(props) {
         <View style={estilo.flagContainer}><CardFlag flag={flag} width={70} noBg={true}/></View>
         <Text style={estilo.holdername}>{holdername.toUpperCase()}</Text></>
         :<View style={estilo.cardBack}>
-          <Text style={estilo.cardNumber}>0000 0000 0000 0000</Text>
+          <Text style={estilo.cardNumber}>{cardNumber}</Text>
           <Text style={estilo.expiration}>07/27</Text>
           <Text style={estilo.cvv}>123</Text>
         </View>}
