@@ -35,7 +35,7 @@ export default function FlagPicker({flag, setFlag}) {
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
         }}>
         <TouchableOpacity onPress={() => setModalVisible(false)} style={estilo.modalContainer} activeOpacity={1}>
           <View style={estilo.modalContent}>
