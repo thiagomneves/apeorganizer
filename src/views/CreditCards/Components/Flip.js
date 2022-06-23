@@ -1,5 +1,5 @@
 import React, { Children, cloneElement, useContext, useState } from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Animated, { EasingNode } from 'react-native-reanimated';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
@@ -9,11 +9,15 @@ export default function Flip(props) {
   const {chosenTheme} = useContext(ThemeContext);
   const [currentValue, setCurrentValue] = useState(0);
 
+  const duration = 500;
+
+  const estilo = estilos(chosenTheme);
+
   function flip() {
     if (currentValue == 0) {
     Animated.timing(rotateAnimation, {
       toValue: 1,
-      duration: 800,
+      duration: duration,
       useNativeDriver: true,
       easing: EasingNode.linear,
     }).start(() => {
@@ -21,7 +25,7 @@ export default function Flip(props) {
       setIsFlipped(true);
       Animated.timing(rotateAnimation, {
         toValue: 2,
-        duration: 800,
+        duration: duration,
         useNativeDriver: true,
         easing: EasingNode.linear,
         nativeEvent: (e) => Animated.call([e.rotation], console.log())
@@ -32,7 +36,7 @@ export default function Flip(props) {
   } else {
     Animated.timing(rotateAnimation, {
       toValue: 1,
-      duration: 800,
+      duration: duration,
       useNativeDriver: true,
       easing: EasingNode.linear,
     }).start(() => {
@@ -40,7 +44,7 @@ export default function Flip(props) {
       setIsFlipped(false);
       Animated.timing(rotateAnimation, {
         toValue: 0,
-        duration: 800,
+        duration: duration,
         useNativeDriver: true,
         easing: EasingNode.linear,
       }).start(() => {
@@ -69,15 +73,21 @@ export default function Flip(props) {
       <Animated.View style={animatedStyleValue}>
         <View>{extendedChildren}</View>
       </Animated.View>
-      <TouchableOpacity onPress={flip}
-        style={{
-          backgroundColor: chosenTheme.backgroundContent,
-          padding: 10,
-          borderBottomWidth: 1,
-          borderColor: chosenTheme.border,
-        }}>
-        <Text>Mais informações</Text>
+      <TouchableOpacity style={estilo.btn} onPress={flip}>
+        <Text style={estilo.btnText}>Mais informações</Text>
       </TouchableOpacity>
     </View>
   );
+}
+
+const estilos = theme => {
+  return StyleSheet.create({
+    btn: {
+      backgroundColor: theme.backgroundContent,
+      padding: 12,
+    },
+    btnText: {
+      color: theme.text,
+    }
+  })
 }

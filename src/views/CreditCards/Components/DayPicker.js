@@ -105,6 +105,7 @@ const estilos = ({theme, windowWidth}) => {
     dayText: {
       textAlign: 'center',
       fontSize: 16,
+      color: theme.text,
     }
   })
 }
