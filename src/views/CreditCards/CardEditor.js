@@ -14,6 +14,7 @@ import DayPicker from './Components/DayPicker';
 import MonthYearPicker from './Components/MonthYearPicker';
 
 export default function CardEditor({navigation }) {
+  const [filled, setFilled] = useState(false);
   const {save, setSave} = useContext(SaveContext);
   const {chosenTheme} = useContext(ThemeContext);
   const route = useRoute()
@@ -24,18 +25,18 @@ export default function CardEditor({navigation }) {
   const [color, setColor] = useState('#007700');
   const [cardLimit, setCardLimit] = useState(0);
   const [flag, setFlag] = useState('Selecione a Bandeira');
-  const [closureDate, setClosureDate] = useState(1);
-  const [dueDate, setDueDate] = useState(1);
+  const [closureDay, setClosureDay] = useState(1);
+  const [dueDay, setDueDay] = useState(1);
   const [cardTextColor, setCardTextColor] = useState('#ffffff');
   
   const [isFlipped, setIsFlipped] = useState(false);
   const [holdername, setHoldername] = useState('');
   const [cardNumber, setCardNumber] = useState('');
-  const [expirationDate, setExpirationdate] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
   const [cvv, setCvv] = useState('');
 
   useEffect(() => {
-    if (!title) {
+    if (!filled) {
       fillEditor();
     } else {
       calcColorText(color);
@@ -70,8 +71,12 @@ export default function CardEditor({navigation }) {
       color: color, 
       cardLimit: cardLimit,
       flag: flag,
-
-
+      closureDay: closureDay,
+      dueDay: dueDay,
+      holdername: holdername,
+      cardNumber: cardNumber,
+      expirationDate: expirationDate,
+      cvv: cvv,
     }
     await addCard(oneCard)
     navigation.goBack()
@@ -83,6 +88,12 @@ export default function CardEditor({navigation }) {
       color: color, 
       cardLimit: cardLimit,
       flag: flag,
+      closureDay: closureDay,
+      dueDay: dueDay,
+      holdername: holdername,
+      cardNumber: cardNumber,
+      expirationDate: expirationDate,
+      cvv: cvv,
       id: selectedCard.id,
     }
     await editCard(oneCard)
@@ -95,6 +106,13 @@ export default function CardEditor({navigation }) {
       setColor(selectedCard.color)
       setCardLimit(selectedCard.cardlimit)
       setFlag(selectedCard.flag)
+      setClosureDay(selectedCard.closureday)
+      setDueDay(selectedCard.dueday)
+      setHoldername(selectedCard.holdername)
+      setCardNumber(selectedCard.cardnumber)
+      setExpirationDate(selectedCard.expirationdate)
+      setCvv(selectedCard.cvv)
+      setFilled(true)
     }
   }
 
@@ -102,7 +120,7 @@ export default function CardEditor({navigation }) {
     <>
     <ScrollView style={estilo.container}>
       <Flip isFlipped={isFlipped} setIsFlipped={setIsFlipped} cardNumber={cardNumber} cvv={cvv} expirationDate={expirationDate}>
-        <Card cardTextColor={cardTextColor} title={title} color={color} flag={flag}/>
+        <Card holdername={holdername} cardTextColor={cardTextColor} title={title} color={color} flag={flag}/>
       </Flip>
       {!isFlipped ? <>
       <View style={estilo.limit}>
@@ -127,9 +145,14 @@ export default function CardEditor({navigation }) {
         <ColorSelector calcColorText={calcColorText} cardTextColor={cardTextColor} setCardTextColor={setCardTextColor}  size={40} color={color} setColor={setColor} />
       </View>
       <View style={estilo.dayContainer}>
-        <DayPicker icon={'calendar-end'} title={"Fecha dia:"} day={closureDate} setDay={setClosureDate}/>
-        <DayPicker icon={'calendar-cursor'} title={"Vence dia:"} day={dueDate} setDay={setDueDate}/>
+        <DayPicker icon={'calendar-end'} title={"Fecha dia:"} day={closureDay} setDay={setClosureDay}/>
+        <DayPicker icon={'calendar-cursor'} title={"Vence dia:"} day={dueDay} setDay={setDueDay}/>
       </View>
+      <TextInput style={estilo.input}
+        onChangeText={holdername => setHoldername(holdername)}
+        placeholder="Nome no Cartão"
+        value={holdername}
+      />
       </> : 
       <View>
         <TextInput style={estilo.input}
@@ -140,7 +163,7 @@ export default function CardEditor({navigation }) {
           keyboardType="numeric"
         />
         <View style={[estilo.dayContainer, {justifyContent: 'flex-start'}]}>
-          <MonthYearPicker icon={'calendar'} title={"Data de expiração"} expirationDate={expirationDate} setExpirationdate={setExpirationdate}/>
+          <MonthYearPicker icon={'calendar'} title={"Data de expiração"} expirationDate={expirationDate} setExpirationDate={setExpirationDate}/>
         </View>
         <TextInput style={estilo.input}
           onChangeText={cvv => setCvv(cvv)}

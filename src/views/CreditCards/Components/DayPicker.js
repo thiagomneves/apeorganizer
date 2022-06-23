@@ -68,11 +68,6 @@ const estilos = ({theme, windowWidth}) => {
       borderBottomWidth: 1,
       borderColor: theme.border,
     },
-    dayText: {
-      padding: 4,
-      color: theme.text,
-      fontSize: 16,
-    },
     modalContainer: {
       flex: 1,
       justifyContent: "center",
@@ -102,6 +97,7 @@ const estilos = ({theme, windowWidth}) => {
       textAlign: 'center',
       fontSize: 16,
       color: theme.text,
-    }
+      paddingRight: 4,
+    },    
   })
 }

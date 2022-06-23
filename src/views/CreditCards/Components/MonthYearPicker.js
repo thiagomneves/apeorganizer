@@ -3,7 +3,7 @@ import {Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
-export default function MonthYearPicker({icon, title, expirationdate, setExpirationdate}) {
+export default function MonthYearPicker({icon, title, expirationDate, setExpirationDate}) {
   const {chosenTheme} = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
   const windowWidth = Dimensions.get('window').width;
@@ -18,7 +18,7 @@ export default function MonthYearPicker({icon, title, expirationdate, setExpirat
     return rows
   }
   function chooseMonth(month) {
-    setExpirationdate(month.toString().padStart(2, 0) +'/'+ tempYear);
+    setExpirationDate(month.toString().padStart(2, 0) +'/'+ tempYear);
     setTempYear(new Date(Date.now()).getFullYear());
     setModalVisible(false);
   }
@@ -40,7 +40,7 @@ export default function MonthYearPicker({icon, title, expirationdate, setExpirat
         <View style={estilo.content}>
           {typeof title != 'undefined' && !! title &&
           <Text style={estilo.monthText}>{title}</Text>}
-          <Text style={estilo.dayText}>{expirationdate}</Text>
+          <Text style={estilo.monthText}>{expirationDate}</Text>
         </View>
       </TouchableOpacity>
       <Modal
@@ -85,11 +85,6 @@ const estilos = ({theme, windowWidth}) => {
       padding: 8,
       borderBottomWidth: 1,
       borderColor: theme.border,
-    },
-    monthText: {
-      padding: 4,
-      color: theme.text,
-      fontSize: 16,
     },
     header: {
       backgroundColor: theme.headerBackground,
@@ -145,6 +140,7 @@ const estilos = ({theme, windowWidth}) => {
       textAlign: 'center',
       fontSize: 16,
       color: theme.text,
-    }
+      marginRight: 6,
+    },
   })
 }

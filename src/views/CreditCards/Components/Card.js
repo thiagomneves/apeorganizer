@@ -4,9 +4,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import CardFlag from './CardFlag';
 
 export default function Card(props) {
-  const {expirationDate, cardNumber, cvv, cardTextColor} = props
+  const {cardTextColor} = props
   const {color, flag, isFlipped} = props;
   const title = props.title ? props.title : '';
+  const expirationDate = props.expirationDate ? props.expirationDate : '00/0000'
+  const cvv= props.cvv ? props.cvv : '000';
+  const cardNumber = props.cardNumber ? props.cardNumber : '0000 0000 0000 0000';
   const holdername = props.holdername ? props.holdername : "John Doe";
 
   const estilo = estilos({color, cardTextColor})
