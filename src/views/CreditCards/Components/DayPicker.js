@@ -27,7 +27,7 @@ export default function DayPicker({day, setDay, title, icon}) {
       <View style={estilo.content}>
         {typeof title != 'undefined' && !! title &&
         <Text style={estilo.dayText}>{title}</Text>}
-        <Text style={estilo.dayText}>{day.toString()}</Text>
+        <Text style={estilo.dayText}>{day && day.toString()}</Text>
       </View>
     </TouchableOpacity>
     <Modal

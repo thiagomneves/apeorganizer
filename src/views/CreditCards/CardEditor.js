@@ -12,6 +12,7 @@ import Flip from './Components/Flip';
 import Card from './Components/Card';
 import DayPicker from './Components/DayPicker';
 import MonthYearPicker from './Components/MonthYearPicker';
+import { calcColorText } from '../../util/functions';
 
 export default function CardEditor({navigation }) {
   const [filled, setFilled] = useState(false);
@@ -39,7 +40,7 @@ export default function CardEditor({navigation }) {
     if (!filled) {
       fillEditor();
     } else {
-      calcColorText(color);
+      setCardTextColor(calcColorText(color));
     }
     if (save) savePressed();
   }, [selectedCard, save, color])
@@ -49,20 +50,6 @@ export default function CardEditor({navigation }) {
   function savePressed() {
     cardToUpdate ? updateCard() : saveCard()
     setSave(false);
-  }
-  function calcColorText(cardColor) {
-    const hex = cardColor.substr(1,6)
-    const r = parseInt(hex.substr(0,2), 16);
-    const g = parseInt(hex.substr(2,2), 16);
-    const b = parseInt(hex.substr(4,2), 16);
-
-    const cardWeight = (r*.95)+(g*1.2)+(b*.85);
-    const lightWeight = 136*3;
-
-    const textDark = '#555555';
-    const textLight = '#cccccc';
-
-    (cardWeight >= lightWeight) ? setCardTextColor(textDark) : setCardTextColor(textLight);
   }
 
   async function saveCard() {
@@ -106,8 +93,8 @@ export default function CardEditor({navigation }) {
       setColor(selectedCard.color)
       setCardLimit(selectedCard.cardlimit)
       setFlag(selectedCard.flag)
-      setClosureDay(selectedCard.closureday)
-      setDueDay(selectedCard.dueday)
+      setClosureDay(selectedCard.closureday ? selectedCard.closureday : 1)
+      setDueDay(selectedCard.dueday ? selectedCard.dueday : 1)
       setHoldername(selectedCard.holdername)
       setCardNumber(selectedCard.cardnumber)
       setExpirationDate(selectedCard.expirationdate)
