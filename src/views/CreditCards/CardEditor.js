@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, { useContext, useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import { useRoute } from '@react-navigation/native';
 
@@ -29,8 +29,8 @@ export default function CardEditor({navigation }) {
   
   const [isFlipped, setIsFlipped] = useState(false);
   const [holdername, setHoldername] = useState('');
-  const [cardNumber, setCardNumber] = useState('0000 0000 0000 0000');
-  const [expirationDate, setExpirationdate] = useState(0);
+  const [cardNumber, setCardNumber] = useState('');
+  const [expirationDate, setExpirationdate] = useState('');
   const [cvv, setCvv] = useState('');
 
   useEffect(() => {
@@ -38,7 +38,6 @@ export default function CardEditor({navigation }) {
       fillEditor();
     } else {
       calcColorText(color);
-      console.log(color)
     }
     if (save) savePressed();
   }, [selectedCard, save, color])
@@ -55,14 +54,12 @@ export default function CardEditor({navigation }) {
     const g = parseInt(hex.substr(2,2), 16);
     const b = parseInt(hex.substr(4,2), 16);
 
-    const cardWeight = r+g+b;
+    const cardWeight = (r*.95)+(g*1.2)+(b*.85);
     const lightWeight = 136*3;
 
-    const textDark = '#000000';
-    const textLight = '#ffffff';
-console.log(cardWeight, 'peso do cartão');
-console.log(cardColor, 'cardcolor');
-console.log(cardWeight >= lightWeight);
+    const textDark = '#555555';
+    const textLight = '#cccccc';
+
     (cardWeight >= lightWeight) ? setCardTextColor(textDark) : setCardTextColor(textLight);
   }
 
@@ -98,16 +95,6 @@ console.log(cardWeight >= lightWeight);
       setCardLimit(selectedCard.cardlimit)
       setFlag(selectedCard.flag)
     }
-  }
-
-  function updateClosure({date}) {
-    setClosureDate(date);
-    setShowClosureDatePicker(false);
-  }
-
-  function updateDue({date}) {
-    setDueDate(date);
-    setShowDueDatePicker(false);
   }
 
   return (
@@ -147,9 +134,21 @@ console.log(cardWeight >= lightWeight);
         <TextInput style={estilo.input}
           onChangeText={cardNumber => setCardNumber(cardNumber)}
           placeholder="Número do Cartão"
-          value={cardNumber}
+          value={cardNumber.replace(/\D/g,"").replace(/(\d{4})(?!$)/g,'$1 ')}
+          maxLength={19}
+          keyboardType="numeric"
         />
-        <Text>Virou</Text>
+        <View style={{padding: 8, backgroundColor: 'chosenTheme.backgroundContent'}}>
+          <Text onPress={() => setShowDatePicker(true)}>Click</Text>
+          <Text style={estilo.label}>{expirationDate}</Text>
+        </View>
+        <TextInput style={estilo.input}
+          onChangeText={cvv => setCvv(cvv)}
+          placeholder="CVV"
+          maxLength={3}
+          value={cvv}
+          keyboardType="numeric"
+        />
       </View>}
     </ScrollView>
     </>

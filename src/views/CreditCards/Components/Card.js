@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CardFlag from './CardFlag';
 
 export default function Card(props) {
   const {expirationDate, cardNumber, cvv, cardTextColor} = props
-  const {color, flag, isFlipped, setIsFlipped} = props;
+  const {color, flag, isFlipped} = props;
   const title = props.title ? props.title : '';
   const holdername = props.holdername ? props.holdername : "John Doe";
 
@@ -20,8 +20,8 @@ export default function Card(props) {
         <Text style={estilo.holdername}>{holdername.toUpperCase()}</Text></>
         :<View style={estilo.cardBack}>
           <Text style={estilo.cardNumber}>{cardNumber}</Text>
-          <Text style={estilo.expiration}>07/27</Text>
-          <Text style={estilo.cvv}>123</Text>
+          <Text style={estilo.expiration}>{expirationDate}</Text>
+          <Text style={estilo.cvv}>{cvv}</Text>
         </View>}
       </View>
     </View>
@@ -77,7 +77,7 @@ const estilos = ({color, cardTextColor}) => {
       fontWeight: '500',
       position: 'absolute',
       top: 12,
-      left: 12,
+      left: 20,
     },
     expiration: {
       fontSize: 20,
