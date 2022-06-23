@@ -48,7 +48,7 @@ export default function Accounts() {
   );
   return (
     <View style={estilo.container}>
-      <FlatList style={{flex: 1,}}
+      <FlatList style={{flex: 1, marginBottom: 42}}
       data={accounts}
       renderItem={ renderItem }
       keyExtractor={item => item.id} />
@@ -89,6 +89,7 @@ const estilos = theme => {
     },
     footerContainer: {
       backgroundColor: theme.backgroundContent,
+      height: 42,
       borderTopWidth: 2,
       borderColor: theme.border,
       padding: 10,
