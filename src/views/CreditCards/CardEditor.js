@@ -64,6 +64,8 @@ export default function CardEditor({navigation }) {
       cardNumber: cardNumber,
       expirationDate: expirationDate,
       cvv: cvv,
+      archive: false,
+      type: 'credit-card',
     }
     await addCard(oneCard)
     navigation.goBack()

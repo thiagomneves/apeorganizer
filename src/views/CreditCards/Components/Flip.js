@@ -28,10 +28,9 @@ export default function Flip(props) {
         duration: duration,
         useNativeDriver: true,
         easing: EasingNode.linear,
-        nativeEvent: (e) => Animated.call([e.rotation], console.log())
-      }).start(() => {
-        setCurrentValue(2);
-      });
+        }).start(() => {
+          setCurrentValue(2);
+        });
     });
   } else {
     Animated.timing(rotateAnimation, {
@@ -47,9 +46,9 @@ export default function Flip(props) {
         duration: duration,
         useNativeDriver: true,
         easing: EasingNode.linear,
-      }).start(() => {
-        setCurrentValue(0);
-      });
+        }).start(() => {
+          setCurrentValue(0);
+        });
     });
   }
 }

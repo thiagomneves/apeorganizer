@@ -4,7 +4,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
-import {getCards} from '../../services/Cards';
+import {getCards, getCardsByArchive} from '../../services/Cards';
 import CreditCard from './Components/CreditCard';
 
 export default function CreditCards() {
@@ -22,7 +22,7 @@ export default function CreditCards() {
   }, [isFocused]);
 
   async function showCards() {
-    const allCards = await getCards();
+    const allCards = await getCardsByArchive(false);
     setSelectedCard({})
     setCards(allCards);
   }

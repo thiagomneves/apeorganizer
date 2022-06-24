@@ -8,7 +8,7 @@ export function createTableCards() {
         'cards ' +
         '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, ' +
         'spent FLOAT, flag TEXT, closureday INTEGER, dueday INTEGER, archive BOOLEAN,' + 
-        'holdername TEXT, cardnumber TEXT, expirationdate TEXT, cvv TEXT); ',
+        'holdername TEXT, cardnumber TEXT, expirationdate TEXT, cvv TEXT, type TEXT); ',
       [],
       (sqlTxn, res) => {
         console.log('table cards created successfully');
@@ -24,8 +24,8 @@ export async function addCard(card) {
     return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'INSERT INTO cards (title, color, cardlimit, flag, spent, closureday, dueday, holdername, cardnumber, expirationdate, cvv) VALUES (?, ?, ?, ?, 0, ?, ?, ?, ?, ?, ?);',
-        [card.title, card.color, card.cardLimit, card.flag, card.closureDay, card.dueDate, card.holdername, card.cardNumber, card.expirationDate, card.cvv],
+        'INSERT INTO cards (title, color, cardlimit, flag, spent, closureday, dueday, holdername, cardnumber, expirationdate, cvv, archive, type) VALUES (?, ?, ?, ?, 0, ?, ?, ?, ?, ?, ?, ?, ?);',
+        [card.title, card.color, card.cardLimit, card.flag, card.closureDay, card.dueDate, card.holdername, card.cardNumber, card.expirationDate, card.cvv, card.archive, card.type],
         (trans, results) => {
           console.log(results)
           resolve("Cartão adicionado com sucesso");
@@ -43,12 +43,30 @@ export async function getCards() {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT * from cards;',
+        'SELECT * from cards WHERE type = "credit-card";',
         [],
         (trans, results) => {
           resolve(results.rows.raw());
         },
         (error) => {
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
+export async function getCardsByArchive(archive) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'SELECT * from cards WHERE type = "credit-card" AND archive = ?;',
+        [archive],
+        (trans, results) => {
+          resolve(results.rows.raw());
+        },
+        (error) => {
+          console.log(error)
           reject(error)
         }
       );
@@ -66,6 +84,24 @@ export async function editCard(card) {
           resolve("Cartão atualizado com sucesso");
         },
         (error) => {
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
+export async function setArchiveCard(card) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'UPDATE cards SET archive = ? WHERE id = ?;',
+        [card.archive, card.id],
+        (trans, results) => {
+          resolve("Cartão atualizado com sucesso");
+        },
+        (error) => {
+          console.log(error)
           reject(error)
         }
       );
