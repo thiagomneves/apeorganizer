@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import ColorPicker from 'react-native-wheel-color-picker';
 
+import {ThemeContext} from '../../contexts/ThemeContext';
 import { addAccount, editAccount, removeAccount } from '../../services/Accounts';
 import CheckBox from './Components/CheckBox';
-import Styles from '../../styles/Styles';
 
 export default function AccountEditor({navigation }) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const estilo = estilos(chosenTheme);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#070');
   const [balance, setBalance] = useState(0);
@@ -15,7 +17,6 @@ export default function AccountEditor({navigation }) {
   const route = useRoute();
   const selectedAccount = route.params.selectedAccount;
   const accountToUpdate = Object.keys(selectedAccount).length > 0;
-  const styles = Styles();
 
   useEffect(() => {
     fillEditor();
@@ -68,32 +69,76 @@ export default function AccountEditor({navigation }) {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <TextInput style={styles.input}
+    <ScrollView style={estilo.container}>
+      <TextInput style={estilo.input}
         onChangeText={title => setTitle(title)}
         placeholder="Nome"
         value={title}
       />
-      <View style={styles.colorContainer}>
+      <View style={estilo.colorContainer}>
         <ColorPicker
           color={color}
           swatches={false}
           onColorChange={selectedColor => setColor(selectedColor)}
         />
       </View>
-      <TextInput style={styles.input}
+      <TextInput style={estilo.input}
         onChangeText={balance => setBalance(balance)}
         placeholder="Saldo"
         value={balance.toString()}
-        keyboardType="numeric"
       />
       <CheckBox label="Somar ao total da tela inicial" sumTotal={sumTotal} setSumTotal={setSumTotal}/>
       <TouchableOpacity onPress={() => accountToUpdate ? updateAccount() : saveAccount()}>
-        <Text style={styles.btnSalvar}>Salvar</Text>
+        <Text style={estilo.btnSalvar}>Salvar</Text>
       </TouchableOpacity>
       { accountToUpdate && <TouchableOpacity onPress={() => deleteAccount()}>
-        <Text style={styles.btnApagar}>Apagar Cartão</Text>
+        <Text style={estilo.btnApagar}>Apagar Cartão</Text>
       </TouchableOpacity>}
     </ScrollView>
   );
 }
+
+const estilos = theme => {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: theme.backgroundContainer,
+      flex: 1,
+    },
+    input: {
+      backgroundColor: theme.backgroundContent,
+      borderWidth: 1,
+      borderColor: theme.border,
+      color: theme.text,
+    },
+    label: {
+      fontSize: 16,
+      padding: 5,
+      color: theme.text,
+    },
+    btnSalvar: {
+      backgroundColor: theme.green,
+      padding: 10,
+      fontSize: 16,
+      fontWeight: 'bold',
+      lineHeight: 26,
+      color: theme.btnText,
+      textAlign: 'center',
+      marginTop: 30,
+    },
+    btnApagar: {
+      marginTop: 10,
+      backgroundColor: theme.red,
+      padding: 10,
+      fontSize: 16,
+      fontWeight: 'bold',
+      lineHeight: 26,
+      color: theme.btnText,
+      textAlign: 'center',
+    },
+    colorContainer: {
+      height: 250,
+    },
+    colorPicker: {
+    }
+  });
+};
