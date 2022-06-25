@@ -1,20 +1,21 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-import {ThemeContext} from '../../contexts/ThemeContext';
+import { GlobalContext } from '../../contexts/GlobalContext';
 import { convertPriceForReal } from '../../util/functions';
 import { getTotalBalance } from '../../services/Accounts';
 
-import CardHeader from './Components/CardHeader';
+import Styles from '../../styles/Styles';
+import PanelHeader from './Components/PanelHeader';
 import Line from './Components/Line';
 import BorderedLine from './Components/BorderedLine';
 import BorderedText from './Components/BorderedText';
 
 export default function Home({ navigation }) {
-  const {chosenTheme} = useContext(ThemeContext);
+  const {theme} = useContext(GlobalContext).Theme;
   const [balance, setBalance] = useState(0);
-  const estilo = estilos(chosenTheme);
+  const styles = Styles();
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -31,67 +32,67 @@ export default function Home({ navigation }) {
   }
 
   return (
-    <ScrollView style={estilo.container}>
-        <View style={estilo.card}>
-          <Text style={estilo.cardTitle}>Saldo de Contas</Text>
-          <BorderedText text={convertPriceForReal(balance)} color={balance >= 0 ? chosenTheme.green : chosenTheme.red} />
+    <ScrollView style={styles.container}>
+        <View style={styles.panel}>
+          <Text style={styles.panelTitle}>Saldo de Contas</Text>
+          <BorderedText text={convertPriceForReal(balance)} color={balance >= 0 ? theme.green : theme.red} />
         </View>
 
-        <View style={estilo.card}>
+        <View style={styles.panel}>
           <Line
             title="Gastos de hoje"
             value="R$ 0,00"
-            color={chosenTheme.red}
+            color={theme.red}
             navigate
           />
         </View>
-        <View style={estilo.card}>
-          <CardHeader title="Visão geral do mês" date="Jun, 22" />
+        <View style={styles.panel}>
+          <PanelHeader title="Visão geral do mês" date="Jun, 22" />
           <BorderedLine
             title="Receitas"
             value="R$ 0,00"
-            color={chosenTheme.green}
+            color={theme.green}
             navigate
           />
           <BorderedLine
             title="Despesas"
             value="R$ 0,00"
-            color={chosenTheme.red}
+            color={theme.red}
             navigate
           />
           <BorderedLine
             title="Despesas no crédito"
             value="R$ 0,00"
-            color={chosenTheme.orange}
+            color={theme.orange}
             navigate
           />
         </View>
-        <View style={estilo.card}>
-          <CardHeader title="Pendências e alertas" date="Jun, 22" />
+        <View style={styles.panel}>
+          <PanelHeader title="Pendências e alertas" date="Jun, 22" />
           <BorderedLine
             title="Receitas pendentes"
             value="R$ 0,00"
-            color={chosenTheme.blue}
+            color={theme.blue}
             description="Total desse mês e dos anteriores"
             navigate
           />
           <BorderedLine
             title="Despesas pendentes"
             value="R$ 0,00"
-            color={chosenTheme.orange}
+            color={theme.orange}
             description="Total desse mês e dos anteriores"
             navigate
           />
           <BorderedLine
             title="Faturas do cartão"
             value="R$ 0,00"
-            color={chosenTheme.purple}
+            color={theme.purple}
             description="Faturas abertas que vencem esse mês"
           />
           <BorderedLine
             title="Saldo seguro"
             value="R$ 0,00"
-            color={chosenTheme.gray}
+            color={theme.gray}
             description="Total de contas menos despesas pendentes"
           />
         </View>
@@ -102,25 +103,3 @@ export default function Home({ navigation }) {
     </ScrollView>
   );
 }
-
-const estilos = function (theme) {
-  return StyleSheet.create({
-    container: {
-      backgroundColor: theme.backgroundContainer,
-      paddingHorizontal: 10,
-      flex: 1,
-    },
-    card: {
-      backgroundColor: theme.backgroundContent,
-      paddingVertical: 12,
-      paddingHorizontal: 16,
-      borderRadius: 5,
-      marginTop: 8,
-    },
-    cardTitle: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: theme.text,
-    },
-  });
-};
