@@ -8,14 +8,13 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import { AccountNavigator, ConfigNavigator, CreditCardNavigator, HomeNavigator, BudgetNavigator, DailySummaryNavigator, TransactionsNavigator, CategoriesNavigator } from './StackRoutes';
 import CustomDrawer from '../shared/CustomDrawer';
-import { GlobalContext } from '../contexts/GlobalContext';
-import Styles from '../styles/Styles';
+import {StyleSheet} from 'react-native';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerRoutes() {
-  const {theme} = useContext(GlobalContext).Theme;
-  const styles = Styles();
+  const {chosenTheme} = useContext(ThemeContext);
   return (
     <NavigationContainer>
       <Drawer.Navigator
@@ -23,15 +22,15 @@ export default function DrawerRoutes() {
         screenOptions={{
           headerShown: false,
           drawerLabelStyle: {marginLeft: -25, fontSize: 16},
-          drawerActiveBackgroundColor: theme.activeBackgroundColor,
-          drawerActiveTintColor: theme.activeColor,
-          drawerInactiveTintColor: theme.text,
+          drawerActiveBackgroundColor: chosenTheme.activeBackgroundColor,
+          drawerActiveTintColor: chosenTheme.activeColor,
+          drawerInactiveTintColor: chosenTheme.text,
         }}
         initialRouteName="Visão Geral">
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialIcons style={styles.drawerIcon} name="dashboard" color={color}/>
+              <MaterialIcons style={estilo.icon} name="dashboard" color={color}/>
             ),
           }}
           name="Visão Geral"
@@ -40,7 +39,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialCommunityIcons style={styles.drawerIcon} name="bank" color={color}/>
+              <MaterialCommunityIcons style={estilo.icon} name="bank" color={color}/>
             ),
           }}
           name="Contas"
@@ -49,7 +48,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialCommunityIcons style={styles.drawerIcon} name="cards" color={color}/>
+              <MaterialCommunityIcons style={estilo.icon} name="cards" color={color}/>
             ),
           }}
           name="Cartões de Crédito"
@@ -58,7 +57,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <SimpleLineIcons style={styles.drawerIcon} name="graph" color={color}/>
+              <SimpleLineIcons style={estilo.icon} name="graph" color={color}/>
             ),
           }}
           name="Transações"
@@ -68,7 +67,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialCommunityIcons style={styles.drawerIcon} name="clipboard-list-outline" color={color}/>
+              <MaterialCommunityIcons style={estilo.icon} name="clipboard-list-outline" color={color}/>
             ),
           }}
           name="Orçamentos"
@@ -78,7 +77,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialCommunityIcons style={styles.drawerIcon} name="clipboard-list-outline" color={color}/>
+              <MaterialCommunityIcons style={estilo.icon} name="clipboard-list-outline" color={color}/>
             ),
           }}
           name="Resumo Diário"
@@ -88,7 +87,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <MaterialIcons style={styles.drawerIcon} name="category" color={color}/>
+              <MaterialIcons style={estilo.icon} name="category" color={color}/>
             ),
           }}
           name="Categorias"
@@ -99,7 +98,7 @@ export default function DrawerRoutes() {
         <Drawer.Screen
           options={{
             drawerIcon: ({color}) => (
-              <Ionicons style={styles.drawerIcon} name="settings-outline" color={color}/>
+              <Ionicons style={estilo.icon} name="settings-outline" color={color}/>
             ),
           }}
           name="Preferências"
@@ -109,3 +108,10 @@ export default function DrawerRoutes() {
     </NavigationContainer>
   );
 }
+
+const estilo = StyleSheet.create({
+  icon: {
+    fontSize: 22,
+    margin: 0,
+  },
+});
