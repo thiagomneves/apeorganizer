@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import { ThemeContext } from '../../contexts/ThemeContext';
+import React, { useEffect, useState } from 'react';
+import {FlatList, Text, View} from 'react-native';
 import { getAccountsByArchive } from '../../services/Accounts';
+import Styles from '../../styles/Styles';
 import AccountArchived from './Components/AccountArchived';
 
 export default function AccountsArchived() {
-  const {chosenTheme} = useContext(ThemeContext);
   const [accounts, setAccounts] = useState([]);
   const [unarchive, setunarchive] = useState({});
-  const estilo = estilos(chosenTheme);
+  const styles = Styles();
 
   useEffect(() => {
     getAccounts();
@@ -25,13 +24,13 @@ export default function AccountsArchived() {
 
   function EmptyMessage() {
     return (
-      <View style={estilo.empty}>
-        <Text style={estilo.emptyText}>Nenhuma conta arquivada</Text>
+      <View style={styles.empty}>
+        <Text style={styles.emptyText}>Nenhuma conta arquivada</Text>
       </View>
     )
   }
   return (
-    <View style={estilo.container}>
+    <View style={styles.container}>
     {accounts.length ?
       (<FlatList style={{flex: 1,}}
         data={accounts}
@@ -40,23 +39,4 @@ export default function AccountsArchived() {
       ) : <EmptyMessage/>}
     </View>
   );
-}
-
-const estilos = theme => {
-  return StyleSheet.create({
-    container: {
-      backgroundColor: theme.backgroundContainer,
-      flex: 1,
-    },
-    empty: {
-      backgroundColor: theme.backgroundContent,
-      flex: 1,
-      padding: 20,
-    },
-    emptyText: {
-      fontSize: 20,
-      color: theme.text,
-      textAlign: 'center',
-    }    
-  })
 }
