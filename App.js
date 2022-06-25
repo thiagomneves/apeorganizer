@@ -11,6 +11,7 @@ import { createTableBudgets } from './src/services/Budgets';
 import { createTableCards } from './src/services/Cards';
 import { createTableCategories } from './src/services/Categories';
 import { createTableTransactions } from './src/services/Transactions';
+import { GlobalProvider } from './src/contexts/GlobalContext';
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
@@ -25,11 +26,13 @@ function App() {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ThemeProvider>
-        <SaveProvider>
-          <DrawerRoutes/>
-        </SaveProvider>
-      </ThemeProvider>
+      <GlobalProvider>
+        <ThemeProvider>
+          <SaveProvider>
+            <DrawerRoutes/>
+          </SaveProvider>
+        </ThemeProvider>
+      </GlobalProvider>
     </SafeAreaView>
   );
 }
