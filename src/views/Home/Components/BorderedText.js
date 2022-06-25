@@ -1,13 +1,30 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import Styles from '../../../styles/Styles';
+import React, {useContext} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {ThemeContext} from '../../../contexts/ThemeContext';
 
 export default function BorderedText({text, color}) {
-  const styles = Styles();
+  const {chosenTheme} = useContext(ThemeContext);
+  const estilo = estilos({theme: chosenTheme, color});
 
   return (
-    <View style={[styles.border, {borderColor: color,}]}>
-      <Text style={styles.borderedText}>{text}</Text>
+    <View style={estilo.border}>
+      <Text style={estilo.text}>{text}</Text>
     </View>
   );
 }
+
+const estilos = ({theme, color}) => {
+
+  return StyleSheet.create({
+    border: {
+      borderLeftWidth: 3,
+      borderColor: color,
+      paddingHorizontal: 16,
+    },
+    text: {
+      color: theme.text,
+      fontSize: 30,
+      fontWeight: 'bold',
+    },
+  });
+};
