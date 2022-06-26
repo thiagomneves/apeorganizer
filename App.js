@@ -3,7 +3,7 @@ import {LogBox, SafeAreaView} from 'react-native';
 import 'react-native-gesture-handler';
 
 import { ThemeProvider } from './src/contexts/ThemeContext';
-import { SaveProvider  } from './src/contexts/SaveContext';
+import { GlobalProvider  } from './src/contexts/GlobalContext';
 
 import DrawerRoutes from './src/routes/DrawerRoutes';
 import { createTableAccounts } from './src/services/Accounts';
@@ -26,9 +26,9 @@ function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ThemeProvider>
-        <SaveProvider>
+        <GlobalProvider>
           <DrawerRoutes/>
-        </SaveProvider>
+        </GlobalProvider>
       </ThemeProvider>
     </SafeAreaView>
   );

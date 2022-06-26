@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { SaveContext } from '../../contexts/SaveContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
+import { GlobalContext } from '../../contexts/GlobalContext';
 
 export default function SaveBtn(props) {
   const {chosenTheme} = useContext(ThemeContext);
-  const {save, setSave} = useContext(SaveContext);
+  const {save, setSave} = useContext(GlobalContext);
   const estilo = estilos(chosenTheme)
 
   return (

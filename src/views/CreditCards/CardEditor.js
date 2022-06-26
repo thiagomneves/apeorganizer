@@ -3,8 +3,8 @@ import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import { useRoute } from '@react-navigation/native';
 
-import { SaveContext } from '../../contexts/SaveContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
+import { GlobalContext } from '../../contexts/GlobalContext';
 import { addCard, editCard } from '../../services/Cards';
 import FlagPicker from './Components/FlagPicker';
 import ColorSelector from '../../shared/ColorSelector';
@@ -16,7 +16,7 @@ import { calcColorText } from '../../util/functions';
 
 export default function CardEditor({navigation }) {
   const [filled, setFilled] = useState(false);
-  const {save, setSave} = useContext(SaveContext);
+  const {save, setSave} = useContext(GlobalContext);
   const {chosenTheme} = useContext(ThemeContext);
   const route = useRoute()
   const selectedCard = route.params.selectedCard
