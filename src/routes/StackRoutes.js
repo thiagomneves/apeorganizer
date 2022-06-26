@@ -26,6 +26,7 @@ import ArchivedBtn from '../components/shared/ArchivedBtn';
 import AccountsArchived from '../views/Accounts/AccountsArchived';
 import SaveBtn from '../components/shared/SaveBtn';
 import DeleteBtn from '../components/shared/DeleteBtn';
+import CreditCardsArchived from '../views/CreditCards/CreditCardsArchived';
 
 const Stack = createNativeStackNavigator();
 
@@ -112,9 +113,15 @@ export function CreditCardNavigator({navigation}) {
         options={{
           headerTitle: 'Cartões de Crédito',
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+          headerRight: () => <ArchivedBtn onPress={() => navigation.navigate('CreditCardsArchived')}/>,
         }}
         name="CartãoScreen"
         component={CreditCards}
+      />
+      <Stack.Screen 
+      options={{headerTitle: "Cartões Arquivados"}}
+      name="CreditCardsArchived"
+      component={CreditCardsArchived}
       />
       <Stack.Screen 
         options={{

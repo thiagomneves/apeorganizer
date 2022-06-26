@@ -4,8 +4,9 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
-import {getCards, getCardsByArchive} from '../../services/Cards';
+import {getCardsByArchive} from '../../services/Cards';
 import CreditCard from './Components/CreditCard';
+import Message from '../../components/shared/Message';
 
 export default function CreditCards() {
   const {chosenTheme} = useContext(ThemeContext);
@@ -46,11 +47,13 @@ export default function CreditCards() {
 
   return (
     <View style={estilo.container}>
+      {cards.length ? 
       <FlatList
         data={cards}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
+      : <Message message="Nenhum cartão disponível"/>}
       <TouchableOpacity
         style={estilo.addBtn}
         onPress={() => editorNavigate()}>
