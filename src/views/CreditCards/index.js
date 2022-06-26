@@ -69,16 +69,14 @@ const estilos = theme => {
     },
     addBtn: {
       position: 'absolute',
-      bottom: 0,
-      right: 0,
+      bottom: 10,
+      right: 10,
       backgroundColor: theme.green,
       width: btnSize,
       height: btnSize,
       borderRadius: 50,
       justifyContent: 'center',
       alignItems: 'center',
-      marginRight: 10,
-      marginBottom: 10,
     },
     addBtnText: {
       color: theme.white,
