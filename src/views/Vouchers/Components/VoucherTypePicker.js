@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Text, View, StyleSheet, FlatList, TouchableOpacity, Modal, Dimensions } from "react-native";
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ThemeContext } from "../../../contexts/ThemeContext";
 import { voucherTypes } from "../../../util/voucherTypes";
@@ -16,9 +18,23 @@ export default function VoucherTypePicker({setType}) {
     setModalVisible(false);
   }
 
+  function Icon(props) {
+    const item = props.item;
+
+    switch (item.iconType) { 
+    case "MaterialCommunityIcons":
+      return <MaterialCommunityIcons name={item.icon} {...props}/>
+    case 'MaterialIcons':
+      return <MaterialIcons name={item.icon} {...props}/>
+    default:
+      return false
+    }
+  }
+
   function renderItem({item}) {
     return (
       <TouchableOpacity onPress={() => choseType(item)} activeOpacity={1} style={estilo.voucherContent}>
+        <Icon style={estilo.modalContainertypeIcon} item={voucherTypes[item]}/>
         <Text style={estilo.voucherTitle}>{voucherTypes[item].title}</Text>
       </TouchableOpacity>
     );
@@ -64,6 +80,10 @@ const estilos = ({theme, windowWidth}) => {
       borderRadius: 6,
       padding: 10,
       width: modalContentWidth,
+    },
+    typeIcon: {
+      color: theme.text,
+      fontSize: 20,
     },
     voucherContent: {
       flexDirection: 'row',
