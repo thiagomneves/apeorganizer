@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native';
 
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { GlobalContext } from '../../contexts/GlobalContext';
-import { addCard, editCard } from '../../services/Cards';
+import { addCard, editCard, removeCard, setArchiveCard } from '../../services/Cards';
 import FlagPicker from './Components/FlagPicker';
 import ColorSelector from '../../shared/ColorSelector';
 import Flip from './Components/Flip';
@@ -16,7 +16,7 @@ import { calcColorText } from '../../util/functions';
 
 export default function CardEditor({navigation }) {
   const [filled, setFilled] = useState(false);
-  const {save, setSave} = useContext(GlobalContext);
+  const {save, setSave, destroy, setDestroy, archive, setArchive} = useContext(GlobalContext);
   const {chosenTheme} = useContext(ThemeContext);
   const route = useRoute()
   const selectedCard = route.params.selectedCard
@@ -43,7 +43,15 @@ export default function CardEditor({navigation }) {
       setCardTextColor(calcColorText(color));
     }
     if (save) savePressed();
-  }, [selectedCard, save, color])
+    if (destroy) {
+      deleteConfirm();
+      setDestroy(false);
+    }
+    if (archive) {
+      archiveConfirm();
+      setArchive(false);
+    }
+  }, [selectedCard, save, color, destroy, archive])
 
   const estilo = estilos(chosenTheme)
 
@@ -55,7 +63,7 @@ export default function CardEditor({navigation }) {
   function deleteConfirm() {
     Alert.alert(
       "Apagar cartão?",
-      `Tem certeza que deseja apagar o cartão ${title}?`,
+      `Tem certeza que deseja apagar o cartão ${selectedCard.title}?`,
       [
         {
           text: "Yes",
@@ -69,6 +77,41 @@ export default function CardEditor({navigation }) {
       ]
     );
   };
+
+  function archiveConfirm() {
+    Alert.alert(
+      "Arquivar cartão?",
+      `Tem certeza que deseja arquivar o cartão? ${selectedCard.title}?`,
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            archiveCard()
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  }
+
+  function archiveCard() {
+    const card = {
+      id: selectedCard.id,
+      archive: archive
+    }
+    setArchiveCard(card);
+    navigation.goBack();
+  }
+
+  function deleteCard() {
+    const card = {
+      id: selectedCard.id,
+    }
+    removeCard(card);
+    navigation.goBack();
+  }
 
   async function saveCard() {
     const oneCard = {
