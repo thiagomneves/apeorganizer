@@ -5,7 +5,7 @@ import CurrencyInput from 'react-native-currency-input';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import { addAccount, editAccount, removeAccount, setArchiveAccount } from '../../services/Accounts';
-import CheckBox from './Components/CheckBox';
+import CheckBox from '../../components/shared/CheckBox';
 import TypePicker from './Components/TypePicker';
 import { GlobalContext } from '../../contexts/GlobalContext';
 
@@ -165,7 +165,7 @@ export default function AccountEditor({navigation }) {
       <View style={estilo.picker}>
         <TypePicker color={color} setColor={setColor} type={type} setType={setType}/>
       </View>
-      <CheckBox label="Somar ao total da tela inicial" sumTotal={sumTotal} setSumTotal={setSumTotal}/>
+      <CheckBox label="Somar ao total da tela inicial" check={sumTotal} setCheck={setSumTotal}/>
     </ScrollView>
   );
 }
