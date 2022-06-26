@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import {Alert, Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { setArchiveAccount } from '../../../services/Accounts';
-import { formatCurrency } from '../../../util/functions';
+import { calcColorText, formatCurrency } from '../../../util/functions';
+import { accountTypes } from '../../../util/types';
 
 export default function AccountArchived({item, unarchive, setunarchive}) {
-  const {title, balance, color} = {...item}
+  const {title, balance, color, type} = {...item}
   const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;
   const estilo = estilos({theme: chosenTheme, color, windowWidth, balance});
@@ -38,7 +40,9 @@ export default function AccountArchived({item, unarchive, setunarchive}) {
   }
   return (
     <TouchableOpacity onPress={showConfirmDialog} style={estilo.container}>
-      <Text style={estilo.icon}></Text>
+      <View style={estilo.icon}>
+        {accountTypes[type].icon && <MaterialCommunityIcons style={[estilo.typeIcon, {color: calcColorText(color, true)}]} name={accountTypes[type].icon}/>}
+      </View>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>
         <Text style={estilo.balance}>{formatCurrency(balance)}</Text>
@@ -59,11 +63,17 @@ const estilos = ({theme, color, windowWidth, balance}) => {
       borderColor: theme.border,
       flexDirection: 'row',
     },
+    typeIcon: {
+      color: theme.text,
+      fontSize: 20,
+    },
     icon: {
       backgroundColor: color,
       width: iconSize,
       height: iconSize,
       borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     content: {
       flexDirection: 'row',
