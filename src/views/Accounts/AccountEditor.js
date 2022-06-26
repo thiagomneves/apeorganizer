@@ -1,15 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native';
+import {ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Alert} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import CurrencyInput from 'react-native-currency-input';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
-import { addAccount, editAccount, removeAccount } from '../../services/Accounts';
+import { addAccount, editAccount, removeAccount, setArchiveAccount } from '../../services/Accounts';
 import CheckBox from './Components/CheckBox';
 import TypePicker from './Components/TypePicker';
+import { GlobalContext } from '../../contexts/GlobalContext';
 
 export default function AccountEditor({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
+  const {save, setSave, destroy, setDestroy, archive, setArchive} = useContext(GlobalContext);
   const estilo = estilos(chosenTheme);
   const [title, setTitle] = useState('');
   const [color, setColor] = useState('#070');
@@ -22,7 +24,66 @@ export default function AccountEditor({navigation }) {
 
   useEffect(() => {
     fillEditor();
-  }, [selectedAccount])
+    if (save) {
+      savePressed();
+    }
+    if (destroy) {
+      deletePressed();
+    }
+    if (archive) {
+      archivePressed();
+    }
+  }, [selectedAccount, save, destroy, archive])
+
+  function savePressed() {
+    accountToUpdate ? updateAccount() : saveAccount()
+    setSave(false);
+  }
+  function deletePressed() {
+    deleteConfirm();
+    setDestroy(false);
+  }
+
+  function archivePressed() {
+    archiveConfirm();
+    setArchive(false)
+  }
+
+  function archiveConfirm() {
+    Alert.alert(
+      "Arquivar conta?",
+      `Tem certeza que deseja arquivar a conta ${selectedAccount.title}?`,
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            archiveAccount();
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
+
+  function deleteConfirm() {
+    Alert.alert(
+      "Apagar conta?",
+      `Tem certeza que deseja apagar a conta ${title}?`,
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteAccount();
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   async function saveAccount() {
     const oneAccount = {
@@ -63,6 +124,15 @@ export default function AccountEditor({navigation }) {
 
   }
 
+  function archiveAccount() {
+    const account = {
+      id: selectedAccount.id,
+      archive: archive
+    }
+    setArchiveAccount(account);
+    navigation.goBack();
+  }
+
   function fillEditor() {
     if (accountToUpdate) {
       setTitle(selectedAccount.title);
@@ -95,12 +165,6 @@ export default function AccountEditor({navigation }) {
         <TypePicker color={color} setColor={setColor} type={type} setType={setType}/>
       </View>
       <CheckBox label="Somar ao total da tela inicial" sumTotal={sumTotal} setSumTotal={setSumTotal}/>
-      <TouchableOpacity onPress={() => accountToUpdate ? updateAccount() : saveAccount()}>
-        <Text style={estilo.btnSalvar}>Salvar</Text>
-      </TouchableOpacity>
-      { accountToUpdate && <TouchableOpacity onPress={() => deleteAccount()}>
-        <Text style={estilo.btnApagar}>Apagar Cartão</Text>
-      </TouchableOpacity>}
     </ScrollView>
   );
 }

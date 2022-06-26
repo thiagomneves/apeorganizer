@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { formatCurrency } from '../../util/functions';
@@ -25,7 +26,11 @@ export default function Accounts() {
   }, [isFocused]);
 
   const editorNavigate = () => {
-    navigation.navigate('Editor de Contas', {selectedAccount});
+    if (!!Object.keys(selectedAccount).length) {
+      navigation.navigate('Editar Conta', {selectedAccount});
+    } else {
+      navigation.navigate('Nova Conta', {selectedAccount});
+    }
   }
   
   async function getTotal() {
@@ -67,7 +72,7 @@ export default function Accounts() {
       <TouchableOpacity
         style={estilo.addBtn}
         onPress={() => editorNavigate()}>
-        <Text style={estilo.addBtnText}>+</Text>
+        <MaterialCommunityIcons style={estilo.addBtnText} name="bank-plus"/>
       </TouchableOpacity>
     </View>
   );
@@ -93,7 +98,7 @@ const estilos = theme => {
     },
     addBtnText: {
       color: theme.white,
-      fontSize: 30,
+      fontSize: 22,
     },
     footerContainer: {
       backgroundColor: theme.backgroundContent,

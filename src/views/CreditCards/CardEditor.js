@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import { useRoute } from '@react-navigation/native';
 
@@ -51,6 +51,24 @@ export default function CardEditor({navigation }) {
     cardToUpdate ? updateCard() : saveCard()
     setSave(false);
   }
+
+  function deleteConfirm() {
+    Alert.alert(
+      "Apagar cartão?",
+      `Tem certeza que deseja apagar o cartão ${title}?`,
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteCard();
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   async function saveCard() {
     const oneCard = {

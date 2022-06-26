@@ -21,7 +21,8 @@ const estilos = theme => {
     icon: {
       color: theme.headerTitle,
       fontSize: 24,
-      paddingLeft: 5,
+      paddingLeft: 2,
+      marginHorizontal: 2,
     }
   })
 }

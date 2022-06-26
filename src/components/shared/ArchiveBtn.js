@@ -4,14 +4,14 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { GlobalContext } from '../../contexts/GlobalContext';
 
-export default function DeleteBtn(props) {
+export default function ArchiveBtn(props) {
   const {chosenTheme} = useContext(ThemeContext);
-  const {destroy, setDestroy} = useContext(GlobalContext);
+  const {archive, setArchive} = useContext(GlobalContext);
   const estilo = estilos(chosenTheme)
 
   return (
-    <TouchableOpacity onPress={() => setDestroy(true)} {...props}>
-      <MaterialIcon style={estilo.icon} name="delete"/>
+    <TouchableOpacity onPress={() => setArchive(true)} {...props}>
+      <MaterialIcon style={estilo.icon} name="archive"/>
     </TouchableOpacity>
   );
 }

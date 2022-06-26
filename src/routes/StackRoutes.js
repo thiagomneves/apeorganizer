@@ -21,11 +21,12 @@ import CardExpense from '../views/Transactions/CardExpense';
 import CategorieEditor from '../views/Categories/CategoryEditor';
 import Categories from '../views/Categories';
 import BudgetEditor from '../views/Budgets/BudgetEditor';
-import ArchiveBtn from '../shared/ArchiveBtn';
+import ArchiveBtn from '../components/shared/ArchiveBtn';
 import ArchivedBtn from '../components/shared/ArchivedBtn';
 import AccountsArchived from '../views/Accounts/AccountsArchived';
 import SaveBtn from '../components/shared/SaveBtn';
 import DeleteBtn from '../components/shared/DeleteBtn';
+import DeleteBtnCard from '../views/CreditCards/Components/DeleteBtn';
 import ArchiveBtnCard from '../views/CreditCards/Components/ArchiveBtnCard';
 
 const Stack = createNativeStackNavigator();
@@ -89,9 +90,15 @@ export function AccountNavigator({navigation}) {
       />
       <Stack.Screen 
         options={{
-          headerRight: () => <ArchiveBtn />,
+          headerRight: () => <><SaveBtn /><ArchiveBtn /><DeleteBtn/></>,
         }}
-        name="Editor de Contas" 
+        name="Editar Conta" 
+        component={AccountEditor} />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <><SaveBtn /></>,
+        }}
+        name="Nova Conta" 
         component={AccountEditor} />
     </Stack.Navigator>
     </>
@@ -113,7 +120,7 @@ export function CreditCardNavigator({navigation}) {
       />
       <Stack.Screen 
         options={{
-          headerRight: () => <><ArchiveBtnCard /><SaveBtn /><DeleteBtn/></>,
+          headerRight: () => <><ArchiveBtnCard /><SaveBtn /><DeleteBtnCard/></>,
         }}
         name="Editar Cartão" component={CardEditor} />
       <Stack.Screen 
