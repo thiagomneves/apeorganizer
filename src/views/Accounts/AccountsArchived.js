@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
+import Message from '../../components/shared/Message';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { getAccountsByArchive } from '../../services/Accounts';
 import AccountArchived from './Components/AccountArchived';
@@ -23,13 +24,6 @@ export default function AccountsArchived() {
     <AccountArchived item={item} unarchive={unarchive} setunarchive={setunarchive}/>
   )
 
-  function EmptyMessage() {
-    return (
-      <View style={estilo.empty}>
-        <Text style={estilo.emptyText}>Nenhuma conta arquivada</Text>
-      </View>
-    )
-  }
   return (
     <View style={estilo.container}>
     {accounts.length ?
@@ -37,7 +31,7 @@ export default function AccountsArchived() {
         data={accounts}
         renderItem={ renderItem }
         keyExtractor={item => item.id} />
-      ) : <EmptyMessage/>}
+      ) : <Message message="Nenhuma conta arquivada"/>}
     </View>
   );
 }
@@ -48,15 +42,5 @@ const estilos = theme => {
       backgroundColor: theme.backgroundContainer,
       flex: 1,
     },
-    empty: {
-      backgroundColor: theme.backgroundContent,
-      flex: 1,
-      padding: 20,
-    },
-    emptyText: {
-      fontSize: 20,
-      color: theme.text,
-      textAlign: 'center',
-    }    
   })
 }
