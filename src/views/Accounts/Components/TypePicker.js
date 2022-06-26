@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import { Dimensions, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ThemeContext } from "../../../contexts/ThemeContext";
+import ColorSelector from "../../../shared/ColorSelector";
 import { calcColorText } from "../../../util/functions";
 import { accountTypes } from "../../../util/types";
 
-export default function TypePicker({type, setType, color}) {
+export default function TypePicker({type, setType, color, setColor}) {
   const typeList = Object.keys(accountTypes);
   const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;
@@ -29,9 +30,9 @@ export default function TypePicker({type, setType, color}) {
   return (
     <>
       <TouchableOpacity style={estilo.typeContent} onPress={() => setModalVisible(true)}>
-        <View style={estilo.accountIcon}>
+        <ColorSelector style={estilo.accountIcon} color={color} setColor={setColor} calcColorText={calcColorText}>
           {accountTypes[type].icon && <MaterialCommunityIcons style={[estilo.typeIcon, {color: calcColorText(color, true)}]} name={accountTypes[type].icon}/>}
-        </View>
+        </ColorSelector>
         <Text style={estilo.typeTitle}>{accountTypes[type].title}</Text>
       </TouchableOpacity>
       <Modal

@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import CurrencyInput from 'react-native-currency-input';
-import ColorPicker from 'react-native-wheel-color-picker';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import { addAccount, editAccount, removeAccount } from '../../services/Accounts';
@@ -93,14 +92,7 @@ export default function AccountEditor({navigation }) {
         value={title}
       />
       <View style={estilo.picker}>
-        <TypePicker color={color} type={type} setType={setType}/>
-      </View>
-      <View style={estilo.colorContainer}>
-        <ColorPicker
-          color={color}
-          swatches={false}
-          onColorChange={selectedColor => setColor(selectedColor)}
-        />
+        <TypePicker color={color} setColor={setColor} type={type} setType={setType}/>
       </View>
       <CheckBox label="Somar ao total da tela inicial" sumTotal={sumTotal} setSumTotal={setSumTotal}/>
       <TouchableOpacity onPress={() => accountToUpdate ? updateAccount() : saveAccount()}>
@@ -170,10 +162,5 @@ const estilos = theme => {
       color: theme.btnText,
       textAlign: 'center',
     },
-    colorContainer: {
-      height: 250,
-    },
-    colorPicker: {
-    }
   });
 };
