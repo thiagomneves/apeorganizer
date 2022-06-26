@@ -1,28 +1,45 @@
 import React, { useContext, useEffect } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemeContext } from '../../../contexts/ThemeContext';
+import { setArchiveVoucher } from '../../../services/Vouchers';
 import { formatCurrency } from '../../../util/functions'
 
-export default function Voucher({item, selectedVoucher, setSelectedVoucher, editorNavigate}) {
+export default function VoucherArchived({item, setunarchive}) {
   const {title, balance, color, type} = {...item}
   const {chosenTheme} = useContext(ThemeContext);
   const newColor = !!color ? color : '#0b8';
   const windowWidth = Dimensions.get('window').width;
   const estilo = estilos({theme: chosenTheme, color: newColor, windowWidth, balance});
 
-  useEffect(() => {
-    if (!!selectedVoucher && Object.keys(selectedVoucher).length > 0) {
-      editorNavigate()
-    }
-  }, [selectedVoucher])
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      "Desarquivar?",
+      `Tem certeza que deseja desarquivar o voucher ${title}?`,
+      [
+        {
+          text: "Sim",
+          onPress: () => {
+            unarchiveVoucher();
+          },
+        },
+        {
+          text: "Não",
+        },
+      ]
+    );
+  };
 
+  function unarchiveVoucher() {
+    const voucher = {
+      id: item.id,
+      archive: false
+    }
+    setArchiveVoucher(voucher);
+    setunarchive(item);
+  }
   return (
-    <TouchableOpacity 
-      onPress={() => {
-        setSelectedVoucher(item);
-      }}
-      style={estilo.container}>
+    <TouchableOpacity onPress={showConfirmDialog} style={estilo.container}>
       <View style={estilo.icon}></View>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>

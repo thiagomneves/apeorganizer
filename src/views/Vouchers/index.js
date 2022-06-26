@@ -1,10 +1,10 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-import { getVouchers, getVouchersByArchive } from "../../services/Vouchers";
+import { getVouchersByArchive } from "../../services/Vouchers";
 import Message from '../../components/shared/Message';
 import Voucher from "./Components/Voucher";
 
