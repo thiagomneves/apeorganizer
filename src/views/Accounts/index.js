@@ -7,6 +7,7 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import { formatCurrency } from '../../util/functions';
 import {getTotalBalance, getAccountsByArchive} from '../../services/Accounts';
 import Account from './Components/Account';
+import Message from '../../components/shared/Message';
 
 export default function Accounts() {
   const {chosenTheme} = useContext(ThemeContext);
@@ -36,6 +37,7 @@ export default function Accounts() {
   async function getTotal() {
     const newTotal = await getTotalBalance();
     if (newTotal[0].balance) setTotal(newTotal[0].balance);
+    else setTotal(0)
   }
 
   async function showAccounts() {
@@ -64,10 +66,12 @@ export default function Accounts() {
   }
   return (
     <View style={estilo.container}>
+      {!!accounts.length ? (
       <FlatList style={{flex: 1, marginBottom: 42}}
       data={accounts}
       renderItem={ renderItem }
       keyExtractor={item => item.id} />
+      ) : <Message message="Nenhuma conta disponível"/>}
       <FooterBar />
       <TouchableOpacity
         style={estilo.addBtn}
