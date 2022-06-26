@@ -1,19 +1,52 @@
-import React, { useContext } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+import React, { useContext, useEffect, useState } from "react";
+import { Text, View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { getVouchers, getVouchersByArchive } from "../../services/Vouchers";
+import Message from '../../components/shared/Message';
+import Voucher from "./Components/Voucher";
 
 export default function Vouchers({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
+  const [vouchers, setVouchers] = useState([]);
+  const [selectedVoucher, setSelectedVoucher] = useState({});
+  const isFocused = useIsFocused();
   const estilo = estilos(chosenTheme);
 
-  function editorNavigate() {
-    navigation.navigate("Novo Voucher")
+  useEffect(() => {
+    if (isFocused) showVouchers();
+  }, [isFocused])
+
+  async function showVouchers() {
+    const voucherList = await getVouchersByArchive(false);
+    setSelectedVoucher({});
+    setVouchers(voucherList);
+  }
+
+  const editorNavigate = () => {
+    if (!!Object.keys(selectedVoucher).length) {
+      navigation.navigate('Editar Voucher', {selectedVoucher});
+    } else {
+      navigation.navigate('Novo Voucher', {selectedVoucher});
+    }
+  }
+  function renderItem({item}) {
+    return <Voucher item={item}
+      selectedVoucher={selectedVoucher}
+      setSelectedVoucher={setSelectedVoucher}
+      editorNavigate={editorNavigate}
+      />
   }
   return (
     <View style={estilo.container}>
-      <Text>Vouchers</Text>
+      {!!vouchers.length ? (
+      <FlatList style={{flex: 1, marginBottom: 42}}
+      data={vouchers}
+      renderItem={ renderItem }
+      keyExtractor={item => item.id} />
+      ) : <Message message="Nenhum voucher disponível"/>}
       <TouchableOpacity
         style={estilo.addBtn}
         onPress={() => editorNavigate()}>

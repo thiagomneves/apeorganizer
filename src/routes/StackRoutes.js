@@ -30,6 +30,7 @@ import DeleteBtn from '../components/shared/DeleteBtn';
 import CreditCardsArchived from '../views/CreditCards/CreditCardsArchived';
 import Vouchers from '../views/Vouchers';
 import VoucherEditor from '../views/Vouchers/VoucherEditor';
+import VouchersArchived from '../views/Vouchers/VouchersArchived';
 
 const Stack = createNativeStackNavigator();
 
@@ -149,12 +150,26 @@ export function VoucherNavigator({navigation}) {
         options={{
           headerTitle: 'Vales e Cartões Pré-pagos',
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+          headerRight: () => <ArchivedBtn onPress={() => navigation.navigate('VouchersArchived')}/>,
         }}
-        name="VoucherScreen"
-        component={Vouchers}
+        name="VoucherScreen" component={Vouchers}
       />
-      <Stack.Screen name="Editar Voucher" component={VoucherEditor} />
-      <Stack.Screen name="Novo Voucher" component={VoucherEditor} />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <><SaveBtn /><ArchiveBtn /><DeleteBtn/></>,
+        }}
+        name="Editar Voucher" component={VoucherEditor} />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <SaveBtn />,
+        }}
+        name="Novo Voucher" component={VoucherEditor} />
+      <Stack.Screen
+        options={{
+          headerTitle: 'Vouchers Arquivados',
+        }}
+        name="VouchersArchived" component={VouchersArchived}
+      />
     </Stack.Navigator>
   );
 }

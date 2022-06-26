@@ -24,15 +24,9 @@ export default function AccountEditor({navigation }) {
 
   useEffect(() => {
     fillEditor();
-    if (save) {
-      savePressed();
-    }
-    if (destroy) {
-      deletePressed();
-    }
-    if (archive) {
-      archivePressed();
-    }
+    if (save) savePressed();
+    if (destroy) deletePressed();
+    if (archive) archivePressed();
   }, [selectedAccount, save, destroy, archive])
 
   function savePressed() {
@@ -52,7 +46,7 @@ export default function AccountEditor({navigation }) {
   function archiveConfirm() {
     Alert.alert(
       "Arquivar conta?",
-      `Tem certeza que deseja arquivar a conta ${selectedAccount.title}?`,
+      `Tem certeza que deseja arquivar a conta ${title}?`,
       [
         {
           text: "Yes",

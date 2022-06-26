@@ -6,7 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { ThemeContext } from "../../../contexts/ThemeContext";
 import { voucherTypes } from "../../../util/voucherTypes";
 
-export default function VoucherTypePicker({setType}) {
+export default function VoucherTypePicker({type, setType}) {
   const {chosenTheme} = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
   const typeList = Object.keys(voucherTypes);
@@ -34,14 +34,15 @@ export default function VoucherTypePicker({setType}) {
   function renderItem({item}) {
     return (
       <TouchableOpacity onPress={() => choseType(item)} activeOpacity={1} style={estilo.voucherContent}>
-        <Icon style={estilo.modalContainertypeIcon} item={voucherTypes[item]}/>
+        <Icon style={estilo.typeIcon} item={voucherTypes[item]}/>
         <Text style={estilo.voucherTitle}>{voucherTypes[item].title}</Text>
       </TouchableOpacity>
     );
   }
   return <>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Text>Click me</Text>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={estilo.typeContent}>
+        <Icon style={estilo.typeIcon} item={voucherTypes[type]} />
+        <Text style={estilo.typeTitle}>{voucherTypes[type].title}</Text>
       </TouchableOpacity>
       <Modal
         animationType="slide"
@@ -67,6 +68,20 @@ export default function VoucherTypePicker({setType}) {
 const estilos = ({theme, windowWidth}) => {
   const modalContentWidth = windowWidth - 40;
   return StyleSheet.create({
+    typeContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 10,
+    },
+    typeTitle: {
+      color: theme.text,
+      fontSize: 18,
+      paddingLeft: 15,
+    },
+    typeIcon: {
+      color: theme.text,
+      fontSize: 20,
+    },
     modalContainer: {
       flex: 1,
       justifyContent: "center",
@@ -80,10 +95,6 @@ const estilos = ({theme, windowWidth}) => {
       borderRadius: 6,
       padding: 10,
       width: modalContentWidth,
-    },
-    typeIcon: {
-      color: theme.text,
-      fontSize: 20,
     },
     voucherContent: {
       flexDirection: 'row',

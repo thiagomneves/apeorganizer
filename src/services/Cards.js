@@ -3,7 +3,6 @@ import {db} from './SQLite';
 export function createTableCards() {
   db.transaction(txn => {
     txn.executeSql(
-      // 'DROP TABLE cards;'+
       'CREATE TABLE IF NOT EXISTS ' +
         'cards ' +
         '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, ' +
