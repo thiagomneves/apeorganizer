@@ -29,6 +29,7 @@ import SaveBtn from '../components/shared/SaveBtn';
 import DeleteBtn from '../components/shared/DeleteBtn';
 import CreditCardsArchived from '../views/CreditCards/CreditCardsArchived';
 import Vouchers from '../views/Vouchers';
+import VoucherEditor from '../views/Vouchers/VoucherEditor';
 
 const Stack = createNativeStackNavigator();
 
@@ -152,6 +153,8 @@ export function VoucherNavigator({navigation}) {
         name="VoucherScreen"
         component={Vouchers}
       />
+      <Stack.Screen name="Editar Voucher" component={VoucherEditor} />
+      <Stack.Screen name="Novo Voucher" component={VoucherEditor} />
     </Stack.Navigator>
   );
 }
