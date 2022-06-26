@@ -11,7 +11,7 @@ const colors = [
   '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
 ]
 
-export default function ColorSelector({color, setColor, size = 50, cardTextColor, setCardTextColor, calcColorText}) {
+export default function ColorSelector({color, setColor, size = 50, cardTextColor, setCardTextColor, calcColorText, style, children}) {
   const {chosenTheme} = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [advanced, setAdvanced] = useState(false);
@@ -29,8 +29,9 @@ export default function ColorSelector({color, setColor, size = 50, cardTextColor
   }
   return (
     <View>
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={estilo.colorCircle}/>
-
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={style ? style : estilo.colorCircle}>
+        {children}
+      </TouchableOpacity>
       <Modal
         animationType="slide"
         transparent={true}
