@@ -21,6 +21,6 @@ export const accountTypes = {
   },
   other: {
     title: "Outro",
-    icon: "piggy-bank-outline",
+    icon: "treasure-chest",
   },
 }

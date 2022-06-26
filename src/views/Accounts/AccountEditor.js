@@ -139,6 +139,7 @@ export default function AccountEditor({navigation }) {
       setColor(selectedAccount.color);
       setBalance(selectedAccount.balance);
       setSumTotal(!!selectedAccount.sumtotal);
+      setType(selectedAccount.type);
     }
   }
 
