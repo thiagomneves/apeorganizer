@@ -31,8 +31,9 @@ import CreditCardsArchived from '../views/CreditCards/CreditCardsArchived';
 import Vouchers from '../views/Vouchers';
 import VoucherEditor from '../views/Vouchers/VoucherEditor';
 import VouchersArchived from '../views/Vouchers/VouchersArchived';
-import ShoppingLists from '../views/ShoppingList';
-import ShoppingListEditor from '../views/ShoppingList/ShoppingListEditor';
+import ShoppingLists from '../views/ShoppingLists';
+import ShoppingListEditor from '../views/ShoppingLists/ShoppingListEditor';
+import ShoppingList from '../views/ShoppingLists/ShoppingList';
 
 const Stack = createNativeStackNavigator();
 
@@ -251,6 +252,9 @@ export function ShoppingListNavigator({navigation}) {
         }}
         name="Nova Lista de Compras" 
         component={ShoppingListEditor} />
+      <Stack.Screen 
+        name="ShoppingList" 
+        component={ShoppingList} />
     </Stack.Navigator>
   );
 }

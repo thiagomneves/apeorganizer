@@ -39,7 +39,12 @@ export async function getShoppingLists() {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT * from shoppinglists ORDER BY created;',
+        'SELECT l.*, '+
+        '(SELECT count(i.list_id) FROM shoppinglistitem i WHERE i.list_id = l.id ) as amount, ' +
+        '(SELECT count(d.list_id) from shoppinglistitem d WHERE d.list_id = l.id  AND done = 1) as totaldone, ' +
+        '(SELECT sum(v.estimatedprice) FROM shoppinglistitem v WHERE v.list_id = l.id) as estimated ' +
+        'from shoppinglists l ' +
+        'ORDER BY created;',
         [],
         (trans, results) => {
           resolve(results.rows.raw());

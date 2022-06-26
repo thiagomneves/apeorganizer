@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import i18n from 'i18n-js';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {GlobalContext} from '../../contexts/GlobalContext';

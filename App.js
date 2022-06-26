@@ -13,8 +13,10 @@ import { createTableCategories } from './src/services/Categories';
 import { createTableTransactions } from './src/services/Transactions';
 import { createTableVouchers } from './src/services/Vouchers';
 import { createTableShoppingLists } from './src/services/ShoppingLists';
+import { createTableShoppingListItem } from './src/services/ShoppingListItems';
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+LogBox.ignoreLogs(["Cannot update a component (`NativeStackNavigator`)"]);
 
 function App() {
   useEffect(() => {
@@ -25,6 +27,7 @@ function App() {
     createTableBudgets()
     createTableVouchers()
     createTableShoppingLists()
+    createTableShoppingListItem()
   }, [])
 
   return (

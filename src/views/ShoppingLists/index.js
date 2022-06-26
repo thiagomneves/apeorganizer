@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import { getShoppingLists } from '../../services/ShoppingLists';
-import ShoppingList from './Components/ShoppingList';
+import ShoppingListsItem from './Components/ShoppingListsItem';
 import Message from '../../components/shared/Message';
 
 export default function ShoppingLists() {
@@ -22,19 +22,26 @@ export default function ShoppingLists() {
 
   async function showLists() {
     const newLists = await getShoppingLists();
-    setLists(newLists)
+    setSelectedShoppingList({});
+    setLists(newLists);
   }
 
   const editorNavigate = () => {
     if (!!Object.keys(selectedShoppingList).length) {
-      navigation.navigate('Editar Lista de Compras', {selectedShoppingList});
+      navigation.navigate('ShoppingList', {selectedShoppingList});
     } else {
       navigation.navigate('Nova Lista de Compras', {selectedShoppingList});
     }
   }
 
   function renderItem({item}) {
-    return <ShoppingList item={item}/>;
+    return (
+      <ShoppingListsItem item={item} 
+        selectedShoppingList={selectedShoppingList}
+        setSelectedShoppingList={setSelectedShoppingList}
+        editorNavigate={editorNavigate}
+        />
+    )
   }
 
   return (

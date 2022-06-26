@@ -19,7 +19,6 @@ export default function CreditCardsArchived() {
   useEffect(() => {
     if (isFocused) showCards();
   }, [isFocused, unarchive]);
-  console.log(cards)
 
   async function showCards() {
     const cardList = await getCardsByArchive(true);

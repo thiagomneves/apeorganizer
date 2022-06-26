@@ -1,21 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {ThemeContext} from '../../../contexts/ThemeContext';
+import { formatCurrency } from '../../../util/functions';
 
-export default function ShoppingList({item}) {
+export default function ShoppingListItem({item, selectedShoppingList, setSelectedShoppingList, editorNavigate}) {
   const {chosenTheme} = useContext(ThemeContext);
-  const {title} = item;
+  const {title, amount, estimated, totaldone} = item;
   const estilo = estilos(chosenTheme)
+  useEffect(() => {
+    if (!!selectedShoppingList && Object.keys(selectedShoppingList).length > 0) {
+      editorNavigate()
+    }
+  }, [selectedShoppingList])
 
   return (
-    <TouchableOpacity style={estilo.container}>
+    <TouchableOpacity 
+      onPress={() => {
+        setSelectedShoppingList(item);
+      }}
+      style={estilo.container} >
       <View style={estilo.list}>
         <Text style={estilo.title}>{title}</Text>
-        <Text style={estilo.title}>R$ 10,00</Text>
+        <Text style={estilo.title}>{formatCurrency(estimated)}</Text>
       </View>
       <View style={estilo.list}>
-        <Text style={estilo.details}>2/2 Itens</Text>
+        <Text style={estilo.details}>{totaldone}/{amount} Itens</Text>
         <Text style={estilo.details}>Estimativa</Text>
       </View>
     </TouchableOpacity>
