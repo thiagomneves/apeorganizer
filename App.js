@@ -11,6 +11,7 @@ import { createTableBudgets } from './src/services/Budgets';
 import { createTableCards } from './src/services/Cards';
 import { createTableCategories } from './src/services/Categories';
 import { createTableTransactions } from './src/services/Transactions';
+import { createTableVouchers } from './src/services/Vouchers';
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
@@ -21,6 +22,7 @@ function App() {
     createTableCategories()
     createTableTransactions()
     createTableBudgets()
+    createTableVouchers()
   }, [])
 
   return (

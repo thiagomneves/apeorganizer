@@ -3,16 +3,6 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-/**
- * titulo
- * tipo //alimentação, refeição, multibenefícios, transporte, pré-pago, outro
- * saldo
- * flag (se for alimentação/refeição) (não tenho certeza) deixar pra depois
- * cor
- * arquivado
- * mostrar total
- * 
- */
 
 export default function Vouchers({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
