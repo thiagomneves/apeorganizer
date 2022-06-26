@@ -18,6 +18,7 @@ import Transfer from '../views/Transactions/Transfer';
 import Revenue from '../views/Transactions/Revenue';
 import Expense from '../views/Transactions/Expense';
 import CardExpense from '../views/Transactions/CardExpense';
+import VoucherExpense from '../views/Transactions/VoucherExpense';
 import CategorieEditor from '../views/Categories/CategoryEditor';
 import Categories from '../views/Categories';
 import BudgetEditor from '../views/Budgets/BudgetEditor';
@@ -27,6 +28,7 @@ import AccountsArchived from '../views/Accounts/AccountsArchived';
 import SaveBtn from '../components/shared/SaveBtn';
 import DeleteBtn from '../components/shared/DeleteBtn';
 import CreditCardsArchived from '../views/CreditCards/CreditCardsArchived';
+import Vouchers from '../views/Vouchers';
 
 const Stack = createNativeStackNavigator();
 
@@ -136,6 +138,24 @@ export function CreditCardNavigator({navigation}) {
     </Stack.Navigator>
   );
 }
+
+export function VoucherNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Vales e Cartões Pré-pagos',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="VoucherScreen"
+        component={Vouchers}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export function TransactionsNavigator({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const screenOptions = makeScreenOptions(chosenTheme)
@@ -153,6 +173,7 @@ export function TransactionsNavigator({navigation}) {
       <Stack.Screen name="Receita" component={Revenue} />
       <Stack.Screen name="Despesa" component={Expense} />
       <Stack.Screen name="Despesa no Crédito" component={CardExpense} />
+      <Stack.Screen name="Despesa no Voucher" component={VoucherExpense} />
     </Stack.Navigator>
   );
 }

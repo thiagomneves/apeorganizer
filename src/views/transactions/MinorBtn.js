@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -25,6 +26,8 @@ export default function MinorBtn(props) {
         return <Octicons style={estilo.minorBtnIcon} name={name}/>
       case 'MaterialIcons':
         return <MaterialIcons style={estilo.minorBtnIcon} name={name}/>
+      case 'MaterialCommunityIcons':
+        return <MaterialCommunityIcons style={estilo.minorBtnIcon} name={name}/>
       default:
         return false
     }
