@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
-import { convertPriceForReal } from '../../../util/functions'
+import { formatCurrency } from '../../../util/functions'
 
 export default function Account({item, selectedAccount, setSelectedAccount, editorNavigate}) {
   const {title, balance, color} = {...item}
@@ -25,7 +25,7 @@ export default function Account({item, selectedAccount, setSelectedAccount, edit
       <Text style={estilo.icon}></Text>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>
-        <Text style={estilo.balance}>{convertPriceForReal(balance)}</Text>
+        <Text style={estilo.balance}>{formatCurrency(balance)}</Text>
       </View>
     </TouchableOpacity>
   );

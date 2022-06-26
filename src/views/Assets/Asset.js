@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
-import {convertPriceForReal} from '../../util/functions'
+import {formatCurrency} from '../../util/functions'
 
 const types = {
   "BTC": {
@@ -19,7 +19,7 @@ export default function Asset({title, balance, unity, color, type}) {
     <View style={estilo.border}>
       <View style={estilo.row}>
         <Text style={estilo.title}>{title}</Text>
-        <Text style={estilo.balance}>{convertPriceForReal(newBalance)}</Text>
+        <Text style={estilo.balance}>{formatCurrency(newBalance)}</Text>
       </View>
       { !!unity ? <Text style={estilo.unity}>{unity}</Text> : false}
     </View>

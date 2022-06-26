@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
-import {convertPriceForReal} from '../../../util/functions';
+import {formatCurrency} from '../../../util/functions';
 
 export default function Budget({item, selectedBudget, setSelectedBudget, editorNavigate}) {
   const {title, color} = item;
@@ -30,7 +30,7 @@ export default function Budget({item, selectedBudget, setSelectedBudget, editorN
         </View>
         <View style={estilo.line}>
           <Text style={estilo.small}>Restante</Text>
-          <Text style={estilo.small}>{convertPriceForReal(budget - spent)}</Text>
+          <Text style={estilo.small}>{formatCurrency(budget - spent)}</Text>
         </View>
       </View>
     </TouchableOpacity>

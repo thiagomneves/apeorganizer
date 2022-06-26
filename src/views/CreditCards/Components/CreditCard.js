@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {ThemeContext} from '../../../contexts/ThemeContext';
 
-import {convertPriceForReal} from '../../../util/functions';
+import {formatCurrency} from '../../../util/functions';
 import CardFlag from './CardFlag';
 
 export default function CreditCard({item, selectedCard, setSelectedCard, editorNavigate}) {
@@ -39,7 +39,7 @@ export default function CreditCard({item, selectedCard, setSelectedCard, editorN
         <View style={estilo.title}>
           <Text style={estilo.bank}>{title}</Text>
           <View>
-            <Text style={estilo.value}>{convertPriceForReal(avaliable)}</Text>
+            <Text style={estilo.value}>{formatCurrency(avaliable)}</Text>
             <Text style={estilo.avaliable}>disponível</Text>
           </View>
         </View>
@@ -48,8 +48,8 @@ export default function CreditCard({item, selectedCard, setSelectedCard, editorN
         <View style={estilo.barAmount}></View>
       </View>
       <View style={estilo.limitLine}>
-        <Text style={estilo.cardlimit}>{convertPriceForReal(newSpent)}</Text>
-        <Text style={estilo.cardlimit}>{convertPriceForReal(cardlimit)}</Text>
+        <Text style={estilo.cardlimit}>{formatCurrency(newSpent)}</Text>
+        <Text style={estilo.cardlimit}>{formatCurrency(cardlimit)}</Text>
       </View>
     </TouchableOpacity>
   );

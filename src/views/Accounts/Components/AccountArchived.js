@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import {Alert, Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { setArchiveAccount } from '../../../services/Accounts';
-import { convertPriceForReal } from '../../../util/functions';
+import { formatCurrency } from '../../../util/functions';
 
 export default function AccountArchived({item, unarchive, setunarchive}) {
   const {title, balance, color} = {...item}
@@ -41,7 +41,7 @@ export default function AccountArchived({item, unarchive, setunarchive}) {
       <Text style={estilo.icon}></Text>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>
-        <Text style={estilo.balance}>{convertPriceForReal(balance)}</Text>
+        <Text style={estilo.balance}>{formatCurrency(balance)}</Text>
       </View>
     </TouchableOpacity>
   );

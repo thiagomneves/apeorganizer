@@ -3,6 +3,7 @@ import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { ThemeContext } from '../../contexts/ThemeContext';
+import { formatCurrency } from '../../util/functions';
 import {getTotalBalance, getAccountsByArchive} from '../../services/Accounts';
 import Account from './Components/Account';
 
@@ -46,16 +47,23 @@ export default function Accounts() {
       editorNavigate={editorNavigate}
       />
   );
+  function FooterBar() {
+    return (
+      <View style={estilo.footerContainer}>
+        <Text style={estilo.footerText}>Saldo total</Text>
+        <Text style={[estilo.footerText, {color: total >= 0 ? chosenTheme.green : chosenTheme.red}]}>
+          {formatCurrency(total)}
+        </Text>
+      </View>
+    )
+  }
   return (
     <View style={estilo.container}>
       <FlatList style={{flex: 1, marginBottom: 42}}
       data={accounts}
       renderItem={ renderItem }
       keyExtractor={item => item.id} />
-      <View style={estilo.footerContainer}>
-        <Text style={estilo.footerText}>Saldo total</Text>
-        <Text style={[estilo.footerText, {color: total >= 0 ? chosenTheme.green : chosenTheme.red}]}>{total}</Text>
-      </View>
+      <FooterBar />
       <TouchableOpacity
         style={estilo.addBtn}
         onPress={() => editorNavigate()}>

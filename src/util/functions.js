@@ -1,4 +1,6 @@
-export const convertPriceForReal = (number) => {
+import i18n from 'i18n-js';
+
+export const formatCurrency = (number) => {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
@@ -19,3 +21,7 @@ export const calcColorText = (color) => {
 
   return (cardWeight >= lightWeight) ? textDark : textLight;
 }
+
+// export const formatCurrency = (value) => {
+//   return i18n.toCurrency(value, { delimiter: ".", separator: ",", precision: 2, unit: "R$ "});
+// }

@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
-import { convertPriceForReal } from '../../util/functions';
+import { formatCurrency } from '../../util/functions';
 import { getTotalBalance } from '../../services/Accounts';
 
 import CardHeader from './Components/CardHeader';
@@ -34,7 +34,7 @@ export default function Home({ navigation }) {
     <ScrollView style={estilo.container}>
         <View style={estilo.card}>
           <Text style={estilo.cardTitle}>Saldo de Contas</Text>
-          <BorderedText text={convertPriceForReal(balance)} color={balance >= 0 ? chosenTheme.green : chosenTheme.red} />
+          <BorderedText text={formatCurrency(balance)} color={balance >= 0 ? chosenTheme.green : chosenTheme.red} />
         </View>
 
         <View style={estilo.card}>
