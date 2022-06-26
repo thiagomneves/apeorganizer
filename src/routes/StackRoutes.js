@@ -31,6 +31,7 @@ import CreditCardsArchived from '../views/CreditCards/CreditCardsArchived';
 import Vouchers from '../views/Vouchers';
 import VoucherEditor from '../views/Vouchers/VoucherEditor';
 import VouchersArchived from '../views/Vouchers/VouchersArchived';
+import ShoppingLists from '../views/ShoppingList';
 
 const Stack = createNativeStackNavigator();
 
@@ -225,6 +226,23 @@ export function DailySummaryNavigator({navigation}) {
         }}
         name="BudgetScreen"
         component={DailySummary}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export function ShoppingListNavigator({navigation}) {
+  const {chosenTheme} = useContext(ThemeContext);
+  const screenOptions = makeScreenOptions(chosenTheme)
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Lista de Compras',
+          headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
+        }}
+        name="ShoppingLists"
+        component={ShoppingLists}
       />
     </Stack.Navigator>
   );
