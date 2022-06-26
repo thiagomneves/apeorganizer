@@ -32,6 +32,7 @@ import Vouchers from '../views/Vouchers';
 import VoucherEditor from '../views/Vouchers/VoucherEditor';
 import VouchersArchived from '../views/Vouchers/VouchersArchived';
 import ShoppingLists from '../views/ShoppingList';
+import ShoppingListEditor from '../views/ShoppingList/ShoppingListEditor';
 
 const Stack = createNativeStackNavigator();
 
@@ -244,6 +245,12 @@ export function ShoppingListNavigator({navigation}) {
         name="ShoppingLists"
         component={ShoppingLists}
       />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <><SaveBtn /></>,
+        }}
+        name="Nova Lista de Compras" 
+        component={ShoppingListEditor} />
     </Stack.Navigator>
   );
 }
