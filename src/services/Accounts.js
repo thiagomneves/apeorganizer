@@ -5,7 +5,7 @@ export function createTableAccounts() {
     txn.executeSql(
       'CREATE TABLE IF NOT EXISTS ' +
         'accounts ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, balance FLOAT, sumtotal BOOLEAN, archive BOOLEAN, goal TEXT);',
+        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, balance FLOAT, sumtotal BOOLEAN, archive BOOLEAN, goal TEXT, type TEXT);',
       [],
       (sqlTxn, res) => {
         console.log('table accounts created successfully');
@@ -21,8 +21,8 @@ export async function addAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'INSERT INTO accounts (title, color, balance, sumtotal, archive) VALUES (?, ?, ?, ?, ?);',
-        [account.title, account.color, account.balance, account.sumtotal, account.archive],
+        'INSERT INTO accounts (title, color, balance, sumtotal, type, archive) VALUES (?, ?, ?, ?, ?, ?);',
+        [account.title, account.color, account.balance, account.sumtotal, account.type, account.archive],
         (trans, results) => {
           resolve("Conta adicionada com sucesso");
         },
@@ -110,8 +110,8 @@ export async function editAccount(account) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'UPDATE accounts SET title = ?, color = ?, balance = ?, sumtotal = ? WHERE id = ?;',
-        [account.title, account.color, account.balance, account.sumtotal, account.id],
+        'UPDATE accounts SET title = ?, color = ?, balance = ?, sumtotal = ?, type = ? WHERE id = ?;',
+        [account.title, account.color, account.balance, account.sumtotal, account.type, account.id],
         (trans, results) => {
           resolve("Conta atualizada com sucesso");
         },

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { ThemeContext } from '../../../contexts/ThemeContext';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { formatCurrency } from '../../../util/functions'
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { calcColorText, formatCurrency } from '../../../util/functions'
+import { accountTypes } from '../../../util/types';
 
 export default function Account({item, selectedAccount, setSelectedAccount, editorNavigate}) {
-  const {title, balance, color} = {...item}
+  const {title, balance, color, type} = {...item}
   const {chosenTheme} = useContext(ThemeContext);
   const newColor = !!color ? color : '#0b8';
   const windowWidth = Dimensions.get('window').width;
@@ -15,14 +17,16 @@ export default function Account({item, selectedAccount, setSelectedAccount, edit
       editorNavigate()
     }
   }, [selectedAccount])
-
+  
   return (
     <TouchableOpacity 
       onPress={() => {
         setSelectedAccount(item);
       }}
       style={estilo.container}>
-      <Text style={estilo.icon}></Text>
+      <View style={estilo.icon}>
+        {accountTypes[type].icon && <MaterialCommunityIcons style={[estilo.typeIcon, {color: calcColorText(color, true)}]} name={accountTypes[type].icon}/>}
+      </View>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>
         <Text style={estilo.balance}>{formatCurrency(balance)}</Text>
@@ -43,11 +47,17 @@ const estilos = ({theme, color, windowWidth, balance}) => {
       borderColor: theme.border,
       flexDirection: 'row',
     },
+    typeIcon: {
+      color: theme.text,
+      fontSize: 20,
+    },
     icon: {
       backgroundColor: color,
       width: iconSize,
       height: iconSize,
       borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     content: {
       flexDirection: 'row',

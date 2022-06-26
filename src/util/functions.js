@@ -7,7 +7,7 @@ export const formatCurrency = (number) => {
   }).format(number);
 };
 
-export const calcColorText = (color) => {
+export const calcColorText = (color, contrast = false) => {
   const hex = color.substr(1,6)
   const r = parseInt(hex.substr(0,2), 16);
   const g = parseInt(hex.substr(2,2), 16);
@@ -19,9 +19,9 @@ export const calcColorText = (color) => {
   const textDark = '#555555';
   const textLight = '#cccccc';
 
+  if (contrast) {
+    return  (cardWeight >= lightWeight) ? '#000000' : '#ffffff';
+  }
   return (cardWeight >= lightWeight) ? textDark : textLight;
 }
 
-// export const formatCurrency = (value) => {
-//   return i18n.toCurrency(value, { delimiter: ".", separator: ",", precision: 2, unit: "R$ "});
-// }
