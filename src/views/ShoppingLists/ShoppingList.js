@@ -15,22 +15,32 @@ export default function ShoppingList({navigation, route}) {
   const [titleError, setTitleError] = useState(false);
   const [estimatedPrice, setEstimatedPrice] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
-  const [deleted, setDeleted] = useState(false);
+  const [anyChecked, setAnychecked] = useState(false);
+  const [updateList, setUpdateList] = useState(false);
   const estilo = estilos(chosenTheme);
   navigation.setOptions({headerTitle: route.params.selectedShoppingList.title,})
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused) getShoppingList();
-    if (deleted) {
+    if (isFocused) {
       getShoppingList();
-      setDeleted(false);
+      setUpdateList(false);
     }
-  }, [isFocused, deleted])
+  }, [isFocused, updateList])
+
+  function updateCheck(list) {
+    setAnychecked(false);
+    list.map(item => {
+      if (item.done) {
+        setAnychecked(true);
+      }
+    });
+  }
 
   async function getShoppingList() {
     const listItems = await getShoppingListItems(route.params.selectedShoppingList.id)
     setShoppingList(listItems);
+    updateCheck(listItems);
   }
 
   async function addItem() {
@@ -62,7 +72,11 @@ export default function ShoppingList({navigation, route}) {
   }
 
   function renderItem({item}) {
-    return <ShoppingListItem item={item} setDeleted={setDeleted}/>
+    return <ShoppingListItem item={item} setUpdateList={setUpdateList}/>
+  }
+
+  function Header() {
+    return anyChecked && <View><Text>Registrar?</Text></View>
   }
 
   return (
@@ -70,6 +84,7 @@ export default function ShoppingList({navigation, route}) {
       <FlatList style={{flex: 1}}
         data={shoppingList}
         renderItem={ renderItem }
+        ListHeaderComponent={Header}
         keyExtractor={item => item.id} />
       <TouchableOpacity
         style={estilo.addBtn}

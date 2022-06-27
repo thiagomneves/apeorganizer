@@ -8,7 +8,7 @@ import CheckBox from '../../../components/shared/CheckBox'
 import { formatCurrency } from "../../../util/functions";
 
 
-export default function ShoppingListItemItem({item, setDeleted}) {
+export default function ShoppingListItemItem({item, setDeleted, setUpdateList}) {
   const {chosenTheme} = useContext(ThemeContext);
   const estilo = estilos(chosenTheme);
   const [title, setTitle] = useState(item.title);
@@ -31,7 +31,8 @@ export default function ShoppingListItemItem({item, setDeleted}) {
       id: item.id,
       done
     }
-    await checkShoppingListItem(newCheck)
+    await checkShoppingListItem(newCheck);
+    setUpdateList(true);
   }
   function onUpdateTitle(t) {
     if (!!t.length) {
@@ -66,7 +67,7 @@ export default function ShoppingListItemItem({item, setDeleted}) {
       id: item.id
     }
     await removeShoppingListItem(oneItem);
-    setDeleted(true);
+    setUpdateList(true);
   }
   function deletePressed() {
     Alert.alert(

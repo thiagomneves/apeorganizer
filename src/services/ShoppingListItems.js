@@ -25,8 +25,7 @@ export async function addShoppingListItem(shopppinglistitem) {
         'INSERT INTO shoppinglistitem (title, list_id, estimatedprice, paidprice, done) VALUES (?, ?, ?, ?, ?);',
         [shopppinglistitem.title, shopppinglistitem.list_id, shopppinglistitem.estimatedprice, shopppinglistitem.paidprice, shopppinglistitem.done],
         (trans, results) => {
-          console.log(results)
-          resolve("Lista de Compras adicionada com sucesso");
+          resolve("Item da Lista de Compras adicionado com sucesso");
         },
         (error) => {
           reject(error)
@@ -96,7 +95,7 @@ export async function editShoppingListItem(item) {
         'UPDATE shoppinglistitem SET title = ?, estimatedprice = ? WHERE id = ?;',
         [item.title, item.estimatedprice, item.id],
         (trans, results) => {
-          resolve("Cartão atualizado com sucesso");
+          resolve("Item da Lista de Compra atualizado com sucesso");
         },
         (error) => {
           reject(error)
