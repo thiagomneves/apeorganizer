@@ -6,7 +6,7 @@ export function createTableShoppingListItem() {
     txn.executeSql(
       'CREATE TABLE IF NOT EXISTS ' +
         'shoppinglistitem ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, list_id INTEGER, estimatedprice FLOAT, paidprice FLOAT, done BOOLEAN);',
+        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, list_id INTEGER, estimatedprice FLOAT, paidprice FLOAT, done BOOLEAN, registered BOOLEAN);',
       [],
       (sqlTxn, res) => {
         console.log('table shoppinglistitem created successfully');
