@@ -159,7 +159,7 @@ export default function VoucherEditor({navigation}) {
       <View style={estilo.picker}>
         <VoucherTypePicker setType={setType} type={type}/>
       </View>
-      <CheckBox label="Somar ao total da tela inicial" check={sumTotal} setCheck={setSumTotal}/>
+      <CheckBox  color={chosenTheme.checkboxColor} label="Somar ao total da tela inicial" check={sumTotal} setCheck={setSumTotal}/>
   </View>
 }
 

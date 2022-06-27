@@ -159,7 +159,7 @@ export default function AccountEditor({navigation }) {
       <View style={estilo.picker}>
         <TypePicker color={color} setColor={setColor} type={type} setType={setType}/>
       </View>
-      <CheckBox label="Somar ao total da tela inicial" check={sumTotal} setCheck={setSumTotal}/>
+      <CheckBox color={chosenTheme.checkboxColor} label="Somar ao total da tela inicial" check={sumTotal} setCheck={setSumTotal}/>
     </ScrollView>
   );
 }
