@@ -75,8 +75,14 @@ export default function ShoppingList({navigation, route}) {
     return <ShoppingListItem item={item} setUpdateList={setUpdateList}/>
   }
 
+  function register() {
+    navigation.navigate("RegisterChecked", {shoppingList});
+  }
+
   function Header() {
-    return anyChecked && <View><Text>Registrar?</Text></View>
+    return anyChecked && <TouchableOpacity onPress={register} style={estilo.registerContainer}>
+        <Text style={estilo.registerText}>Registrar os itens selecionados?</Text>
+      </TouchableOpacity>
   }
 
   return (
@@ -193,6 +199,15 @@ const estilos = theme => {
       fontSize: 10, 
       lineHeight: 10,
       color: theme.red,
+    },
+    registerContainer: {
+      paddingVertical: 14,
+      paddingHorizontal: 18,
+      backgroundColor: theme.backgroundContent,
+    },
+    registerText: {
+      color: theme.text,
+      fontSize: 16,
     }
   })
 }

@@ -34,6 +34,7 @@ import VouchersArchived from '../views/Vouchers/VouchersArchived';
 import ShoppingLists from '../views/ShoppingLists';
 import ShoppingListEditor from '../views/ShoppingLists/ShoppingListEditor';
 import ShoppingList from '../views/ShoppingLists/ShoppingList';
+import RegisterChecked from '../views/ShoppingLists/RegisterChecked';
 
 const Stack = createNativeStackNavigator();
 
@@ -255,6 +256,12 @@ export function ShoppingListNavigator({navigation}) {
       <Stack.Screen 
         name="ShoppingList" 
         component={ShoppingList} />
+      <Stack.Screen 
+        options={{
+          headerTitle: 'Registrar Itens'
+        }}
+        name="RegisterChecked" 
+        component={RegisterChecked} />
     </Stack.Navigator>
   );
 }
