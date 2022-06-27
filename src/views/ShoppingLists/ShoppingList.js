@@ -172,12 +172,14 @@ const estilos = theme => {
       flexDirection: 'column',
     },
     input: {
+      color: theme.text,
       borderBottomWidth: 1,
       borderColor: theme.border,
       marginHorizontal: 10,
       marginVertical: 10,
     },
     inputValue: {
+      color: theme.text,
       borderBottomWidth: 1,
       borderColor: theme.border,
       marginHorizontal: 10,

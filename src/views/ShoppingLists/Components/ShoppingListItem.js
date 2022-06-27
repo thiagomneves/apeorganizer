@@ -87,11 +87,11 @@ export default function ShoppingListItemItem({item, setDeleted, setUpdateList}) 
 
   return (
     <View style={estilo.itemContainer}>
-      <CheckBox check={done} setCheck={setDone}/>
+      <CheckBox color={chosenTheme.checkboxColor} check={done} setCheck={setDone}/>
       {!editing ? 
       <TouchableOpacity onPress={setEdit} onLongPress={deletePressed} activeOpacity={1} style={estilo.itemContent}>
-        <Text>{title}</Text>
-        <Text>{formatCurrency(estimatedPrice)}</Text>
+        <Text style={estilo.input}>{title}</Text>
+        <Text style={estilo.inputValue}>{formatCurrency(estimatedPrice)}</Text>
       </TouchableOpacity>
       :
       <View style={estilo.itemContent}>
@@ -117,7 +117,7 @@ export default function ShoppingListItemItem({item, setDeleted, setUpdateList}) 
           style={estilo.inputValue}
           value={estimatedPrice}
           onChangeValue={setEstimatedPrice}
-          prefix="R$"
+          prefix="R$ "
           delimiter="."
           separator=","
           precision={2}
@@ -148,6 +148,16 @@ const estilos = theme => {
       flexDirection: 'row',
       justifyContent: "space-between",
       paddingRight: 5,
+    },
+    input: {
+      color: theme.text,
+    },
+    inputValue: {
+      color: theme.text,
+      textAlign: 'right',
+    },
+    checkbox: {
+      color: theme.text,
     },
     error: {
       borderTopWidth: 2,
