@@ -39,9 +39,8 @@ export default function CardEditor({navigation }) {
   useEffect(() => {
     if (!filled) {
       fillEditor();
-    } else {
-      setCardTextColor(calcColorText(color));
-    }
+    } 
+    setCardTextColor(calcColorText(color));
     if (save) savePressed();
     if (destroy) {
       deleteConfirm();
