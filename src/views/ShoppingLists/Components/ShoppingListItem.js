@@ -5,13 +5,14 @@ import CurrencyInput from 'react-native-currency-input';
 import {ThemeContext} from '../../../contexts/ThemeContext';
 import { checkShoppingListItem, editShoppingListItem } from "../../../services/ShoppingListItems";
 import CheckBox from '../../../components/shared/CheckBox'
+import { formatCurrency } from "../../../util/functions";
 
 
 export default function ShoppingListItemItem({item}) {
   const {chosenTheme} = useContext(ThemeContext);
   const estilo = estilos(chosenTheme);
   const [title, setTitle] = useState(item.title);
-  const [estimatedPrice, setEstimatedPrice] = useState(item.estimatedPrice);
+  const [estimatedPrice, setEstimatedPrice] = useState(item.estimatedprice);
   const [editing, setEditing] = useState(false);
   const [focusingTitle, setFocusingTitle] = useState(true);
   const [focusingPrice, setFocusingPrice] = useState(false);
@@ -24,7 +25,6 @@ export default function ShoppingListItemItem({item}) {
       setEditing(false);
     }
   }, [done, focusingTitle, focusingPrice])
-
 
   async function checkItem () {
     const newCheck = {
@@ -66,7 +66,7 @@ export default function ShoppingListItemItem({item}) {
       {!editing ? 
       <View style={estilo.itemContent}>
         <Text onPress={setEdit}>{title}</Text>
-        <Text onPress={setEdit}>{estimatedPrice}</Text>
+        <Text onPress={setEdit}>{formatCurrency(estimatedPrice)}</Text>
       </View>
       :
       <View style={estilo.itemContent}>
