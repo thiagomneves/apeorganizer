@@ -1,20 +1,21 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Switch, Text, View} from 'react-native';
 import {ThemeContext} from '../../contexts/ThemeContext';
+import { configTheme } from '../../util/config';
 
 export default function Config() {
   const {currentTheme, setCurrentTheme, chosenTheme } = useContext(ThemeContext);
   const estilo = estilos(chosenTheme)
 
-  function capitalize(string) {
-    const newString = string.charAt(0).toUpperCase() + string.slice(1);
-    return newString
-  }
-
   function tema(theme) {
     return theme === 'dark' ? 'Escuro' : 'Claro'
   }
 
+  async function setTheme() {
+    const newTheme = (currentTheme === 'dark' ? 'light' : 'dark')
+    setCurrentTheme(newTheme);
+    await configTheme(newTheme);
+  }
   return (
     <View style={estilo.container}>
       <View style={estilo.content}>
@@ -23,9 +24,7 @@ export default function Config() {
           // trackColor={{false: '#767577', true: '#81b0ff'}}
           // thumbColor={currentTheme === 'dark' ? '#f5dd4b' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
-          onValueChange={() =>
-            setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark')
-          }
+          onValueChange={setTheme}
           value={currentTheme === 'dark'}
         />
       </View>

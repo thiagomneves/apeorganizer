@@ -14,6 +14,7 @@ import { createTableTransactions } from './src/services/Transactions';
 import { createTableVouchers } from './src/services/Vouchers';
 import { createTableShoppingLists } from './src/services/ShoppingLists';
 import { createTableShoppingListItem } from './src/services/ShoppingListItems';
+import { createTableConfigs } from './src/services/Config';
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 LogBox.ignoreLogs(["Cannot update a component (`NativeStackNavigator`)"]);
@@ -28,6 +29,7 @@ function App() {
     createTableVouchers()
     createTableShoppingLists()
     createTableShoppingListItem()
+    createTableConfigs()
   }, [])
 
   return (
