@@ -1,7 +1,16 @@
+import { addAccount } from "./Accounts";
 import { addCategory } from "./Categories";
 
 export default function initialData() {
+  inititalAccounts();
   initialCategories();
+}
+
+function inititalAccounts() {
+  let accounts = [
+    {"title": "Carteira", "color": "#070", "balance": 0, "sumtotal": 1, "type": "wallet", "archive": 0,},
+  ]
+  accounts.forEach(account => addAccount(account));
 }
 
 function initialCategories() {

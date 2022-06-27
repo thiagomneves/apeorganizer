@@ -14,7 +14,7 @@ export default function AccountEditor({navigation }) {
   const {save, setSave, destroy, setDestroy, archive, setArchive} = useContext(GlobalContext);
   const estilo = estilos(chosenTheme);
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState('#070');
+  const [color, setColor] = useState('#ffffff');
   const [balance, setBalance] = useState(0);
   const [sumTotal, setSumTotal] = useState(true);
   const [type, setType] = useState('checkingaccount')
