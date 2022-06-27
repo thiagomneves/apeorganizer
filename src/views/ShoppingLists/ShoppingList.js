@@ -1,19 +1,21 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, Modal, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import CurrencyInput from 'react-native-currency-input';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {ThemeContext} from '../../contexts/ThemeContext';
 import { addShoppingListItem, getShoppingListItems } from "../../services/ShoppingListItems";
-import ShoppingListItemItem from "./Components/ShoppingListItemItem";
+import ShoppingListItem from "./Components/ShoppingListItem";
 
 export default function ShoppingList({navigation, route}) {
   const {chosenTheme} = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [title, setTitle] = useState("");
+  const [titleError, setTitleError] = useState(false);
   const [estimatedPrice, setEstimatedPrice] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
-  const estilo = estilos(chosenTheme)
+  const estilo = estilos(chosenTheme);
   navigation.setOptions({headerTitle: route.params.selectedShoppingList.title,})
   const isFocused = useIsFocused();
 
@@ -27,15 +29,25 @@ export default function ShoppingList({navigation, route}) {
   }
 
   async function addItem() {
-    const oneItem = {
-      title,
-      list_id: route.params.selectedShoppingList.id,
-      estimatedprice: estimatedPrice,
-      paidprice: false,
-      done: false,
+    if (!title.length) {
+      setTitleError(true);
+    } else {
+      const oneItem = {
+        title,
+        list_id: route.params.selectedShoppingList.id,
+        estimatedprice: estimatedPrice,
+        paidprice: false,
+        done: false,
+      }
+      await addShoppingListItem(oneItem);
+      getShoppingList();
+      closeModal();
     }
-    await addShoppingListItem(oneItem);
-    setModalVisible(false);
+  }
+
+  function onUpdateTitle(t) {
+    if (!!title.length) setTitleError(false);
+    setTitle(t)
   }
 
   function closeModal() {
@@ -45,12 +57,12 @@ export default function ShoppingList({navigation, route}) {
   }
 
   function renderItem({item}) {
-    return <ShoppingListItemItem item={item}/>
+    return <ShoppingListItem item={item} />
   }
 
   return (
     <View style={estilo.container}>
-      <FlatList style={{flex: 1, marginBottom: 42}}
+      <FlatList style={{flex: 1}}
         data={shoppingList}
         renderItem={ renderItem }
         keyExtractor={item => item.id} />
@@ -70,21 +82,31 @@ export default function ShoppingList({navigation, route}) {
         >
         <TouchableOpacity activeOpacity={1} style={estilo.modalContainer} onPress={closeModal}>
           <View style={estilo.modalContent}>
-            <TextInput
-              style={[estilo.input, {flex: 1}]}
-              onChangeText={setTitle}
-              value={title}
-              placeholder="Nome do Item"
-              onSubmitEditing={addItem}
-              autoFocus={true}
-              />
-            <TextInput
-              style={estilo.input}
-              onChangeText={setEstimatedPrice}
-              value={estimatedPrice}
-              placeholder="Preço estimado"
-              keyboardType="numeric"
-              onSubmitEditing={addItem}
+            <View style={estilo.titleContainer}>
+              <TextInput
+                style={[estilo.input, {flex: 1, }, titleError && {borderBottomWidth: 0, marginVertical: 0,}]}
+                onChangeText={onUpdateTitle}
+                value={title}
+                placeholder="Nome do Item"
+                placeholderTextColor={chosenTheme.weakText}
+                onSubmitEditing={addItem}
+                autoFocus={true}
+                />
+              {titleError &&
+                <Text style={estilo.error}>Obrigatório</Text>
+              }
+            </View>
+            <CurrencyInput
+                style={estilo.inputValue}
+                value={estimatedPrice}
+                onChangeValue={setEstimatedPrice}
+                prefix="R$"
+                delimiter="."
+                separator=","
+                precision={2}
+                placeholder="Preço estimado"
+                placeholderTextColor={chosenTheme.weakText}
+                onSubmitEditing={addItem}
               />
           </View>
         </TouchableOpacity>
@@ -97,6 +119,7 @@ const estilos = theme => {
   const btnSize = 50;
   return StyleSheet.create({
     container: {
+      backgroundColor: theme.backgroundContainer,
       flex: 1,
     },
     addBtn: {
@@ -125,11 +148,29 @@ const estilos = theme => {
       justifyContent: "space-around",
       paddingHorizontal: 10,
     },
+    titleContainer: {
+      flexDirection: 'column',
+    },
     input: {
       borderBottomWidth: 1,
       borderColor: theme.border,
-      marginBottom: 15,
-      marginHorizontal: 10
+      marginHorizontal: 10,
+      marginVertical: 10,
+    },
+    inputValue: {
+      borderBottomWidth: 1,
+      borderColor: theme.border,
+      marginHorizontal: 10,
+      marginVertical: 10,
+      paddingVertical: 10,
+    },
+    error: {
+      borderTopWidth: 2,
+      borderColor: theme.red,
+      padding: 5, 
+      fontSize: 10, 
+      lineHeight: 10,
+      color: theme.red,
     }
   })
 }

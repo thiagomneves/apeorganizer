@@ -88,3 +88,20 @@ export async function checkShoppingListItem(item) {
     });
   });
 }
+
+export async function editShoppingListItem(item) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'UPDATE shoppinglistitem SET title = ?, estimatedprice = ? WHERE id = ?;',
+        [item.title, item.estimatedprice, item.id],
+        (trans, results) => {
+          resolve("Cartão atualizado com sucesso");
+        },
+        (error) => {
+          reject(error)
+        }
+      );
+    });
+  });
+}
