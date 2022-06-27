@@ -36,7 +36,6 @@ export async function configureEverything() {
 // }
 
 async function initialData(configurations) {
-  console.log(configurations, 'ué');
   const initialaccounts = configurations.filter(item => item.title === 'initialaccounts')
   if (!initialaccounts.length) {
     let result = await inititalAccounts();
