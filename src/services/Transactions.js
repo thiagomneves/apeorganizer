@@ -1,19 +1,21 @@
 import {db} from './SQLite';
 
 export function createTableTransactions() {
-  db.transaction(txn => {
-    txn.executeSql(
-      'CREATE TABLE IF NOT EXISTS ' +
-        'transactions ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, accountfrom INTEGER, accountto INTEGER, date TEXT, obs TEXT, value FLOAT, type TEXT);',
-      [],
-      (sqlTxn, res) => {
-        console.log('table transactions created successfully');
-      },
-      error => {
-        console.log('error on creating table ' + error.message);
-      },
-    );
+  return new Promise(resolve => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS ' +
+          'transactions ' +
+          '(id INTEGER PRIMARY KEY AUTOINCREMENT, accountfrom INTEGER, accountto INTEGER, date TEXT, obs TEXT, value FLOAT, type TEXT);',
+        [],
+        (sqlTxn, res) => {
+          resolve('table transactions created successfully');
+        },
+        error => {
+          reject('error on creating table ' + error.message);
+        },
+      );
+    });
   });
 }
 

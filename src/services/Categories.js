@@ -1,19 +1,21 @@
 import {db} from './SQLite';
 
 export function createTableCategories() {
-  db.transaction(txn => {
-    txn.executeSql(
-      'CREATE TABLE IF NOT EXISTS ' +
-        'categories ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, type TEXT, archive BOOLEAN);',
-      [],
-      (sqlTxn, res) => {
-        console.log('table categories created successfully');
-      },
-      error => {
-        console.log('error on creating table ' + error.message);
-      },
-    );
+  return new Promise(resolve => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS ' +
+          'categories ' +
+          '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, type TEXT, archive BOOLEAN);',
+        [],
+        (sqlTxn, res) => {
+          resolve('table categories created successfully');
+        },
+        error => {
+          reject('error on creating table ' + error.message);
+        },
+      );
+    });
   });
 }
 

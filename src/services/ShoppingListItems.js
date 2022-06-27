@@ -2,19 +2,21 @@ import {db} from './SQLite';
 //nome not null, preço estimado, list_id, preço pago
 
 export function createTableShoppingListItem() {
-  db.transaction(txn => {
-    txn.executeSql(
-      'CREATE TABLE IF NOT EXISTS ' +
-        'shoppinglistitem ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, list_id INTEGER, estimatedprice FLOAT, paidprice FLOAT, done BOOLEAN, registered BOOLEAN);',
-      [],
-      (sqlTxn, res) => {
-        console.log('table shoppinglistitem created successfully');
-      },
-      error => {
-        console.log('error on creating table ' + error.message);
-      },
-    );
+  return new Promise(resolve => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS ' +
+          'shoppinglistitem ' +
+          '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, list_id INTEGER, estimatedprice FLOAT, paidprice FLOAT, done BOOLEAN, registered BOOLEAN);',
+        [],
+        (sqlTxn, res) => {
+          resolve('table shoppinglistitem created successfully');
+        },
+        error => {
+          reject('error on creating table ' + error.message);
+        },
+      );
+    });
   });
 }
 

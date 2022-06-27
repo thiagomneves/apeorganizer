@@ -1,19 +1,20 @@
 import { addAccount } from "./Accounts";
 import { addCategory } from "./Categories";
 
-export default function initialData() {
-  inititalAccounts();
-  initialCategories();
-}
-
-function inititalAccounts() {
+export function inititalAccounts() {
   let accounts = [
     {"title": "Carteira", "color": "#070", "balance": 0, "sumtotal": 1, "type": "wallet", "archive": 0,},
   ]
-  accounts.forEach(account => addAccount(account));
+  try {
+    accounts.forEach(account => addAccount(account));    
+    return true;
+  } catch (error) {
+    return error;
+  }
+
 }
 
-function initialCategories() {
+export function initialCategories() {
   let categories = [
     {title: "Alimentação", color: "#E74C3C", type: "expense"},
     {title: "Educação", color: "#27AE60", type: "expense"},
@@ -30,6 +31,11 @@ function initialCategories() {
     {title: "Salário", color: "#27AE60", type: "revenue"},
   ];
 
-  categories.forEach(category => addCategory(category));
+  try {
+    categories.forEach(category => addCategory(category));
+    return true;
+  } catch (error) {
+    return error;
+  }
 }
 

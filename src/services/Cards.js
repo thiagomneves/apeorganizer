@@ -1,21 +1,23 @@
 import {db} from './SQLite';
 
 export function createTableCards() {
-  db.transaction(txn => {
-    txn.executeSql(
-      'CREATE TABLE IF NOT EXISTS ' +
-        'cards ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, ' +
-        'spent FLOAT, flag TEXT, closureday INTEGER, dueday INTEGER, archive BOOLEAN,' + 
-        'holdername TEXT, cardnumber TEXT, expirationdate TEXT, cvv TEXT, type TEXT); ',
-      [],
-      (sqlTxn, res) => {
-        console.log('table cards created successfully');
-      },
-      error => {
-        console.log('error on creating table ' + error.message);
-      },
-    );
+  return new Promise(resolve => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS ' +
+          'cards ' +
+          '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, color TEXT, cardlimit FLOAT, ' +
+          'spent FLOAT, flag TEXT, closureday INTEGER, dueday INTEGER, archive BOOLEAN,' + 
+          'holdername TEXT, cardnumber TEXT, expirationdate TEXT, cvv TEXT, type TEXT); ',
+        [],
+        (sqlTxn, res) => {
+          resolve('table cards created successfully');
+        },
+        error => {
+          reject('error on creating table ' + error.message);
+        },
+      );
+    });
   });
 }
 

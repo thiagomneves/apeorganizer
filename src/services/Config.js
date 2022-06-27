@@ -1,19 +1,21 @@
 import {db} from './SQLite';
 
 export function createTableConfigs() {
-  db.transaction(txn => {
-    txn.executeSql(
-      'CREATE TABLE IF NOT EXISTS ' +
-        'configs ' +
-        '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT UNIQUE, configset TEXT);',
-      [],
-      (sqlTxn, res) => {
-        console.log('table config created successfully');
-      },
-      error => {
-        console.log('error on creating table ' + error.message);
-      },
-    );
+  return new Promise(resolve => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS ' +
+          'configs ' +
+          '(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT UNIQUE, configset TEXT);',
+        [],
+        (sqlTxn, res) => {
+          resolve('table config created successfully');
+        },
+        error => {
+          reject('error on creating table ' + error.message);
+        },
+      );
+    });
   });
 }
 
