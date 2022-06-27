@@ -59,7 +59,7 @@ export default function DrawerRoutes() {
               <MaterialCommunityIcons style={estilo.icon} name="cards-outline" color={color}/>
             ),
           }}
-          name="Vales/Cartões Pré-pagos"
+          name="Vouchers"
           component={VoucherNavigator}
         />
         <Drawer.Screen

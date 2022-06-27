@@ -152,7 +152,7 @@ export function VoucherNavigator({navigation}) {
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
         options={{
-          headerTitle: 'Vales e Cartões Pré-pagos',
+          headerTitle: 'Vouchers',
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
           headerRight: () => <ArchivedBtn onPress={() => navigation.navigate('VouchersArchived')}/>,
         }}
