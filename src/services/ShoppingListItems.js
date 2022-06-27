@@ -105,3 +105,20 @@ export async function editShoppingListItem(item) {
     });
   });
 }
+
+export async function removeShoppingListItem(item) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'DELETE FROM shoppinglistitem WHERE id = ?;',
+        [item.id],
+        (trans, results) => {
+          resolve("Cartão removido com sucesso");
+        },
+        (error) => {
+          reject(error)
+        }
+      );
+    });
+  });
+}

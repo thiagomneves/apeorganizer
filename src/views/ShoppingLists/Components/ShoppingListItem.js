@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
 
 import {ThemeContext} from '../../../contexts/ThemeContext';
-import { checkShoppingListItem, editShoppingListItem } from "../../../services/ShoppingListItems";
+import { checkShoppingListItem, editShoppingListItem, removeShoppingListItem } from "../../../services/ShoppingListItems";
 import CheckBox from '../../../components/shared/CheckBox'
 import { formatCurrency } from "../../../util/functions";
 
 
-export default function ShoppingListItemItem({item}) {
+export default function ShoppingListItemItem({item, setDeleted}) {
   const {chosenTheme} = useContext(ThemeContext);
   const estilo = estilos(chosenTheme);
   const [title, setTitle] = useState(item.title);
@@ -41,7 +41,7 @@ export default function ShoppingListItemItem({item}) {
     }
     setTitle(t)
   }
-  console.log(titleError)
+
   async function updateItem() {
     if (!title.length) {
       setTitleError(true);
@@ -56,18 +56,42 @@ export default function ShoppingListItemItem({item}) {
     }
   }
 
+
   function setEdit() {
     setEditing(true);
+  }
+
+  async function deleteItem() {
+    const oneItem = {
+      id: item.id
+    }
+    await removeShoppingListItem(oneItem);
+    setDeleted(true);
+  }
+  function deletePressed() {
+    Alert.alert(
+      "Apagar?",
+      `Deseja remover o item: ${title}?`,
+      [
+        {
+          text: "Sim",
+          onPress: () => deleteItem(),
+        },
+        {
+          text: "Não",
+        },
+      ]
+    );
   }
 
   return (
     <View style={estilo.itemContainer}>
       <CheckBox check={done} setCheck={setDone}/>
       {!editing ? 
-      <View style={estilo.itemContent}>
-        <Text onPress={setEdit}>{title}</Text>
-        <Text onPress={setEdit}>{formatCurrency(estimatedPrice)}</Text>
-      </View>
+      <TouchableOpacity onPress={setEdit} onLongPress={deletePressed} activeOpacity={1} style={estilo.itemContent}>
+        <Text>{title}</Text>
+        <Text>{formatCurrency(estimatedPrice)}</Text>
+      </TouchableOpacity>
       :
       <View style={estilo.itemContent}>
         <View style={estilo.titleContainer}>

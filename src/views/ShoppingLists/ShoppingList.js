@@ -15,13 +15,18 @@ export default function ShoppingList({navigation, route}) {
   const [titleError, setTitleError] = useState(false);
   const [estimatedPrice, setEstimatedPrice] = useState("");
   const [shoppingList, setShoppingList] = useState([]);
+  const [deleted, setDeleted] = useState(false);
   const estilo = estilos(chosenTheme);
   navigation.setOptions({headerTitle: route.params.selectedShoppingList.title,})
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) getShoppingList();
-  }, [isFocused])
+    if (deleted) {
+      getShoppingList();
+      setDeleted(false);
+    }
+  }, [isFocused, deleted])
 
   async function getShoppingList() {
     const listItems = await getShoppingListItems(route.params.selectedShoppingList.id)
@@ -57,7 +62,7 @@ export default function ShoppingList({navigation, route}) {
   }
 
   function renderItem({item}) {
-    return <ShoppingListItem item={item} />
+    return <ShoppingListItem item={item} setDeleted={setDeleted}/>
   }
 
   return (
