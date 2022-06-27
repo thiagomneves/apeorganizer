@@ -27,6 +27,7 @@ const dark = {
   drawerBackground: '#555',
   tooltipBackground: '#ccc',
   tooltipText: '#333',
+  checkboxColor: '#aaa',
 };
 
 const light = {
@@ -55,6 +56,7 @@ const light = {
   drawerBackground: '#fff',
   tooltipBackground: '#333',
   tooltipText: '#fff',
+  checkboxColor: '#070',
 };
 
 export {dark, light};

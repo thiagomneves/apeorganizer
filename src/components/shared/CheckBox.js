@@ -6,7 +6,9 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 export default function CheckBox(props) {
   const {label, check, setCheck} = props;
   const {chosenTheme} = useContext(ThemeContext);
-  const estilo = estilos(chosenTheme);
+
+  const color = typeof props.color != 'undefined' ? props.color : chosenTheme.blue;
+  const estilo = estilos({theme: chosenTheme, color});
 
   return <TouchableOpacity style={estilo.container} onPress={() => setCheck(!check)}>
     <MaterialIcons style={estilo.icon} name={check ? "check-box" : "check-box-outline-blank"}/>
@@ -14,7 +16,7 @@ export default function CheckBox(props) {
   </TouchableOpacity>
 }
 
-const estilos = theme => {
+const estilos = ({theme, color}) => {
   return StyleSheet.create({
     container: {
       flexDirection: 'row',
@@ -24,7 +26,7 @@ const estilos = theme => {
     icon: {
       fontSize: 26,
       marginRight: 5,
-      color: theme.blue,
+      color: color,
     },
     label: {
       fontSize: 16,
