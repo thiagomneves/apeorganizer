@@ -6,9 +6,10 @@ import { ThemeContext } from '../contexts/ThemeContext';
 
 const colors = [
   '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
-  '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
-  '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
-  '#000000', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff',
+  '#8B1BD4', '#17C873', '#FFEE02', '#FF7A00', '#5CBC4C', '#FBAF2A', '#0CB598', '#195CB4',
+  '#004F9F', '#01339B', '#FFFC04', '#EC7000', '#FF5592', '#303034', '#1C2147', '#01FF5F',
+  '#25C5CF', '#1BAEE5', '#0F92FF', '#1374DE', '#F3F3F3', '#FA6300', '#0E0E0E', '#FFD900',
+  '#377D63', '#CC0000', '#CD092F', '#F54868', '#161B39', '#CCCCCC',
 ]
 
 export default function ColorSelector({color, setColor, size = 50, cardTextColor, setCardTextColor, calcColorText, style, children}) {
