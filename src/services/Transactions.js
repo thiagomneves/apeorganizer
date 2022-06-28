@@ -1,12 +1,29 @@
 import {db} from './SQLite';
 
 export function createTableTransactions() {
+  
   return new Promise(resolve => {
     db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS ' +
-          'transactions ' +
-          '(id INTEGER PRIMARY KEY AUTOINCREMENT, accountfrom INTEGER, accountto INTEGER, date TEXT, obs TEXT, value FLOAT, type TEXT);',
+        'CREATE TABLE IF NOT EXISTS transactions ( ' +
+          'id INTEGER PRIMARY KEY AUTOINCREMENT, ' +
+          'transaction_from INTEGER, ' +
+          'transaction_to INTEGER, ' +
+          'transaction_date TEXT, ' +
+          'transaction_VALUE FLOAT, ' +
+          'type TEXT, ' +
+          'observation TEXT, ' +
+          'finished BOOLEAN, ' +
+          'repeat BOOLEAN, ' +
+          'repetitions INTEGER, ' +
+          'frequency TEXT, ' +
+          'category INTEGER, ' +
+          'description TEXT, ' +
+          'attachment TEXT, ' +
+          'paymentmean TEXT, ' +
+          'created TEXT, ' +
+          'updated TEXT ' +
+        ');',
         [],
         (sqlTxn, res) => {
           resolve('table transactions created successfully');
