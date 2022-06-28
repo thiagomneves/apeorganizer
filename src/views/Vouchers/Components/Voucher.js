@@ -1,12 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { formatCurrency } from '../../../util/functions'
 
 export default function Voucher({item, selectedVoucher, setSelectedVoucher, editorNavigate}) {
   const {title, balance, color, type} = {...item}
   const {chosenTheme} = useContext(ThemeContext);
+  const {eye} = useContext(GlobalContext);
   const newColor = !!color ? color : '#0b8';
   const windowWidth = Dimensions.get('window').width;
   const estilo = estilos({theme: chosenTheme, color: newColor, windowWidth, balance});
@@ -26,7 +28,9 @@ export default function Voucher({item, selectedVoucher, setSelectedVoucher, edit
       <View style={estilo.icon}></View>
       <View style={estilo.content}>
         <Text style={estilo.title}>{title}</Text>
+        {eye ?
         <Text style={estilo.balance}>{formatCurrency(balance)}</Text>
+        : <Text style={estilo.title}>*****</Text>}
       </View>
     </TouchableOpacity>
   );

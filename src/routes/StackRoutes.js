@@ -158,7 +158,10 @@ export function VoucherNavigator({navigation}) {
         options={{
           headerTitle: 'Vouchers',
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
-          headerRight: () => <ArchivedBtn onPress={() => navigation.navigate('VouchersArchived')}/>,
+          headerRight: () => <>
+            <EyeBtn />
+            <ArchivedBtn onPress={() => navigation.navigate('VouchersArchived')}/>
+          </>,
         }}
         name="VoucherScreen" component={Vouchers}
       />
