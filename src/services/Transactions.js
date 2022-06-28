@@ -11,7 +11,8 @@ export function createTableTransactions() {
           'transaction_to INTEGER, ' +
           'transaction_date TEXT, ' +
           'transaction_VALUE FLOAT, ' +
-          'type TEXT, ' +
+          'type_from TEXT, ' +
+          'type_to TEXT, ' +
           'observation TEXT, ' +
           'finished BOOLEAN, ' +
           'repeat BOOLEAN, ' +

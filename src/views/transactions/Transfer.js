@@ -6,23 +6,35 @@ import { TextInput } from "react-native-gesture-handler";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-import {getAccounts} from '../../services/Accounts';
+import {getAccountsByArchive} from '../../services/Accounts';
+import {getVouchersByArchive} from '../../services/Vouchers';
 import { addTransaction, editTransaction, removeTransaction } from "../../services/Transactions";
+import PaymentMeanPicker from "./Components/PaymentMeanPicker";
+import { voucherTypes } from "../../util/types";
 
 export default function Transfer({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
   const [value, setValue] = useState("0,00")
   const [obs, setObs] = useState("")
   const [accounts, setAccounts] = useState([]);
+  const [vouchers, setVouchers] = useState([]);
   const [accountFrom, setAccountFrom] = useState("");
+  const [typeFrom, setTypeFrom] = useState("");
+  const [colorFrom, setColorFrom] = useState("#AAAAAA");
+  const [paymentMeansFrom, setPaymentMeansFrom] = useState([]);
+  const [transactionFrom, setTransactionFrom] = useState();
   const [date, setDate] = useState("2022-06-17");
+  const [typeTo, setTypeTo] = useState("");
+  const [colorTo, setColorTo] = useState("#AAAAAA");
+  const [paymentMeansTo, setPaymentMeansTo] = useState([]);
+  const [transactionTo, setTransactionTo] = useState()
   const [accountTo, setAccountTo] = useState("");
   const route = useRoute()
   const selectedTransaction = route.params.selectedTransaction
   const transactionToUpdate = Object.keys(selectedTransaction).length > 0;
   
   useEffect(() => {
-    showAccounts()
+    getData()
     fillEditor()
   }, [selectedTransaction]);
 
@@ -37,9 +49,17 @@ export default function Transfer({navigation }) {
       setObs(selectedTransaction.obs)
     }
   }
-  async function showAccounts() {
-    const allAccounts = await getAccounts();
+
+  async function getData() {
+    const allAccounts = await getAccountsByArchive(false);
     setAccounts(allAccounts);
+    const allVouchers = await getVouchersByArchive(false);
+    setVouchers(allVouchers);
+    let vouchersFrom = allVouchers.filter(item => {
+      if (item.type == 'prepaid') return item;
+    })
+    setPaymentMeansFrom(allAccounts.concat(vouchersFrom))
+    setPaymentMeansTo(allAccounts.concat(allVouchers))
   }
 
   async function saveTransfer() {
@@ -99,20 +119,26 @@ export default function Transfer({navigation }) {
           value={date}
         />
     </View>
-    <View style={estilo.inputContainer}>
-      <Picker style={estilo.input}
-      selectedValue={accountFrom}
-      onValueChange={accountFrom => setAccountFrom(accountFrom)}>
-        {accounts.map((item) => <Picker.Item label={item.title} value={item.id} key={item.id}/>)}
-      </Picker>
+    <View style={estilo.picker}>
+    <PaymentMeanPicker
+          color={colorFrom}
+          paymentMeans={paymentMeansFrom}
+          transaction={transactionFrom}
+          setTransaction={setTransactionFrom}
+          type={typeFrom}
+          setType={setTypeFrom}
+        />
     </View>
     <MaterialIcons style={estilo.icon} name="arrow-downward"/>
-    <View style={estilo.inputContainer}>
-      <Picker style={estilo.input}
-      selectedValue={accountTo}
-      onValueChange={accountTo => setAccountTo(accountTo)}>
-        {accounts.map((item) => <Picker.Item label={item.title} value={item.id} key={item.id}/>)}
-      </Picker>
+    <View style={estilo.picker}>
+      <PaymentMeanPicker
+          color={colorTo}
+          paymentMeans={paymentMeansTo}
+          transaction={transactionTo}
+          setTransaction={setTransactionTo}
+          type={typeTo}
+          setType={setTypeTo}
+        />
     </View>
     <View style={estilo.inputContainer}>
       <TextInput style={estilo.input}
@@ -164,6 +190,9 @@ const estilos = theme => {
       marginTop: 10,
       backgroundColor: theme.red,
       padding: 10,
+    },
+    picker: {
+      backgroundColor: theme.backgroundContent,
     },
   })
 }
