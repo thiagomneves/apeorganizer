@@ -35,6 +35,7 @@ import ShoppingLists from '../views/ShoppingLists';
 import ShoppingListEditor from '../views/ShoppingLists/ShoppingListEditor';
 import ShoppingList from '../views/ShoppingLists/ShoppingList';
 import RegisterChecked from '../views/ShoppingLists/RegisterChecked';
+import EyeBtn from '../components/shared/EyeBtn';
 
 const Stack = createNativeStackNavigator();
 
@@ -85,7 +86,10 @@ export function AccountNavigator({navigation}) {
         options={{
           headerTitle: 'Contas',
           headerLeft: () => <ButtonDrawler onPress={navigation.toggleDrawer} />,
-          headerRight: () => <ArchivedBtn onPress={() => navigation.navigate('AccountsArchived')}/>,
+          headerRight: () => <>
+              <EyeBtn />
+              <ArchivedBtn onPress={() => navigation.navigate('AccountsArchived')}/>
+            </>,
         }}
         name="Accounts"
         component={Accounts}

@@ -7,6 +7,7 @@ export function GlobalProvider({children}) {
   const [save, setSave] = useState(false);
   const [destroy, setDestroy] = useState(false);
   const [archive, setArchive] = useState(false);
+  const [eye, setEye] = useState(true);
 
   useEffect(() => {
     configureEverything();
@@ -21,6 +22,8 @@ export function GlobalProvider({children}) {
         setDestroy,
         archive,
         setArchive,
+        eye,
+        setEye,
       }}>
       {children}
     </GlobalContext.Provider>

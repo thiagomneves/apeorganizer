@@ -4,6 +4,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ThemeContext } from '../../contexts/ThemeContext';
+import { GlobalContext } from '../../contexts/GlobalContext';
 import { formatCurrency } from '../../util/functions';
 import {getTotalBalance, getAccountsByArchive} from '../../services/Accounts';
 import Account from './Components/Account';
@@ -11,6 +12,7 @@ import Message from '../../components/shared/Message';
 
 export default function Accounts() {
   const {chosenTheme} = useContext(ThemeContext);
+  const {eye} = useContext(GlobalContext);
   const navigation = useNavigation();
   const [accounts, setAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState({});
@@ -58,9 +60,15 @@ export default function Accounts() {
     return (
       <View style={estilo.footerContainer}>
         <Text style={estilo.footerText}>Saldo total</Text>
+        {eye ?
         <Text style={[estilo.footerText, {color: total >= 0 ? chosenTheme.green : chosenTheme.red}]}>
           {formatCurrency(total)}
         </Text>
+        :
+        <View>
+          <Text style={estilo.footerText}>*****</Text>
+        </View>
+        }
       </View>
     )
   }
