@@ -9,6 +9,7 @@ import { createTableShoppingListItem } from '../services/ShoppingListItems';
 import { createTableConfigs, addConfig, editConfig, getConfig, getConfigs } from "../services/Config";
 
 import { initialCategories, inititalAccounts } from "../services/InitialData";
+import { createTableReminders } from '../services/Reminders';
 
 export async function configTheme(theme) {
   const config = {
@@ -115,4 +116,11 @@ async function createAllTables(configurations) {
     }
   }
 
+  const tablereminders = configurations.filter(item => item.title === 'tablereminders')
+  if (!tablereminders.length) {
+    let result = await createTableReminders()
+    if (result === 'table tablereminders created successfully') {
+      await addConfig({title: 'tablereminders', configset: true})
+    }
+  }
 }
