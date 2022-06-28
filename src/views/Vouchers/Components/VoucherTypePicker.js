@@ -4,7 +4,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { ThemeContext } from "../../../contexts/ThemeContext";
-import { voucherTypes } from "../../../util/voucherTypes";
+import { voucherTypes } from "../../../util/types";
 
 export default function VoucherTypePicker({type, setType}) {
   const {chosenTheme} = useContext(ThemeContext);
