@@ -28,14 +28,15 @@ export default function Transactions() {
     setSelectedTransaction({})
     setTransactions(allTransactions);
   }
-
+console.log(transactions);
   const renderItem = ({item}) => (
-    <Transaction 
-    item={item}
-    selectedTransaction={selectedTransaction}
-    setSelectedTransaction={setSelectedTransaction}
-    editorTransferNavigate={editorTransferNavigate}
-    />
+    <Text>{item.toString()}</Text>
+    // <Transaction 
+    // item={item}
+    // selectedTransaction={selectedTransaction}
+    // setSelectedTransaction={setSelectedTransaction}
+    // editorTransferNavigate={editorTransferNavigate}
+    // />
   );
   const editorTransferNavigate = () => {
     setShowMinorBtn(false)
@@ -43,8 +44,7 @@ export default function Transactions() {
   };
   return (
     <View style={estilo.container}>
-      <Text onPress={() => console.log('clicou no teste')}>teste</Text>
-
+      
       <FlatList
         data={transactions}
         renderItem={renderItem}

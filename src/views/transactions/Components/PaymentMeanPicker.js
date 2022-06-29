@@ -30,8 +30,10 @@ export default function PaymentMeanPicker({color, paymentMeans, transaction, set
   }
 
   function updateItem(item) {
-    setType(item.type)
-    setPaymentMeanTitle(item.title)
+    setType(item.type);
+    setPaymentMeanTitle(item.title);
+    setTransaction(item.id);
+    setModalVisible(false);
   }
 
 

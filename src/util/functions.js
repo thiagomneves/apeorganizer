@@ -1,5 +1,3 @@
-import i18n from 'i18n-js';
-
 export const formatCurrency = (number) => {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",

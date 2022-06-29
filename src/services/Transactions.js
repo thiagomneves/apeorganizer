@@ -10,7 +10,7 @@ export function createTableTransactions() {
           'transaction_from INTEGER, ' +
           'transaction_to INTEGER, ' +
           'transaction_date TEXT, ' +
-          'transaction_VALUE FLOAT, ' +
+          'transaction_value FLOAT, ' +
           'type_from TEXT, ' +
           'type_to TEXT, ' +
           'observation TEXT, ' +
@@ -41,8 +41,8 @@ export async function addTransaction(transaction) {
   return new Promise(resolve => {
     db.transaction(txn => {
       txn.executeSql(
-        'INSERT INTO transactions (accountfrom, accountto, date, obs, value, type) VALUES (?, ?, ?, ?, ?, ?);',
-        [transaction.accountFrom, transaction.accountTo, transaction.date, transaction.obs, transaction.value, transaction.type],
+        'INSERT INTO transactions (transaction_from, type_from, transaction_to, type_to, transaction_date, observation, transaction_value, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);',
+        [transaction.transaction_from, transaction.type_from, transaction.transaction_to, transaction.type_to, transaction.transaction_date, transaction.observation, transaction.transaction_value, transaction.created, transaction.updated],
         (sqlTxn, results) => {
           resolve("Transação adicionada com sucesso");
         },
@@ -58,14 +58,7 @@ export async function getTransactions() {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT t.*, ' +
-                '(SELECT a.title ' +
-                 'FROM   accounts a '+
-                 'WHERE  a.id = t.accountfrom) AS accountfromtitle, '+
-                '(SELECT b.title ' +
-                 'FROM   accounts b '+
-                 'WHERE  b.id = t.accountto) AS accounttotitle '+
-        'FROM   transactions t; ',
+        'SELECT * FROM transactions; ',
         [],
         (trans, results) => {
           resolve(results.rows.raw());

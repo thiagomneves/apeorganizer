@@ -1,34 +1,35 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { TextInput, Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { Picker } from "@react-native-picker/picker";
-import { TextInput } from "react-native-gesture-handler";
+import CurrencyInput from 'react-native-currency-input';
+import DatePicker from 'react-native-neat-date-picker'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import I18n from "i18n-js";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
 import {getAccountsByArchive} from '../../services/Accounts';
 import {getVouchersByArchive} from '../../services/Vouchers';
 import { addTransaction, editTransaction, removeTransaction } from "../../services/Transactions";
 import PaymentMeanPicker from "./Components/PaymentMeanPicker";
-import { voucherTypes } from "../../util/types";
 
 export default function Transfer({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
-  const [value, setValue] = useState("0,00")
-  const [obs, setObs] = useState("")
+  const [value, setValue] = useState(0)
+  const [observation, setObservation] = useState("")
   const [accounts, setAccounts] = useState([]);
   const [vouchers, setVouchers] = useState([]);
-  const [accountFrom, setAccountFrom] = useState("");
+  // const [accountFrom, setAccountFrom] = useState("");
   const [typeFrom, setTypeFrom] = useState("");
   const [colorFrom, setColorFrom] = useState("#AAAAAA");
   const [paymentMeansFrom, setPaymentMeansFrom] = useState([]);
   const [transactionFrom, setTransactionFrom] = useState();
-  const [date, setDate] = useState("2022-06-17");
+  const [date, setDate] = useState(new Date());
   const [typeTo, setTypeTo] = useState("");
   const [colorTo, setColorTo] = useState("#AAAAAA");
   const [paymentMeansTo, setPaymentMeansTo] = useState([]);
   const [transactionTo, setTransactionTo] = useState()
-  const [accountTo, setAccountTo] = useState("");
+  // const [accountTo, setAccountTo] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const route = useRoute()
   const selectedTransaction = route.params.selectedTransaction
   const transactionToUpdate = Object.keys(selectedTransaction).length > 0;
@@ -42,11 +43,11 @@ export default function Transfer({navigation }) {
 
   function fillEditor() {
     if (transactionToUpdate) {
-      setAccountFrom(selectedTransaction.accountfrom)
-      setAccountTo(selectedTransaction.accountto)
-      setDate(selectedTransaction.date)
-      setValue(selectedTransaction.value.toString())
-      setObs(selectedTransaction.obs)
+      // setAccountFrom(selectedTransaction.accountfrom)
+      // setAccountTo(selectedTransaction.accountto)
+      // setDate(selectedTransaction.date)
+      // setValue(selectedTransaction.value.toString())
+      // setObservation(selectedTransaction.observation)
     }
   }
 
@@ -63,38 +64,41 @@ export default function Transfer({navigation }) {
   }
 
   async function saveTransfer() {
-    if (accountFrom === accountTo) {
-      Alert.alert('As contas precisam ser diferentes');
+    if (transactionFrom === transactionTo && typeFrom === typeTo) {
+      Alert.alert('Os meios de pagamento precisam ser diferentes');
       return;
     }
     const oneTransfer = {
-      value,
-      accountFrom,
-      accountTo,
-      date,
-      obs,
-      type: 'Transferência',
+      transaction_value: value,
+      transaction_from: transactionFrom,
+      type_from: typeFrom,
+      transaction_to: transactionTo,
+      type_to: typeTo,
+      transaction_date: date,
+      observation,
+      created: new Date(),
+      updated: new Date(),
     }
     await addTransaction(oneTransfer)
     navigation.goBack()
   }
 
   async function updateTransfer() {
-    if (accountFrom === accountTo) {
-      Alert.alert('As contas precisam ser diferentes');
-      return;
-    }
-    const oneTransfer = {
-      value,
-      accountFrom,
-      accountTo,
-      date,
-      obs,
-      type: 'Transferência',
-      id: selectedTransaction.id,
-    }
-    await editTransaction(oneTransfer)
-    navigation.goBack()    
+    // if (accountFrom === accountTo) {
+    //   Alert.alert('As contas precisam ser diferentes');
+    //   return;
+    // }
+    // const oneTransfer = {
+    //   value,
+    //   accountFrom,
+    //   accountTo,
+    //   date,
+    //   observation,
+    //   type: 'Transferência',
+    //   id: selectedTransaction.id,
+    // }
+    // await editTransaction(oneTransfer)
+    // navigation.goBack()    
   }
   async function deleteTransfer() {
     const oneTransfer = {
@@ -103,22 +107,41 @@ export default function Transfer({navigation }) {
     await removeTransaction(oneTransfer)
     navigation.goBack()
   }
+  
+  async function onDateConfirm(props) {
+    setDate(props.date);
+    setShowDatePicker(false);
+  }
 
   return <View style={estilo.container}>
-    <View style={estilo.inputContainer}>
-      <TextInput style={estilo.input}
-          onChangeText={value => setValue(value)}
-          placeholder="R$ 0,00"
-          value={value}
-        />
+    <View style={estilo.value}>
+      <CurrencyInput
+        style={estilo.inputValue}
+        value={value}
+        onChangeValue={setValue}
+        prefix="R$"
+        delimiter="."
+        separator=","
+        precision={2}
+      />
     </View>
-    <View style={estilo.inputContainer}>
-      <TextInput style={estilo.input}
-          onChangeText={date => setDate(date)}
-          placeholder="Dom, 12 jun 2022"
-          value={date}
-        />
-    </View>
+    <Text onPress={() => setShowDatePicker(true)} style={estilo.input}>{I18n.strftime(date, "%d/%m/%Y")}</Text>
+    <DatePicker
+        isVisible={showDatePicker}
+        mode={'single'}
+        onCancel={() => setShowDatePicker(false)}
+        onConfirm={onDateConfirm}
+        language="pt"
+        colorOptions={{
+          headerColor: chosenTheme.headerBackground,
+          headerTextColor: chosenTheme.headerTitle,
+          backgroundColor: chosenTheme.backgroundContent,
+          weekDaysColor: chosenTheme.weekDate,
+          dateTextColor: chosenTheme.text,
+          selectedDateBackgroundColor: chosenTheme.activeBackgroundColor,
+          confirmButtonColor: chosenTheme.confirmDate,
+        }}
+      />
     <View style={estilo.picker}>
     <PaymentMeanPicker
           color={colorFrom}
@@ -142,9 +165,9 @@ export default function Transfer({navigation }) {
     </View>
     <View style={estilo.inputContainer}>
       <TextInput style={estilo.input}
-          onChangeText={obs => setObs(obs)}
+          onChangeText={setObservation}
           placeholder="Observações"
-          value={obs}
+          value={observation}
         />
     </View>
     <TouchableOpacity onPress={transactionToUpdate ? updateTransfer : saveTransfer} style={estilo.saveBtn}>
@@ -160,6 +183,15 @@ const estilos = theme => {
     container: {
       backgroundColor: theme.backgroundContainer,
       flex: 1,
+    },
+    value: {
+      backgroundColor: theme.backgroundContent,
+      padding: 10,
+    },
+    inputValue: {
+      color: theme.text,
+      fontSize: 28,
+      fontWeight: '600',
     },
     inputContainer: {
       borderBottomWidth: 1,
