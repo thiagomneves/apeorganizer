@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { ThemeContext } from "../../contexts/ThemeContext";
+import { ThemeContext } from "../../../contexts/ThemeContext";
 
 import MinorBtn from './MinorBtn';
 export default function BtnContainer({editorTransferNavigate, showMinorBtn, setShowMinorBtn}) {

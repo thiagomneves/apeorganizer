@@ -11,7 +11,7 @@ export default function Transaction({item, selectedTransaction, setSelectedTrans
     if (Object.keys(selectedTransaction).length > 0) {
       editorTransferNavigate()
     }
-    console.log(item);
+    // console.log(item);
   }, [selectedTransaction])
 // console.log(props);
   return (

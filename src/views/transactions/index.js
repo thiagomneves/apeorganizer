@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 
 import { ThemeContext } from '../../contexts/ThemeContext';
-import BtnContainer from './BtnContainer';
+import BtnContainer from './Components/BtnContainer';
 import { getTransactions } from '../../services/Transactions';
 import Transaction from './Transaction';
 
@@ -20,7 +20,7 @@ export default function Transactions() {
   useEffect(() => {
     if (isFocused) {
       showTransactions();
-      console.log(transactions);
+      // console.log(transactions);
     }
   }, [isFocused]);
 
@@ -45,7 +45,7 @@ export default function Transactions() {
     )
   }
   const editorTransferNavigate = () => {
-    console.log(selectedTransaction.type);
+    // console.log(selectedTransaction.type);
     // setShowMinorBtn(false)
     // navigation.navigate(selectedTransaction.type, {selectedTransaction});
   };
