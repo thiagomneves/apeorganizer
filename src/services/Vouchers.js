@@ -54,6 +54,23 @@ export async function getVouchers() {
   });
 }
 
+export async function getVoucher(voucher) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'SELECT * from vouchers WHERE id = ?;',
+        [voucher.id],
+        (trans, results) => {
+          resolve(results.rows.raw()[0]);
+        },
+        (error) => {
+          console.log(error)
+          reject(error)
+        }
+      );
+    });
+  });
+}
 
 export async function getVouchersByArchive(archive) {
   return new Promise(resolve => {
