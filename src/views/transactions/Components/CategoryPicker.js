@@ -17,7 +17,6 @@ export default function CategoryPicker({type, category, setCategory}) {
     showCategories();
   }, []);
 
-  console.log(categories);
   async function showCategories() {
     const revenueCategories = await getCategoriesByType({type});
     setCategories(revenueCategories);

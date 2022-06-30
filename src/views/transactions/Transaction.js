@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import I18n from "i18n-js";
+
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 export default function Transaction({item, selectedTransaction, setSelectedTransaction, editorTransferNavigate}) {
