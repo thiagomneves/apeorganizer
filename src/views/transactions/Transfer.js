@@ -74,10 +74,10 @@ export default function Transfer({navigation }) {
       type_from: typeFrom,
       transaction_to: transactionTo,
       type_to: typeTo,
-      transaction_date: date,
+      transaction_date: date.toString(),
       observation,
-      created: new Date(),
-      updated: new Date(),
+      created: (new Date()).toString(),
+      updated: (new Date()).toString(),
     }
     await addTransaction(oneTransfer)
     navigation.goBack()
