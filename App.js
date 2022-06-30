@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {LogBox, SafeAreaView} from 'react-native';
 import 'react-native-gesture-handler';
 
