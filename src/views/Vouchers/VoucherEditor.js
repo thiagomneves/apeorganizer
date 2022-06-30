@@ -13,7 +13,7 @@ export default function VoucherEditor({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const {save, setSave, destroy, setDestroy, archive, setArchive} = useContext(GlobalContext);
   const [title, setTitle] = useState('');
-  const [type, setType] = useState('other');
+  const [type, setType] = useState('otherVoucher');
   const [balance, setBalance] = useState(0);
   const [sumTotal, setSumTotal] = useState(true);
   const [color, setColor] = useState('#ffffff');
