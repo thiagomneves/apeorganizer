@@ -57,7 +57,7 @@ export const voucherTypes = {
     icon: "credit-card-check-outline",
     iconType: "MaterialCommunityIcons",
   },
-  other: {
+  otherVoucher: {
     title: "Outro",
     icon: "ticket",
     iconType: "MaterialCommunityIcons",
