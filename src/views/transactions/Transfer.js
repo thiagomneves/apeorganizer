@@ -7,10 +7,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import I18n from "i18n-js";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
-import {getAccountsByArchive} from '../../services/Accounts';
-import {getVouchersByArchive} from '../../services/Vouchers';
+import {editAccount, getAccount, getAccounts, getAccountsByArchive} from '../../services/Accounts';
+import {editVoucher, getVoucher, getVouchers, getVouchersByArchive} from '../../services/Vouchers';
 import { addTransaction, editTransaction, removeTransaction } from "../../services/Transactions";
 import PaymentMeanPicker from "./Components/PaymentMeanPicker";
+import { accountTypes, voucherTypes } from "../../util/types";
 
 export default function Transfer({navigation }) {
   const {chosenTheme} = useContext(ThemeContext);
@@ -75,11 +76,47 @@ export default function Transfer({navigation }) {
       transaction_to: transactionTo,
       type_to: typeTo,
       transaction_date: date.toString(),
+      transaction_type: 'transfer',
       observation,
       created: (new Date()).toString(),
       updated: (new Date()).toString(),
     }
-    await addTransaction(oneTransfer)
+    if (Object.keys(accountTypes).includes(typeFrom)) { //se o meio de pagamento "from" é conta
+      const from = await getAccount({id: transactionFrom});
+      from.balance = parseFloat(from.balance) - value;
+      try {
+        await editAccount(from) 
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const from = await getVoucher({id: transactionFrom});
+      from.balance = parseFloat(from.balance) - value;
+      try {
+        await editVoucher(from) 
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (Object.keys(accountTypes).includes(typeTo)) { //se o meio de pagamento "to" é conta
+      const to = await getAccount({id: transactionTo});
+      to.balance = parseFloat(to.balance) - value;
+      try {
+        await editAccount(to) 
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const to = await getVoucher({id: transactionTo});
+      to.balance = parseFloat(to.balance) + value;
+      try {
+        await editVoucher(to) 
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
     navigation.goBack()
   }
 
