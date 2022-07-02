@@ -76,7 +76,7 @@ export async function getVouchersByArchive(archive) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT * from vouchers WHERE archive = ?;',
+        'SELECT *, "voucher" as paymentmeantype from vouchers WHERE archive = ?;',
         [archive],
         (trans, results) => {
           resolve(results.rows.raw());

@@ -15,6 +15,7 @@ export default function AccountPicker({type, setType, account, setAccount}) {
   const [accounts, setAccounts] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [color, setColor] = useState();
+  const [iconType, setIconType] = useState();
   const types = {
     ...accountTypes,
     ...voucherTypes
@@ -44,11 +45,12 @@ export default function AccountPicker({type, setType, account, setAccount}) {
   }
 
   function updateItem(item) {
-    setType(item.type);
+    setType(item.paymentmeantype);
     setAccountTitle(item.title);
     setAccount(item.id);
     setColor(item.color);
     setModalVisible(false);
+    setIconType(item.type);
   }
 
   function renderItem({item}) {
@@ -67,9 +69,9 @@ export default function AccountPicker({type, setType, account, setAccount}) {
   return (
     <>
       <TouchableOpacity onPress={() => setModalVisible(true)} style={estilo.typeContent}>
-        {types[type]?.icon && (
+        {typeof iconType != 'undefined' && types[iconType]?.icon && (
           <View style={[estilo.typeIconContainer, {backgroundColor: color}]}>
-            <Icon style={[estilo.typeIcon, {color: calcColorText(color, true)}]} item={types[type]} />
+            <Icon style={[estilo.typeIcon, {color: calcColorText(color, true)}]} item={types[iconType]} />
           </View>
         )}
         <Text style={estilo.typeTitle}>{accountTitle}</Text>

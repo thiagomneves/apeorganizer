@@ -4,12 +4,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ThemeContext} from '../../../contexts/ThemeContext';
 import { accountTypes, voucherTypes } from "../../../util/types";
+import { calcColorText } from '../../../util/functions';
 
-export default function PaymentMeanPicker({color, paymentMeans, transaction, setTransaction, type, setType}) {
+export default function PaymentMeanPicker({color, setColor, paymentMeans, transaction, setTransaction, type, setType}) {
   const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;
   const [paymentMeanTitle, setPaymentMeanTitle] = useState('Escolha o meio de pagamento');
   const [modalVisible, setModalVisible] = useState(false);
+  const [iconType, setIconType] = useState();
   const types = {
     ...accountTypes,
     ...voucherTypes
@@ -30,18 +32,21 @@ export default function PaymentMeanPicker({color, paymentMeans, transaction, set
   }
 
   function updateItem(item) {
-    setType(item.type);
+    setType(item.paymentmeantype);
     setPaymentMeanTitle(item.title);
     setTransaction(item.id);
     setModalVisible(false);
+    setColor(item.color);
+    setIconType(item.type);
   }
 
 
   function renderItem({item}) {
     return (
       <TouchableOpacity style={estilo.typeContent} onPress={() => updateItem(item)}>
-        <View style={estilo.typeIcon}></View>
-        {types[item.type].icon && <Icon style={estilo.typeIcon} item={types[item.type]}/>}
+        {types[item.type].icon && <View style={[estilo.typeIconContainer, {backgroundColor: item.color}]}>
+          <Icon style={[estilo.typeIcon, {color: calcColorText(item.color, true)}]} item={types[item.type]}/>
+        </View>}
         <Text style={estilo.typeTitle}>{item.title}</Text>
       </TouchableOpacity>
     );
@@ -49,7 +54,9 @@ export default function PaymentMeanPicker({color, paymentMeans, transaction, set
   return (
     <>
       <TouchableOpacity onPress={() => setModalVisible(true)} style={estilo.typeContent}>
-        {types[type]?.icon && <Icon style={estilo.typeIcon} item={types[type]} />}
+        {types[iconType]?.icon && <View style={[estilo.typeIconContainer, {backgroundColor: color}]}>
+          <Icon style={[estilo.typeIcon, {color: calcColorText(color, true)}]} item={types[iconType]} />
+        </View>}
         <Text style={estilo.typeTitle}>{paymentMeanTitle}</Text>
       </TouchableOpacity>
       <Modal
@@ -96,6 +103,14 @@ const estilos = ({theme, windowWidth, color}) => {
       color: theme.text,
       fontSize: 18,
       paddingLeft: 15,
+    },
+    typeIconContainer: {
+      width: iconSize,
+      height: iconSize,
+      borderRadius: iconSize/2,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#ffffff',
     },
     typeIcon: {
       color: theme.text,

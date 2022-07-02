@@ -10,6 +10,7 @@ import { createTableConfigs, addConfig, editConfig, getConfig, getConfigs } from
 
 import { initialCategories, inititalAccounts } from "../services/InitialData";
 import { createTableReminders } from '../services/Reminders';
+import { createViewPaymentMeans } from '../services/Views';
 
 export async function configTheme(theme) {
   const config = {
@@ -28,7 +29,8 @@ export async function configureEverything() {
   await createTableConfigs();
   const configurations = await getConfigs();
   await createAllTables(configurations);
-  
+  await createAllViews(configurations);
+
   await initialData(configurations);
 }
 
@@ -46,6 +48,16 @@ async function initialData(configurations) {
     let result = await initialCategories();
     if (result === true) {
       await addConfig({title: 'initialcategories', configset: true})
+    }
+  }
+}
+
+async function createAllViews(configurations) {
+  const viewpaymentMeans = configurations.filter(item => item.title === 'viewpaymentMeans')
+  if (!viewpaymentMeans.length) {
+    let result = await createViewPaymentMeans();
+    if (result === 'view paymentmeans created successfully') {
+      await addConfig({title: 'viewpaymentMeans', configset: true})
     }
   }
 }

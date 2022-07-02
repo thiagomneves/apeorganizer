@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import DatePicker from 'react-native-neat-date-picker';
 import I18n from "i18n-js";
@@ -11,7 +11,6 @@ import AccountPicker from './Components/AccountPicker';
 import RadioButton from '../../components/shared/RadioButton';
 import { addRevenue } from '../../services/Transactions';
 import { GlobalContext } from '../../contexts/GlobalContext';
-import { accountTypes } from '../../util/types';
 import { editVoucher, getVoucher } from '../../services/Vouchers';
 import { editAccount, getAccount } from '../../services/Accounts';
 
@@ -55,14 +54,14 @@ export default function Revenue({navigation}) {
       transaction_type: 'revenue',
       observation,
       finished, 
+      category,
       repeat,
       created: (new Date()).toString(),
       updated: (new Date()).toString(),
     }
-    console.log(oneTransfer);
     await addRevenue(oneTransfer);
 
-    if (Object.keys(accountTypes).includes(typeTo)) { //se o meio de pagamento 
+    if (typeTo === 'account') { //se o meio de pagamento é conta
       const to = await getAccount({id: transactionTo});
       to.balance = parseFloat(to.balance) + transactionValue;
       try {

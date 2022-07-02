@@ -3,29 +3,29 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import I18n from "i18n-js";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
+import { formatCurrency } from "../../util/functions";
 
 export default function Transaction({item, selectedTransaction, setSelectedTransaction, editorTransferNavigate}) {
-  // const {item, selectedTransaction, setSelectedTransaction, editorTransferNavigate, setShowMinorBtn} = {...props}
   const {chosenTheme} = useContext(ThemeContext);
   const estilo = estilos({theme: chosenTheme});
 
   useEffect(() => {
     if (Object.keys(selectedTransaction).length > 0) {
-      editorTransferNavigate()
+      editorTransferNavigate();
     }
-    // console.log(item);
   }, [selectedTransaction])
-// console.log(props);
+
   return (
-    <TouchableOpacity onLongPress={() => console.log('longpress')}>
+    <TouchableOpacity onLongPress={() => console.log('longpress')} style={estilo.transactionContainer}>
      {/* <TouchableOpacity onPress={() => setSelectedTransaction(item)} style={estilo.transactionContainer}> */}
-      <Text>hueheuehu</Text>
-       <Text>From: {item.transaction_from}</Text>
-       <Text>To: {item.transaction_to}</Text>
+       <Text>From: {!!item.titlefrom ? item.titlefrom : item.transaction_from}</Text>
+       <Text>To: {!!item.titleto ? item.titleto : item.transaction_to}</Text>
        <Text>{item.transaction_date}</Text>
        <Text>{item.date}</Text>
-       <Text>{item.transaction_value}</Text>
+       <Text>{formatCurrency(item.transaction_value)}</Text>
        <Text>{item.observation}</Text>
+       <Text>{item.transaction_type}</Text>
+       <Text>{item.categorycolor}</Text>
     </TouchableOpacity>
   )
 }

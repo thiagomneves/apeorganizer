@@ -76,7 +76,7 @@ export async function getAccountsByArchive(archive) {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'SELECT * from accounts WHERE archive = ?;',
+        'SELECT *, "account" as paymentmeantype from accounts WHERE archive = ?;',
         [archive],
         (trans, results) => {
           resolve(results.rows.raw());

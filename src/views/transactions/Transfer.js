@@ -82,7 +82,7 @@ export default function Transfer({navigation }) {
       updated: (new Date()).toString(),
     }
     await addTransaction(oneTransfer);
-    if (Object.keys(accountTypes).includes(typeFrom)) { //se o meio de pagamento "from" é conta
+    if (typeFrom === 'account') { //se o meio de pagamento "from" é conta
       const from = await getAccount({id: transactionFrom});
       from.balance = parseFloat(from.balance) - value;
       try {
@@ -100,7 +100,7 @@ export default function Transfer({navigation }) {
       }
     }
 
-    if (Object.keys(accountTypes).includes(typeTo)) { //se o meio de pagamento "to" é conta
+    if (typeTo === 'account') { //se o meio de pagamento "to" é conta
       const to = await getAccount({id: transactionTo});
       to.balance = parseFloat(to.balance) - value;
       try {
@@ -116,7 +116,6 @@ export default function Transfer({navigation }) {
       } catch (error) {
         console.log(error);
       }
-
     }
     navigation.goBack()
   }
@@ -183,6 +182,7 @@ export default function Transfer({navigation }) {
     <View style={estilo.picker}>
     <PaymentMeanPicker
           color={colorFrom}
+          setColor={setColorFrom}
           paymentMeans={paymentMeansFrom}
           transaction={transactionFrom}
           setTransaction={setTransactionFrom}
@@ -194,6 +194,7 @@ export default function Transfer({navigation }) {
     <View style={estilo.picker}>
       <PaymentMeanPicker
           color={colorTo}
+          setColor={setColorTo}
           paymentMeans={paymentMeansTo}
           transaction={transactionTo}
           setTransaction={setTransactionTo}
