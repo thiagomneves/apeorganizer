@@ -8,6 +8,7 @@ import { calcColorText } from '../../../util/functions';
 import { getAccountsByArchive } from '../../../services/Accounts';
 import { getVouchersByArchive } from '../../../services/Vouchers';
 import { getCardsByArchive } from '../../../services/Cards';
+import CardFlag from '../../../components/shared/CardFlag';
 
 export default function ExpensePicker({type, paymentMean, setPaymentMean}) {
   const {chosenTheme} = useContext(ThemeContext);
@@ -57,18 +58,26 @@ export default function ExpensePicker({type, paymentMean, setPaymentMean}) {
     setPaymentMean(item.id);
     setColor(item.color);
     setModalVisible(false);
-    setIconType(item.type);
+    if (type != 'creditcard') {
+      setIconType(item.type);
+    } else {
+      setIconType(item.flag)
+    }
   }
 
   function renderItem({item}) {
+    console.log(type);
     return (
       <TouchableOpacity style={estilo.typeContent} onPress={() => updateItem(item)}>
         <View style={estilo.typeIcon}></View>
-        {typeof item.type != 'undefined' && types[item.type].icon && (
+        {(type == 'account' || type == 'voucher') && typeof item.type != 'undefined' && types[item.type].icon && (
           <View style={[estilo.typeIconContainer, {backgroundColor: item.color}]}>
             <Icon style={[estilo.typeIcon, {color: calcColorText(item.color, true)}]} item={types[item.type]}/>
           </View>
         )}
+        {type == 'creditcard' && typeof item.type != 'undefined' &&
+          <CardFlag flag={item.flag} width={40}/>
+        }
         <Text style={estilo.typeTitle}>{item.title}</Text>
       </TouchableOpacity>
     );
@@ -76,11 +85,14 @@ export default function ExpensePicker({type, paymentMean, setPaymentMean}) {
   return (
     <>
       <TouchableOpacity onPress={() => setModalVisible(true)} style={estilo.typeContent}>
-        {typeof iconType != 'undefined' && types[iconType]?.icon && (
+        {(type == 'account' || type == 'voucher') && typeof iconType != 'undefined' && types[iconType]?.icon && (
           <View style={[estilo.typeIconContainer, {backgroundColor: color}]}>
             <Icon style={[estilo.typeIcon, {color: calcColorText(color, true)}]} item={types[iconType]} />
           </View>
         )}
+        {type == 'creditcard' && typeof iconType != 'undefined' &&
+          <CardFlag flag={iconType} width={46}/>
+        }
         <Text style={estilo.typeTitle}>{paymentMeanTitle}</Text>
       </TouchableOpacity>
       <Modal

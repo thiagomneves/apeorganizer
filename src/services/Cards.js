@@ -57,6 +57,23 @@ export async function getCards() {
   });
 }
 
+export async function getCard(card) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'SELECT * from cards WHERE id = ?;',
+        [card.id],
+        (trans, results) => {
+          resolve(results.rows.raw()[0]);
+        },
+        (error) => {
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
 export async function getCardsByArchive(archive) {
   return new Promise(resolve => {
     db.transaction(transaction => {
@@ -91,6 +108,24 @@ export async function editCard(card) {
     });
   });
 }
+
+export async function editCardSpent(card) {
+  return new Promise(resolve => {
+    db.transaction(transaction => {
+      transaction.executeSql(
+        'UPDATE cards SET spent = ? WHERE id = ?;',
+        [card.spent, card.id],
+        (trans, results) => {
+          resolve("Cartão atualizado com sucesso");
+        },
+        (error) => {
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
 
 export async function setArchiveCard(card) {
   return new Promise(resolve => {
