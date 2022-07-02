@@ -11,7 +11,7 @@ import {
 import {ThemeContext} from '../../../contexts/ThemeContext';
 import { setArchiveCard } from '../../../services/Cards';
 import {formatCurrency} from '../../../util/functions';
-import CardFlag from './CardFlag';
+import CardFlag from '../../../components/shared/CardFlag';
 
 export default function CreditCardArchived({item, setunarchive}) {
   const {flag, title, cardlimit, spent, color, id} = {...item};

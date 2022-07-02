@@ -10,7 +10,7 @@ import {
 import {ThemeContext} from '../../../contexts/ThemeContext';
 
 import {formatCurrency} from '../../../util/functions';
-import CardFlag from './CardFlag';
+import CardFlag from '../../../components/shared/CardFlag';
 
 export default function CreditCard({item, selectedCard, setSelectedCard, editorNavigate}) {
   const {flag, title, cardlimit, spent, color, id} = {...item};

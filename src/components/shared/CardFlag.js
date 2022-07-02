@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-import { ThemeContext } from '../../../contexts/ThemeContext';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
-import MasterCard from '../../../assets/images/mastercard.svg';
-import Visa from '../../../assets/images/visa.svg';
-import AmericanExpress from '../../../assets/images/amex.svg';
-import Elo from '../../../assets/images/elo.svg';
-import CreditCard from '../../../assets/images/creditcard.svg';
+import MasterCard from '../../assets/images/mastercard.svg';
+import Visa from '../../assets/images/visa.svg';
+import AmericanExpress from '../../assets/images/amex.svg';
+import Elo from '../../assets/images/elo.svg';
+import CreditCard from '../../assets/images/creditcard.svg';
 
 export default function CardFlag({flag = 'Outro', width, noBg = false}) {
   const newWidth = width ? width : 50;

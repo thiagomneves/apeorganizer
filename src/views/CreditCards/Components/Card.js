@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import CardFlag from './CardFlag';
+import CardFlag from '../../../components/shared/CardFlag';
 
 export default function Card(props) {
   const {cardTextColor} = props

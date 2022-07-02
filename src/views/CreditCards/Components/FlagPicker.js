@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Dimensions, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ThemeContext } from "../../../contexts/ThemeContext";
-import CardFlag from "./CardFlag";
+import CardFlag from "../../../components/shared/CardFlag";
 
 export default function FlagPicker({flag, setFlag}) {
   const flagList = ["MasterCard", "Visa", "AmericanExpress", "Elo", "Outro"]
