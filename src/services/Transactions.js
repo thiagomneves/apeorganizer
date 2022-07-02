@@ -73,6 +73,24 @@ export async function addRevenue(transaction) {
   });
 }
 
+export async function addExpense(transaction) {
+  return new Promise(resolve => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'INSERT INTO transactions (transaction_value, transaction_from, type_from, transaction_date, observation, category, finished, created, repeat, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+        [transaction.transaction_value, transaction.transaction_from, transaction.type_from, transaction.transaction_date, transaction.observation, transaction.category, transaction.finished, transaction.repeat, transaction.created, transaction.updated],
+        (sqlTxn, results) => {
+          resolve("Transação adicionada com sucesso");
+        },
+        (error) => {
+          console.log(error);
+          reject(error)
+        }
+      );
+    });
+  });
+}
+
 export async function getTransactions() {
   return new Promise(resolve => {
     db.transaction(transaction => {

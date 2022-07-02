@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
 import DatePicker from "react-native-neat-date-picker";
@@ -7,16 +7,18 @@ import I18n from "i18n-js";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import CategoryPicker from "./Components/CategoryPicker";
-import AccountPicker from "./Components/AccountPicker";
 import CheckBox from "../../components/shared/CheckBox";
 import RadioButton from "../../components/shared/RadioButton";
+import { addExpense } from "../../services/Transactions";
+import ExpensePicker from "./Components/ExpensePicker";
+import { editAccount, getAccount } from "../../services/Accounts";
 
 const radioTypes = {
   fixedValue: "Valor Fixo",
   splitValue: "Parcelar Valor",
 }
 
-export default function Expense() {
+export default function Expense({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
   const {save, setSave} = useContext(GlobalContext);
   const [transactionValue, setTransactionValue] = useState(0);
@@ -35,9 +37,42 @@ export default function Expense() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const estilo = estilos(chosenTheme);
 
+  useEffect(() => {
+    if (save) {
+      setSave(false);
+      saveExpense();
+    }
+  },[save]);
+
   async function onDateConfirm({date}) {
     setTransactionDate(date);
     setShowDatePicker(false);
+  }
+
+  async function saveExpense() {
+    const oneTransfer = {
+      transaction_value: transactionValue,
+      transaction_from: transactionFrom,
+      type_from: typeFrom,
+      transaction_date: transactionDate.toString(),
+      transaction_type: 'revenue',
+      observation,
+      finished, 
+      category,
+      repeat,
+      created: (new Date()).toString(),
+      updated: (new Date()).toString(),
+    }
+    await addExpense(oneTransfer);
+    
+    const from = await getAccount({id: transactionFrom});
+    from.balance = parseFloat(from.balance) - transactionValue;
+    try {
+      await editAccount(from) 
+    } catch (error) {
+      console.log(error);
+    }
+    navigation.goBack();
   }
   
   return (
@@ -74,7 +109,7 @@ export default function Expense() {
         }}
       />
       <CategoryPicker category={category} setCategory={setCategory} type={'expense'} />
-      <AccountPicker account={transactionFrom} setAccount={setTransactionFrom} type={typeFrom} setType={setTypeFrom}/>
+      <ExpensePicker account={transactionFrom} setAccount={setTransactionFrom} type="account"/>
       <View style={estilo.inputContainer}>
         <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
       </View>
