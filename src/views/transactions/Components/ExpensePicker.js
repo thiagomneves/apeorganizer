@@ -9,10 +9,10 @@ import { getAccountsByArchive } from '../../../services/Accounts';
 import { getVouchersByArchive } from '../../../services/Vouchers';
 import { getCardsByArchive } from '../../../services/Cards';
 
-export default function ExpensePicker({type, account, setAccount}) {
+export default function ExpensePicker({type, paymentMean, setPaymentMean}) {
   const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;
-  const [accountTitle, setAccountTitle] = useState('Selecione ' + (type == 'account' ? 'a conta' : (type == 'voucher' ? 'o voucher' : 'o cartão')));
+  const [paymentMeanTitle, setPaymentMeanTitle] = useState('Selecione ' + (type == 'account' ? 'a conta' : (type == 'voucher' ? 'o voucher' : 'o cartão')));
   const [paymentMeans, setPaymentMeans] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [color, setColor] = useState();
@@ -53,8 +53,8 @@ export default function ExpensePicker({type, account, setAccount}) {
   }
 
   function updateItem(item) {
-    setAccountTitle(item.title);
-    setAccount(item.id);
+    setPaymentMeanTitle(item.title);
+    setPaymentMean(item.id);
     setColor(item.color);
     setModalVisible(false);
     setIconType(item.type);
@@ -81,7 +81,7 @@ export default function ExpensePicker({type, account, setAccount}) {
             <Icon style={[estilo.typeIcon, {color: calcColorText(color, true)}]} item={types[iconType]} />
           </View>
         )}
-        <Text style={estilo.typeTitle}>{accountTitle}</Text>
+        <Text style={estilo.typeTitle}>{paymentMeanTitle}</Text>
       </TouchableOpacity>
       <Modal
         animationType="slide"

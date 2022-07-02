@@ -109,7 +109,7 @@ export default function Expense({navigation}) {
         }}
       />
       <CategoryPicker category={category} setCategory={setCategory} type={'expense'} />
-      <ExpensePicker account={transactionFrom} setAccount={setTransactionFrom} type="account"/>
+      <ExpensePicker paymentMean={transactionFrom} setPaymentMean={setTransactionFrom} type="account"/>
       <View style={estilo.inputContainer}>
         <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
       </View>

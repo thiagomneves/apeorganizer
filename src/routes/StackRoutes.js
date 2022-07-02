@@ -209,8 +209,16 @@ export function TransactionsNavigator({navigation}) {
           headerRight: () => <><SaveBtn /></>,
         }}
         name="Despesa" component={Expense} />
-      <Stack.Screen name="Despesa no Crédito" component={CardExpense} />
-      <Stack.Screen name="Despesa no Voucher" component={VoucherExpense} />
+      <Stack.Screen
+        options={{
+          headerRight: () => <><SaveBtn /></>,
+        }}
+        name="Despesa no Crédito" component={CardExpense} />
+      <Stack.Screen
+        options={{
+          headerRight: () => <><SaveBtn /></>,
+        }}
+        name="Despesa no Voucher" component={VoucherExpense} />
     </Stack.Navigator>
   );
 }
