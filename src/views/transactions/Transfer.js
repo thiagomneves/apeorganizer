@@ -81,6 +81,7 @@ export default function Transfer({navigation }) {
       created: (new Date()).toString(),
       updated: (new Date()).toString(),
     }
+    await addTransaction(oneTransfer);
     if (Object.keys(accountTypes).includes(typeFrom)) { //se o meio de pagamento "from" é conta
       const from = await getAccount({id: transactionFrom});
       from.balance = parseFloat(from.balance) - value;

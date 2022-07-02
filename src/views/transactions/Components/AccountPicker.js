@@ -3,22 +3,24 @@ import { Dimensions, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View }
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ThemeContext} from '../../../contexts/ThemeContext';
-import { accountTypes } from "../../../util/types";
+import { accountTypes, voucherTypes } from "../../../util/types";
 import { getAccountsByArchive } from '../../../services/Accounts';
 import { calcColorText } from '../../../util/functions';
+import { getVouchersByArchive } from '../../../services/Vouchers';
 
 export default function AccountPicker({type, setType, account, setAccount}) {
   const {chosenTheme} = useContext(ThemeContext);
   const windowWidth = Dimensions.get('window').width;
-  const [accountTitle, setAccountTitle] = useState('Selecione a Conta');
+  const [accountTitle, setAccountTitle] = useState('Selecione a Conta/Voucher');
   const [accounts, setAccounts] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [color, setColor] = useState();
   const types = {
-    ...accountTypes
+    ...accountTypes,
+    ...voucherTypes
   };
   useEffect(() => {
-    showAccounts();
+    getData();
   },[]);
   const estilo = estilos({theme: chosenTheme, windowWidth, color});
 
@@ -35,9 +37,10 @@ export default function AccountPicker({type, setType, account, setAccount}) {
     }
   }
 
-  async function showAccounts() {
-    const newAccounts = await getAccountsByArchive(false);
-    setAccounts(newAccounts);
+  async function getData() {
+    const allAccounts = await getAccountsByArchive(false);
+    const allVouchers = await getVouchersByArchive(false);
+    setAccounts(allAccounts.concat(allVouchers))
   }
 
   function updateItem(item) {
@@ -52,7 +55,7 @@ export default function AccountPicker({type, setType, account, setAccount}) {
     return (
       <TouchableOpacity style={estilo.typeContent} onPress={() => updateItem(item)}>
         <View style={estilo.typeIcon}></View>
-        {types[item.type].icon && (
+        {typeof item.type != 'undefined' && types[item.type].icon && (
           <View style={[estilo.typeIconContainer, {backgroundColor: item.color}]}>
             <Icon style={[estilo.typeIcon, {color: calcColorText(item.color, true)}]} item={types[item.type]}/>
           </View>

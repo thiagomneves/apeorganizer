@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import DatePicker from 'react-native-neat-date-picker';
 import I18n from "i18n-js";
@@ -9,14 +9,20 @@ import CheckBox from '../../components/shared/CheckBox';
 import CategoryPicker from './Components/CategoryPicker';
 import AccountPicker from './Components/AccountPicker';
 import RadioButton from '../../components/shared/RadioButton';
+import { addRevenue } from '../../services/Transactions';
+import { GlobalContext } from '../../contexts/GlobalContext';
+import { accountTypes } from '../../util/types';
+import { editVoucher, getVoucher } from '../../services/Vouchers';
+import { editAccount, getAccount } from '../../services/Accounts';
 
 const radioTypes = {
   fixedValue: "Valor Fixo",
   splitValue: "Parcelar Valor",
 }
 
-export default function Revenue() {
+export default function Revenue({navigation}) {
   const {chosenTheme} = useContext(ThemeContext);
+  const {save, setSave} = useContext(GlobalContext);
   const [transactionTo, setTransactionTo] = useState('');
   const [transactionDate, setTransactionDate] = useState(new Date());
   const [transactionValue, setTransactionValue] = useState(0);
@@ -33,15 +39,19 @@ export default function Revenue() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const estilo = estilos(chosenTheme);
 
+  useEffect(() => {
+    if (save) {
+      setSave(false);
+      saveRevenue();
+    }
+  },[save]);
 
   async function saveRevenue() {
     const oneTransfer = {
-      transaction_value: value,
-      transaction_from: transactionFrom,
-      type_from: typeFrom,
+      transaction_value: transactionValue,
       transaction_to: transactionTo,
-      type_to: type,
-      transaction_date: date.toString(),
+      type_to: typeTo,
+      transaction_date: transactionDate.toString(),
       transaction_type: 'revenue',
       observation,
       finished, 
@@ -49,6 +59,27 @@ export default function Revenue() {
       created: (new Date()).toString(),
       updated: (new Date()).toString(),
     }
+    console.log(oneTransfer);
+    await addRevenue(oneTransfer);
+
+    if (Object.keys(accountTypes).includes(typeTo)) { //se o meio de pagamento 
+      const to = await getAccount({id: transactionTo});
+      to.balance = parseFloat(to.balance) + transactionValue;
+      try {
+        await editAccount(to) 
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const to = await getVoucher({id: transactionTo});
+      to.balance = parseFloat(to.balance) + transactionValue;
+      try {
+        await editVoucher(to) 
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    navigation.goBack();
   }
 
 
@@ -69,7 +100,7 @@ export default function Revenue() {
           precision={2}
         />
       </View>
-      <View>
+      <View style={estilo.inputContainer}>
         <TextInput placeholder="Descrição" value={description} onChangeText={setDescription}/>
       </View>
       <Text onPress={() => setShowDatePicker(true)} style={estilo.input}>{I18n.strftime(transactionDate, "%d/%m/%Y")}</Text>
@@ -91,13 +122,13 @@ export default function Revenue() {
         />
         <CategoryPicker category={category} setCategory={setCategory} type={'revenue'} />
         <AccountPicker account={transactionTo} setAccount={setTransactionTo} type={typeTo} setType={setTypeTo}/>
+        <View style={estilo.inputContainer}>
+          <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
+        </View>
         <CheckBox color={chosenTheme.checkboxColor} check={finished} setCheck={setFinished} label="Recebido"/>
         <CheckBox color={chosenTheme.checkboxColor} check={repeatCheck} setCheck={setRepeatCheck} label="Repetir ou Parcelar"/>
         {repeatCheck && <RadioButton color={chosenTheme.checkboxColor} optionList={radioTypes} radioOn={repeat} setRadioOn={setRepeat}/>}
-
-      <View>
-        <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
-      </View>
+        
     </View>
   );
 }
