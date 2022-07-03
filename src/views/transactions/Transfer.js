@@ -102,7 +102,7 @@ export default function Transfer({navigation }) {
 
     if (typeTo === 'account') { //se o meio de pagamento "to" é conta
       const to = await getAccount({id: transactionTo});
-      to.balance = parseFloat(to.balance) - value;
+      to.balance = parseFloat(to.balance) + value;
       try {
         await editAccount(to) 
       } catch (error) {

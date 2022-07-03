@@ -17,7 +17,7 @@ export default function VoucherExpense({navigation}) {
   const [transactionValue, setTransactionValue] = useState(0);
   const [transactionDate, setTransactionDate] = useState(new Date());
   const [transactionFrom, setTransactionFrom] = useState('');
-  const [typeFrom, setTypeFrom] = useState();
+  const [typeFrom, setTypeFrom] = useState('voucher');
   const [description, setDescription] = useState('');
   const [observation, setObservation] = useState('');
   const [category, setCategory] = useState();
@@ -98,7 +98,7 @@ export default function VoucherExpense({navigation}) {
         }}
       />
       <CategoryPicker category={category} setCategory={setCategory} type={'expense'} />
-      <ExpensePicker paymentMean={transactionFrom} setPaymentMean={setTransactionFrom} type="voucher"/>
+      <ExpensePicker paymentMean={transactionFrom} setPaymentMean={setTransactionFrom} type={typeFrom}/>
       <View style={estilo.inputContainer}>
         <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
       </View>

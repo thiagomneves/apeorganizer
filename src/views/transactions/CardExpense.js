@@ -25,7 +25,7 @@ export default function CardExpense({navigation}) {
   const [transactionValue, setTransactionValue] = useState(0);
   const [transactionDate, setTransactionDate] = useState(new Date());
   const [transactionFrom, setTransactionFrom] = useState('');
-  const [typeFrom, setTypeFrom] = useState();
+  const [typeFrom, setTypeFrom] = useState('creditcard');
   const [description, setDescription] = useState('');
   const [observation, setObservation] = useState('');
   const [finished, setFinished] = useState(false);
@@ -110,7 +110,7 @@ export default function CardExpense({navigation}) {
         }}
       />
       <CategoryPicker category={category} setCategory={setCategory} type={'expense'} />
-      <ExpensePicker paymentMean={transactionFrom} setPaymentMean={setTransactionFrom} type="creditcard"/>
+      <ExpensePicker paymentMean={transactionFrom} setPaymentMean={setTransactionFrom} type={typeFrom}/>
       <View style={estilo.inputContainer}>
         <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
       </View>

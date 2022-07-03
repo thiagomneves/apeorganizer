@@ -66,7 +66,6 @@ export default function ExpensePicker({type, paymentMean, setPaymentMean}) {
   }
 
   function renderItem({item}) {
-    console.log(type);
     return (
       <TouchableOpacity style={estilo.typeContent} onPress={() => updateItem(item)}>
         <View style={estilo.typeIcon}></View>
