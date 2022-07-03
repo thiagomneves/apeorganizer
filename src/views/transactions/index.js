@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {StyleSheet, View, FlatList, SectionList, Text} from 'react-native';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import {StyleSheet, View, SectionList, Text} from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import I18n from "i18n-js";
 
 import { ThemeContext } from '../../contexts/ThemeContext';
 import BtnContainer from './Components/BtnContainer';
 import { getTransactionsWithNames } from '../../services/Transactions';
 import Transaction from './Transaction';
-
 
 export default function Transactions() {
   const {chosenTheme} = useContext(ThemeContext);
@@ -25,21 +24,13 @@ export default function Transactions() {
 
   async function showTransactions() {
     const allTransactions = await getTransactionsWithNames();
+    console.log(allTransactions);
     setSelectedTransaction({})
     // setTransactions(allTransactions);
     let transactionsWithSections = allTransactions.reduce(makeSections, []);
     setSectionedTransactions(transactionsWithSections);
   }
 
-  // const makeSections = (accum, current)=> {
-  //   let dateGroup = accum.find(x => x.date === I18n.strftime(new Date(current.transaction_date), "%d/%m/%Y"));
-  //   if(!dateGroup) {
-  //     dateGroup = { date: I18n.strftime(new Date(current.transaction_date), "%d/%m/%Y"), transactions: [] }
-  //     accum.push(dateGroup);
-  //   }
-  //   dateGroup.transactions.push(current);
-  //   return accum;
-  // }
   const makeSections = (accum, current)=> {
     let dateGroup = accum.find(x => x.date === I18n.strftime(new Date(current.transaction_date), "%d/%m/%Y"));
     if(!dateGroup) {
@@ -82,11 +73,6 @@ export default function Transactions() {
         renderItem={renderItem}
         renderSectionHeader={renderSection}
       />
-      {/* <FlatList
-        data={transactions}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      /> */}
       <BtnContainer editorTransferNavigate={editorTransferNavigate} showMinorBtn={showMinorBtn} setShowMinorBtn={setShowMinorBtn}/>
     </View>
   );

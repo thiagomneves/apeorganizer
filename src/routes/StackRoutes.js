@@ -198,7 +198,11 @@ export function TransactionsNavigator({navigation}) {
         name="TransaçõesScreen"
         component={Transactions}
       />
-      <Stack.Screen name="Transferência" component={Transfer} />
+      <Stack.Screen 
+        options={{
+          headerRight: () => <><SaveBtn /></>,
+        }}
+        name="Transferência" component={Transfer} />
       <Stack.Screen 
         options={{
           headerRight: () => <><SaveBtn /></>,

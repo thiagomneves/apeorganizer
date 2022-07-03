@@ -59,8 +59,8 @@ export async function addRevenue(transaction) {
   return new Promise(resolve => {
     db.transaction(txn => {
       txn.executeSql(
-        'INSERT INTO transactions (transaction_value, transaction_to, type_to, transaction_date, observation, category, finished, created, repeat, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-        [transaction.transaction_value, transaction.transaction_to, transaction.type_to, transaction.transaction_date, transaction.observation, transaction.category, transaction.finished, transaction.repeat, transaction.created, transaction.updated],
+        'INSERT INTO transactions (transaction_value, transaction_type, transaction_to, type_to, transaction_date, observation, category, finished, created, repeat, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+        [transaction.transaction_value, transaction.transaction_type, transaction.transaction_to, transaction.type_to, transaction.transaction_date, transaction.observation, transaction.category, transaction.finished, transaction.repeat, transaction.created, transaction.updated],
         (sqlTxn, results) => {
           resolve("Transação adicionada com sucesso");
         },
@@ -77,8 +77,8 @@ export async function addExpense(transaction) {
   return new Promise(resolve => {
     db.transaction(txn => {
       txn.executeSql(
-        'INSERT INTO transactions (transaction_value, transaction_from, type_from, transaction_date, observation, category, finished, created, repeat, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
-        [transaction.transaction_value, transaction.transaction_from, transaction.type_from, transaction.transaction_date, transaction.observation, transaction.category, transaction.finished, transaction.repeat, transaction.created, transaction.updated],
+        'INSERT INTO transactions (transaction_value, transaction_type, transaction_from, type_from, transaction_date, observation, category, finished, created, repeat, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+        [transaction.transaction_value, transaction.transaction_type, transaction.transaction_from, transaction.type_from, transaction.transaction_date, transaction.observation, transaction.category, transaction.finished, transaction.repeat, transaction.created, transaction.updated],
         (sqlTxn, results) => {
           resolve("Transação adicionada com sucesso");
         },
@@ -116,13 +116,16 @@ export async function getTransactionsWithNames() {
         'SELECT t.*, '+
         '        (SELECT pf.title ' +
         '         FROM   paymentmeans pf ' +
-        '         WHERE  pf.paymentmean = t.type_from AND pf.id = transaction_from) AS titlefrom, ' +
+        '         WHERE  pf.paymentmean = t.type_from AND pf.id = t.transaction_from) AS titlefrom, ' +
         '        (SELECT pt.title ' +
         '         FROM   paymentmeans pt ' +
-        '         WHERE  pt.paymentmean = t.type_to AND pt.id = transaction_to) AS titleto, ' +
+        '         WHERE  pt.paymentmean = t.type_to AND pt.id = t.transaction_to) AS titleto, ' +
         '        (SELECT c.color ' +
         '         FROM   categories c ' +
-        '         WHERE  c.id = t.category) AS categorycolor ' +
+        '         WHERE  c.id = t.category) AS categorycolor, ' +
+        '        (SELECT ct.title ' +
+        '         FROM   categories ct ' +
+        '         WHERE  ct.id = t.category) AS categorytitle ' +
         ' FROM   transactions t ' +
         ' ORDER BY transaction_date DESC;',
         [],

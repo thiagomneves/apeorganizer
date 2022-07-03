@@ -38,19 +38,27 @@ export default function VoucherExpense({navigation}) {
   }
 
   async function saveExpense() {
-    if (!transactionFrom || !transactionValue || !category) {
-      Alert.alert("Falta preencher alguns campos")
-      return false
+    if (!transactionFrom) {
+      Alert.alert('O voucher é obrigatório');
+      return
+    }
+    if (!category) {
+      Alert.alert('A categoria é obrigatória');
+      return
+    }
+    if (!transactionValue) {
+      Alert.alert('O valor é obrigatório');
+      return
     }
     const oneTransfer = {
       transaction_value: transactionValue,
       transaction_from: transactionFrom,
       type_from: typeFrom,
-      transaction_date: transactionDate.toString(),
-      transaction_type: 'revenue',
+      transaction_date: transactionDate.toISOString(),
+      transaction_type: 'voucherexpense',
       observation,
-      created: (new Date()).toString(),
-      updated: (new Date()).toString(),
+      created: (new Date()).toISOString(),
+      updated: (new Date()).toISOString(),
     }
     await addExpense(oneTransfer);
     
@@ -65,7 +73,7 @@ export default function VoucherExpense({navigation}) {
   }
   
   return (
-    <View>
+    <View style={estilo.container}>
       <View style={estilo.value}>
         <CurrencyInput
           style={estilo.inputValue}
@@ -78,7 +86,7 @@ export default function VoucherExpense({navigation}) {
         />
       </View>
       <View style={estilo.inputContainer}>
-        <TextInput placeholder="Descrição" value={description} onChangeText={setDescription}/>
+        <TextInput style={estilo.input} placeholder="Descrição" placeholderTextColor={chosenTheme.weakText} value={description} onChangeText={setDescription}/>
       </View>
       <Text onPress={() => setShowDatePicker(true)} style={estilo.input}>{I18n.strftime(transactionDate, "%d/%m/%Y")}</Text>
       <DatePicker
@@ -100,7 +108,7 @@ export default function VoucherExpense({navigation}) {
       <CategoryPicker category={category} setCategory={setCategory} type={'expense'} />
       <ExpensePicker paymentMean={transactionFrom} setPaymentMean={setTransactionFrom} type={typeFrom}/>
       <View style={estilo.inputContainer}>
-        <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
+        <TextInput style={estilo.input} placeholder="Observação" placeholderTextColor={chosenTheme.weakText} value={observation} onChangeText={setObservation}/>
       </View>
     </View>
   )
@@ -128,6 +136,7 @@ const estilos = theme => {
     input: {
       backgroundColor: theme.backgroundContent,
       padding: 18,
+      color: theme.text,
     },
     icon: {
       color: theme.text,

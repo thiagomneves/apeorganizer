@@ -6,15 +6,15 @@ export async function createViewPaymentMeans() {
       transaction.executeSql(
         'CREATE VIEW paymentmeans ' +
         'AS ' +
-        '  SELECT *, ' +
+        '  SELECT id, title, ' +
         '          "account" AS paymentmean ' +
         '   FROM   accounts ' +
         '   UNION ' +
-        '   SELECT *, ' +
+        '   SELECT id, title, ' +
         '          "voucher" AS paymentmean ' +
-        '   FROM   vouchers;',
+        '   FROM   vouchers ' +
         '   UNION ' +
-        '   SELECT *, ' +
+        '   SELECT id, title, ' +
         '          "creditcard" AS paymentmean ' +
         '   FROM   cards;',
         [],

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import CurrencyInput from 'react-native-currency-input';
 import DatePicker from "react-native-neat-date-picker";
 import I18n from "i18n-js";
@@ -50,18 +50,30 @@ export default function Expense({navigation}) {
   }
 
   async function saveExpense() {
+    if (!transactionFrom) {
+      Alert.alert('A conta é obrigatória');
+      return
+    }
+    if (!category) {
+      Alert.alert('A categoria é obrigatória');
+      return
+    }
+    if (!transactionValue) {
+      Alert.alert('O valor é obrigatório');
+      return
+    }
     const oneTransfer = {
       transaction_value: transactionValue,
       transaction_from: transactionFrom,
       type_from: typeFrom,
-      transaction_date: transactionDate.toString(),
-      transaction_type: 'revenue',
+      transaction_date: transactionDate.toISOString(),
+      transaction_type: 'expense',
       observation,
       finished, 
       category,
       repeat,
-      created: (new Date()).toString(),
-      updated: (new Date()).toString(),
+      created: (new Date()).toISOString(),
+      updated: (new Date()).toISOString(),
     }
     await addExpense(oneTransfer);
     
@@ -76,7 +88,7 @@ export default function Expense({navigation}) {
   }
   
   return (
-    <View>
+    <View style={estilo.container}>
       <View style={estilo.value}>
         <CurrencyInput
           style={estilo.inputValue}
@@ -89,7 +101,7 @@ export default function Expense({navigation}) {
         />
       </View>
       <View style={estilo.inputContainer}>
-        <TextInput placeholder="Descrição" value={description} onChangeText={setDescription}/>
+        <TextInput style={estilo.input} placeholder="Descrição" placeholderTextColor={chosenTheme.weakText} value={description} onChangeText={setDescription}/>
       </View>
       <Text onPress={() => setShowDatePicker(true)} style={estilo.input}>{I18n.strftime(transactionDate, "%d/%m/%Y")}</Text>
       <DatePicker
@@ -111,7 +123,7 @@ export default function Expense({navigation}) {
       <CategoryPicker category={category} setCategory={setCategory} type={'expense'} />
       <ExpensePicker paymentMean={transactionFrom} setPaymentMean={setTransactionFrom} type={typeFrom}/>
       <View style={estilo.inputContainer}>
-        <TextInput placeholder="Observação" value={observation} onChangeText={setObservation}/>
+        <TextInput style={estilo.input} placeholder="Observação" placeholderTextColor={chosenTheme.weakText} value={observation} onChangeText={setObservation}/>
       </View>
       <CheckBox color={chosenTheme.checkboxColor} check={finished} setCheck={setFinished} label="Pago"/>
       <CheckBox color={chosenTheme.checkboxColor} check={repeatCheck} setCheck={setRepeatCheck} label="Repetir ou Parcelar"/>
@@ -142,6 +154,7 @@ const estilos = theme => {
     input: {
       backgroundColor: theme.backgroundContent,
       padding: 18,
+      color: theme.text,
     },
     icon: {
       color: theme.text,

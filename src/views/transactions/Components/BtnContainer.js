@@ -19,7 +19,7 @@ export default function BtnContainer({editorTransferNavigate, showMinorBtn, setS
           <MinorBtn transactionsNavigate={() => console.log('Receita')} label="Receita" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.green} icon={{lib: 'MaterialIcons', name: 'trending-up'}}/>
           <MinorBtn transactionsNavigate={() => console.log('Despesa')} label="Despesa" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.red} icon={{lib: 'MaterialIcons', name: 'trending-down'}}/>
           <MinorBtn transactionsNavigate={() => console.log('Despesa no Crédito')} label="Despesa no Crédito" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.orange} icon={{lib: 'MaterialCommunityIcons', name: 'credit-card-outline'}}/>
-          <MinorBtn transactionsNavigate={() => console.log('Despesa no Voucher')} label="Despesa no Voucher" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.orange} icon={{lib: 'MaterialCommunityIcons', name: 'card-outline'}}/>
+          <MinorBtn transactionsNavigate={() => console.log('Despesa no Voucher')} label="Despesa no Voucher" setShowMinorBtn={setShowMinorBtn} color={chosenTheme.teal} icon={{lib: 'MaterialCommunityIcons', name: 'card-outline'}}/>
         </View>
         <TouchableOpacity onPress={() => setShowMinorBtn(!showMinorBtn)} style={estilo.addBtnContainer}>
           <MaterialIcons style={estilo.addBtnIcon} name={showMinorBtn ? 'close' : 'add'}/>
@@ -44,7 +44,7 @@ const estilos = ({theme, showMinorBtn, windowHeight, windowWidth}) => {
     btnContainerOpened: {
       right: 0,
       bottom: 0,
-      backgroundColor: theme.gray+"5",
+      backgroundColor: 'rgba(0,0,0,0.3)',
       position: 'absolute',
       width: windowWidth,
       height: windowHeight,
