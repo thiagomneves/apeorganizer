@@ -4,7 +4,7 @@ export async function createViewPaymentMeans() {
   return new Promise(resolve => {
     db.transaction(transaction => {
       transaction.executeSql(
-        'CREATE VIEW IF NOT EXISTS paymentmeans ' +
+        'CREATE VIEW paymentmeans ' +
         'AS ' +
         '  SELECT *, ' +
         '          "account" AS paymentmean ' +
