@@ -127,6 +127,10 @@ export default function CardEditor({navigation }) {
       archive: false,
       type: 'credit-card',
     }
+    if (cardLimit <= 0) {
+      Alert.alert('O limite é obrigatório');
+      return;
+    }
     await addCard(oneCard)
     navigation.goBack()
   }
@@ -144,6 +148,10 @@ export default function CardEditor({navigation }) {
       expirationDate: expirationDate,
       cvv: cvv,
       id: selectedCard.id,
+    }
+    if (cardLimit <= 0) {
+      Alert.alert('O limite é obrigatório');
+      return;
     }
     await editCard(oneCard)
     navigation.goBack()

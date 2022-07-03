@@ -59,7 +59,7 @@ const estilos = ({theme, windowWidth, spentPercent}) => {
   const flagWidth = 60;
   const cardPadding = 10;
   const cardSize = windowWidth - 2 * cardPadding;
-  const percent = !isNaN(spentPercent) ? spentPercent : 0;
+  const percent = (!isNaN(spentPercent) && spentPercent != Infinity) ? spentPercent : 0;
   const barAmountWidth = cardSize * percent;
   const barHeight = 7;
 
