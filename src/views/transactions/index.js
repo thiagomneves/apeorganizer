@@ -7,6 +7,7 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import BtnContainer from './Components/BtnContainer';
 import { getTransactionsWithNames } from '../../services/Transactions';
 import Transaction from './Transaction';
+import Section from './Components/Section';
 
 export default function Transactions() {
   const {chosenTheme} = useContext(ThemeContext);
@@ -43,7 +44,7 @@ export default function Transactions() {
 
   const renderSection = ({section: { date }}) => {
     return (
-      <Text>{date}</Text>
+      <Section date={date} />
     )
   }
 
