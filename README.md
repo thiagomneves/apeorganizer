@@ -7,5 +7,5 @@ Ele não foi terminado pois decidi recriá-lo em expo, e typescript. Bem como ap
 
 Tornei o repositório público para que recrutadores/empresas possam ver o que fui capaz de criar quando ainda estava aprendendendo React Native.
 
-Meu currículo pode ser encontrado acessando o link.
+Meu currículo pode ser encontrado acessando o link:
 https://thiagoneves.com.br/
