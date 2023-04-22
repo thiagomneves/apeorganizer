@@ -9,3 +9,12 @@ Tornei o repositório público para que recrutadores/empresas possam ver o que f
 
 Meu currículo pode ser encontrado acessando o link:
 https://thiagoneves.com.br/
+
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180040.png?raw=true" width="300"/>
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180044.png?raw=true" width="300"/>
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180047.png?raw=true" width="300"/>
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180052.png?raw=true" width="300"/>
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180055.png?raw=true" width="300"/>
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180061.png?raw=true" width="300"/>
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180065.png?raw=true" width="300"/>
+<img src="https://github.com/thiagomneves/apeorganizer/blob/master/src/assets/screenshots/Screenshot_1682180031.png?raw=true" width="300"/>
